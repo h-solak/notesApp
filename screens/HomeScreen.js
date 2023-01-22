@@ -10,15 +10,17 @@ import {
 } from 'react-native';
 import Topbar from '../components/home/Topbar';
 import NotesList from '../components/home/HomeNotes';
-import Bottombar from '../components/home/Bottombar';
+import Bottombar from '../components/Bottombar';
 import Categories from '../components/home/Categories';
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
-    <View className="bg-black h-full w-full px-1">
-      <Topbar />
-      <Categories />
-      <NotesList />
-      <Bottombar />
+    <View className="h-full w-full">
+      <ScrollView className="bg-noteBlack px-2">
+        <Topbar />
+        <Categories />
+        <NotesList />
+      </ScrollView>
+      <Bottombar navigation={navigation} />
     </View>
   );
 };

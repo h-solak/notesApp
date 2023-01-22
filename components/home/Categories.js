@@ -21,20 +21,20 @@ const Categories = () => {
     'Stuff',
   ];
   return (
-    <ScrollView className="h-20 mt-10" horizontal={true}>
-      <View className="h-100 items-center align-center flex-row">
+    <View className="h-8 mt-10" horizontal={true}>
+      <ScrollView className="h-full" horizontal={true}>
         {allCategories?.map((item, index) => (
           <TouchableOpacity
             key={index}
             className={`items-center justify-center px-6 py-1 rounded-3xl ${
-              category === index && 'bg-damePink'
+              category === index && 'bg-notePink'
             }`}
             onPress={() => setCategory(index)}>
             <Text className="text-white font-bold text-base">{item}</Text>
           </TouchableOpacity>
         ))}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
