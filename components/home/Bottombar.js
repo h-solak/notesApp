@@ -9,21 +9,29 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-
+// import Icon from '../icons';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 const Bottombar = () => {
+  const grey = {color: 'rgba(255,255,255,0.7)'};
   return (
-    <View className="basis-1/12 w-full flex-row items-center justify-around bg-rose-900">
+    <View className="w-full flex-row items-center justify-around mb-2">
       <TouchableOpacity className="p-2">
-        <Text className="text-center text-2xl">🏠</Text>
+        <AntIcon name="home" size={28} style={grey} />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <Text className="text-center text-2xl">📝</Text>
+        <EntypoIcon name="magnifying-glass" size={28} style={grey} />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <Text className="text-center text-2xl">🔍</Text>
+        <IonIcon name="add-circle-outline" size={36} style={grey} />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <Text className="text-center text-2xl">👤</Text>
+        <FeatherIcon name="calendar" size={28} style={grey} />
+      </TouchableOpacity>
+      <TouchableOpacity className="p-2">
+        <EntypoIcon name="menu" size={28} style={grey} />
       </TouchableOpacity>
     </View>
   );

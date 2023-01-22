@@ -9,16 +9,15 @@ import {
   Image,
 } from 'react-native';
 import Topbar from '../components/home/Topbar';
-import NotesList from '../components/home/NotesList';
+import NotesList from '../components/home/HomeNotes';
 import Bottombar from '../components/home/Bottombar';
+import Categories from '../components/home/Categories';
 const HomeScreen = () => {
   return (
-    <View className="bg-slate-300 h-full w-full">
-      {/* 1/12 */}
+    <View className="bg-black h-full w-full px-1">
       <Topbar />
-      {/* 10/12 */}
+      <Categories />
       <NotesList />
-      {/* 1/12 */}
       <Bottombar />
     </View>
   );

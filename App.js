@@ -20,7 +20,6 @@ import HomeScreen from './screens/HomeScreen';
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const bgStyle = 'bg-neutral-300 dark:bg-slate-900';
   return (
     <NavigationContainer>
       <Stack.Navigator>
