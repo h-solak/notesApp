@@ -1,14 +1,5 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 
 const Categories = () => {
   const [category, setCategory] = useState(0);
@@ -21,16 +12,24 @@ const Categories = () => {
     'Stuff',
   ];
   return (
-    <View className="h-8 mt-10" horizontal={true}>
-      <ScrollView className="h-full" horizontal={true}>
+    <View className="h-8 mt-10">
+      <ScrollView
+        className="h-full"
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}>
         {allCategories?.map((item, index) => (
           <TouchableOpacity
             key={index}
-            className={`items-center justify-center px-6 py-1 rounded-3xl ${
-              category === index && 'bg-notePink'
-            }`}
+            className={`items-center justify-center px-5 rounded-full`}
+            style={
+              index === category ? {borderWidth: 3, borderColor: '#fff'} : null
+            }
             onPress={() => setCategory(index)}>
-            <Text className="text-white font-bold text-base">{item}</Text>
+            <Text
+              className={`text-white font-bold text-base`}
+              style={{alignSelf: 'center'}}>
+              {item}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

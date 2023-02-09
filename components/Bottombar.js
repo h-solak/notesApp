@@ -1,53 +1,100 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {DrawerActions} from '@react-navigation/native';
 // import Icon from '../icons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-const Bottombar = ({navigation}) => {
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {BlurView} from '@react-native-community/blur';
+const Bottombar = ({navigation, screen}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
   return (
-    <View
-      className="absolute w-full flex-row items-center justify-around pt-1 px-4"
-      style={{
-        zIndex: 999,
-        bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        shadowColor: '#000',
-        shadowOpacity: 1,
-        shadowRadius: 500,
-        shadowOffset: {height: 390, width: 300},
-        elevation: 24,
-      }}>
+    <View className="absolute bottom-0 w-full flex-row justify-center p-4">
+      <View
+        className="relative flex-row justify-center items-center rounded-full px-3 py-2"
+        style={{
+          zIndex: 9999,
+          shadowColor: '#ff0000',
+          shadowRadius: 300,
+          shadowOpacity: 1,
+          overflow: 'hidden',
+          backgroundColor: 'rgba(255,255,255,0.4)',
+        }}>
+        <BlurView
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            right: 0,
+          }}
+          blurType="light"
+          blurRadius={12}
+          overlayColor=""
+        />
+        <View className="flex-row items-center justify-around rounded-full gap-1">
+          <TouchableOpacity
+            className="h-14 w-14 justify-center items-center bg-black rounded-full"
+            onPress={() => navigation.navigate('CreateNote')}>
+            <Text className="text-white text-4xl">+</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="p-3 h-14 w-14 rounded-full items-center justify-center"
+            onPress={() => navigation.navigate('CreateNote')}
+            style={{backgroundColor: 'rgba(255,255,255,0.2)'}}>
+            <MaterialIcon
+              name="keyboard-voice"
+              size={28}
+              style={{color: '#fff'}}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/*
       <TouchableOpacity
         className="p-2"
         onPress={() => navigation.navigate('Home')}>
-        <AntIcon name="home" size={28} color={'#fff'} />
+        <AntIcon
+          name="home"
+          size={28}
+          style={{color: screen === 'Home' ? '#fff' : '#6d6d6d'}}
+        />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <EntypoIcon name="magnifying-glass" size={28} style={grey} />
+        <EntypoIcon
+          name="magnifying-glass"
+          size={28}
+          style={{color: screen === 'Search' ? '#fff' : '#6d6d6d'}}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         className="p-2"
-        onPress={() => navigation.navigate('Create')}>
-        <IonIcon name="add-circle-outline" size={36} style={grey} />
+        onPress={() => navigation.navigate('CreateNote')}>
+        <IonIcon
+          name="add-circle-outline"
+          size={36}
+          style={{color: screen === 'Create' ? '#fff' : '#6d6d6d'}}
+        />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <FeatherIcon name="calendar" size={28} style={grey} />
+        <FeatherIcon
+          name="calendar"
+          size={28}
+          style={{color: screen === 'Calendar' ? '#fff' : '#6d6d6d'}}
+        />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
-        <EntypoIcon name="menu" size={28} style={grey} />
-      </TouchableOpacity>
+        <EntypoIcon
+          name="menu"
+          size={28}
+          style={{color: screen === 'Menu' ? '#fff' : '#6d6d6d'}}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        />
+      </TouchableOpacity> */}
     </View>
   );
 };

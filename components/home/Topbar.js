@@ -1,29 +1,31 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-} from 'react-native';
+import {View, Text, Image} from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
-const Topbar = () => {
+const Topbar = ({navigation}) => {
   return (
     <View className="w-full mt-10 flex-row justify-between items-start">
-      <View className="basis-9/12 flex-column">
-        <Text className="text-white text-6xl font-bold">Note're</Text>
-        <Text className="text-white text-6xl font-bold">Dame</Text>
+      <View className="basis-6/12 flex-column">
+        <Text className="text-white text-5xl font-bold">Note're</Text>
+        <Text className="text-white text-5xl font-bold">Dame</Text>
       </View>
-      <View className="basis-3/12 justify-center items-center overflow-hidden">
-        <Image
-          source={{
-            uri: 'https://hasansolak.com/static/media/me.ceef88180459ba31b0ae.png',
-          }}
-          className="w-12 h-12 rounded-full"
-          style={{borderWidth: 2, borderColor: '#ffffff'}}
-        />
+      <View className="basis-6/12">
+        <View className="w-full flex-row items-center justify-end gap-3">
+          <Image
+            source={{
+              uri: 'https://hasansolak.com/static/media/me.ceef88180459ba31b0ae.png',
+            }}
+            className="w-8 h-8 rounded-full"
+            style={{borderWidth: 2, borderColor: '#ffffff'}}
+          />
+          <IonIcon name={'search'} size={36} color="#fff" />
+          <IonIcon
+            name={'menu'}
+            size={44}
+            color="#fff"
+            onPress={() => navigation.openDrawer()}
+          />
+        </View>
       </View>
     </View>
   );

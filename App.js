@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
@@ -12,30 +13,54 @@ import {
 /* Third-Party */
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './redux/store';
 
-/* Components */
-import Topbar from './components/home/Topbar';
+import DrawerMenu from './components/DrawerMenu';
+
+/* Screens */
 import HomeScreen from './screens/HomeScreen';
-import CreateScreen from './screens/CreateScreen';
+import CreateNoteScreen from './screens/CreateNoteScreen';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Create"
-          component={CreateScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate
+        // loading={<Text>Loading...</Text>}
+        persistor={persistor}>
+        <NavigationContainer>
+          {/*<Stack.Navigator screenOptions={{animation: 'none'}}> -- DISABLE FOR ALL*/}
+          {/* SCREEN SPESIFIC: options={{headerShown: false, animation: 'none'}} */}
+          <Drawer.Navigator
+            useLegacyImplementation
+            drawerContent={props => <DrawerMenu {...props} />}
+            initialRouteName="Home"
+            drawerPosition="right"
+            screenOptions={{
+              drawerStyle: {
+                backgroundColor: '#101010',
+                width: 240,
+              },
+            }}>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="CreateNote"
+              component={CreateNoteScreen}
+              options={{headerShown: false}}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 

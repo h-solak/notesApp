@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text as ReactText,
-  StyleSheet,
-  StyleProp,
-  TextStyle,
-} from 'react-native';
+import {Text as ReactText, StyleSheet} from 'react-native';
 
 export const Text = ({style, children, className}) => {
   return (
