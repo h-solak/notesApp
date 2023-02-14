@@ -23,8 +23,8 @@ const sortByDate = arr => {
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
-    notes: [],
-    //selectedCategory: 'All', FİLTRELEME HANGİ SLİCE'DA YAPILACAK BURASI KALABALIKLAŞIYO
+    notes: [], //All notes
+    crrNote: {}, //Selected note to edit
   },
   reducers: {
     addNote(state, action) {
@@ -45,6 +45,19 @@ export const noteSlice = createSlice({
       otherNotes.push(selectedNote);
       state.notes = sortByDate(otherNotes);
     },
+    selectNote(state, action) {
+      const index = state.notes?.findIndex(item => item.id === action.payload);
+      state.crrNote = state.notes[index];
+      console.log(state.crrNote);
+    },
+    editNote(state, action) {
+      const newNotes = state.notes?.filter(
+        item => item.id !== action.payload.id,
+      );
+      let editedNote = action.payload;
+      newNotes.push(editedNote);
+      state.notes = sortByDate(newNotes);
+    },
     resetNotes(state) {
       state.notes = [];
     },
@@ -52,6 +65,7 @@ export const noteSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {addNote, deleteNote, favNote, resetNotes} = noteSlice.actions;
+export const {addNote, deleteNote, favNote, selectNote, editNote, resetNotes} =
+  noteSlice.actions;
 
 export default noteSlice.reducer;
