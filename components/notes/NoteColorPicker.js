@@ -19,7 +19,7 @@ const NoteColorPicker = ({noteDetails, setNoteDetails}) => {
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
   const allColors = [
-    '#101010',
+    '#000000',
     '#2c3e50',
     '#273c75',
     '#451a57',

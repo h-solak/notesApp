@@ -23,10 +23,18 @@ import DrawerMenu from './components/DrawerMenu';
 /* Screens */
 import HomeScreen from './screens/HomeScreen';
 import CreateNoteScreen from './screens/CreateNoteScreen';
+import EditNoteScreen from './screens/EditNoteScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
-
+/*
+Yukarı kaydırınca ekran esnemiyor?? stacklerden dolayı mı
+??????
+????????
+??????????
+????????
+??????
+*/
 function App() {
   return (
     <Provider store={store}>
@@ -55,6 +63,11 @@ function App() {
             <Stack.Screen
               name="CreateNote"
               component={CreateNoteScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="EditNote"
+              component={EditNoteScreen}
               options={{headerShown: false}}
             />
           </Drawer.Navigator>

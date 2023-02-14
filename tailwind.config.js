@@ -7,20 +7,15 @@ module.exports = {
   ],
   theme: {
     colors: {
-      black: '#000000',
-      white: '#ffffff',
-      notePink: '#c13188',
-      notePurple: '#6d2acf',
-      noteLemonGreen: '#b8c34b',
-      noteRed: '#eb4d4b',
-      grey05: 'rgba(255,255,255,0.5)',
+      secondary: '#ffffff50',
       noteGrey: {
         300: '#929292',
         500: '#6d6d6d',
         900: '#222222',
       },
-
       //defaults
+      black: '#000000',
+      white: '#ffffff',
       transparent: 'transparent',
       current: 'currentColor' /* ??? */,
       slate: colors.slate,

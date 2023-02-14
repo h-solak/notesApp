@@ -6,7 +6,7 @@ const Categories = () => {
   return (
     <View className="mt-7 h-64">
       <ScrollView
-        className="w-full h-40 flex-row gap-2"
+        className="w-full h-40 flex-row gap-3"
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
         {[1, 1, 1].map((item, index) => (

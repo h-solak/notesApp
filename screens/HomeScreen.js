@@ -1,5 +1,5 @@
-import React from 'react';
-import {ScrollView, View, Button} from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView, View, TouchableOpacity, Text} from 'react-native';
 import Topbar from '../components/home/Topbar';
 import NotesList from '../components/home/HomeNoteList';
 import Bottombar from '../components/Bottombar';
@@ -9,6 +9,7 @@ import {resetNotes} from '../redux/slices/noteSlice';
 import {useDispatch} from 'react-redux';
 const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
+
   return (
     <View className="h-full w-full">
       <ScrollView
@@ -17,12 +18,12 @@ const HomeScreen = ({navigation}) => {
         <Topbar navigation={navigation} />
         <Types />
         <Categories />
-        {/* <Button
-          title="reset"
-          color="#191919"
-          onPress={() => dispatch(resetNotes())}
-        /> */}
-        <NotesList />
+        <TouchableOpacity
+          className="mt-1 w-12 bg-red-500 items-center justify-center rounded-sm"
+          onPress={() => dispatch(resetNotes())}>
+          <Text className="text-white">Reset</Text>
+        </TouchableOpacity>
+        <NotesList navigation={navigation} />
       </ScrollView>
       <Bottombar navigation={navigation} screen={'Home'} />
     </View>

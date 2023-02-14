@@ -18,33 +18,44 @@ import {BlurView} from '@react-native-community/blur';
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
-import {addNote} from '../redux/slices/noteSlice';
+import {editNote} from '../redux/slices/noteSlice';
 
-const CreateScreen = ({navigation}) => {
+const EditNoteScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const crrNote = useSelector(state => state.note.crrNote);
+
   const [noteTitle, onChangeNoteTitle] = useState('');
   const [noteText, onChangeNoteText] = useState('');
   const [noteDetails, setNoteDetails] = useState({
     color: '#000000',
     emoji: '✍️',
   });
-  // const notes = useSelector(state => state.note.notes);
-  const dispatch = useDispatch();
+
+  //page start
+  useEffect(() => {
+    onChangeNoteTitle(crrNote.title);
+    onChangeNoteText(crrNote.text);
+    setNoteDetails({
+      color: crrNote.color,
+      emoji: crrNote.emoji,
+    });
+  }, [crrNote]);
 
   const handleSubmit = () => {
     if (!(noteText === '' && noteTitle === '')) {
       try {
         const crrDate = new Date();
         dispatch(
-          addNote({
-            id: uuid.v4(),
+          editNote({
+            id: crrNote.id,
             title: noteTitle.trim(),
             text: noteText.trim(),
             color: noteDetails.color,
             emoji: noteDetails.emoji,
             category: 'Shopping',
-            isFavorite: false,
-            createdAt: crrDate,
-            updatedAt: crrDate, //when the text or title is changed
+            isFavorite: crrNote.isFavorite,
+            createdAt: crrNote.createdAt,
+            updatedAt: crrDate,
           }),
         );
       } catch (err) {
@@ -144,4 +155,4 @@ const CreateScreen = ({navigation}) => {
   );
 };
 
-export default CreateScreen;
+export default EditNoteScreen;

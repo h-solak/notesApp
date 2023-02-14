@@ -7,7 +7,7 @@ import StandartNote from '../notes/StandartNote';
 import {useSelector, useDispatch} from 'react-redux';
 import {resetNotes} from '../../redux/slices/noteSlice';
 
-const HomeNoteList = () => {
+const HomeNoteList = ({navigation}) => {
   const dispatch = useDispatch();
   const notes = useSelector(state => state.note.notes);
 
@@ -28,6 +28,7 @@ const HomeNoteList = () => {
               emoji={item?.emoji}
               category={item.category}
               isFavorite={item.isFavorite}
+              navigation={navigation}
             />
           ))}
         </ScrollView>

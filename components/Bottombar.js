@@ -7,8 +7,8 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {BlurView} from '@react-native-community/blur';
-const Bottombar = ({navigation, screen}) => {
+import {BlurView, VibrancyView} from '@react-native-community/blur';
+const Bottombar = ({navigation}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
   return (
     <View className="absolute bottom-0 w-full flex-row justify-center p-4">
@@ -20,7 +20,7 @@ const Bottombar = ({navigation, screen}) => {
           shadowRadius: 300,
           shadowOpacity: 1,
           overflow: 'hidden',
-          backgroundColor: 'rgba(255,255,255,0.4)',
+          backgroundColor: 'rgba(255,255,255,0.3)',
         }}>
         <BlurView
           style={{

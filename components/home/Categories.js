@@ -21,12 +21,12 @@ const Categories = () => {
           <TouchableOpacity
             key={index}
             className={`items-center justify-center px-5 rounded-full`}
-            style={
-              index === category ? {borderWidth: 3, borderColor: '#fff'} : null
-            }
+            style={index === category ? {backgroundColor: '#fff'} : null}
             onPress={() => setCategory(index)}>
             <Text
-              className={`text-white font-bold text-base`}
+              className={`${
+                index === category ? 'text-black' : 'text-white'
+              } font-bold text-base`}
               style={{alignSelf: 'center'}}>
               {item}
             </Text>
