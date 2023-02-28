@@ -41,7 +41,7 @@ const CreateScreen = ({navigation}) => {
             text: noteText.trim(),
             color: noteDetails.color,
             emoji: noteDetails.emoji,
-            category: 'Shopping',
+            category: 'Plans',
             isFavorite: false,
             createdAt: crrDate,
             updatedAt: crrDate, //when the text or title is changed

@@ -17,17 +17,18 @@ const StandartNote = ({
   const dispatch = useDispatch();
   return (
     <TouchableOpacity
-      className={`mb-3 px-4 py-2 flex-row rounded-full justify-between items-center border-2`}
+      className={`mb-3 px-4 py-2 flex-row rounded-full justify-between items-center`}
       style={{
         backgroundColor: color,
         borderColor: color === '#000000' ? '#222222' : color,
+        borderWidth: 1.5,
       }}
       onPress={() => {
         dispatch(selectNote(id));
         navigation.navigate('EditNote');
       }}>
       <View className="flex-row items-center justify-start gap-3">
-        <View className="h-14 w-14 p-2 bg-white items-center justify-center rounded-full">
+        <View className="h-14 w-14 p-2 bg- items-center justify-center rounded-full">
           <Text className="text-3xl" style={{color: '#000000', zIndex: 9999}}>
             {emoji}
           </Text>

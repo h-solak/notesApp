@@ -23,49 +23,77 @@ const sortByDate = arr => {
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
-    notes: [], //All notes
+    allNotes: [], //All notes
+    filteredNotes: [], //
     crrNote: {}, //Selected note to edit
+    categories: [],
+    selectedCategory: 'All',
   },
   reducers: {
     addNote(state, action) {
-      let newNotes = state.notes;
+      let newNotes = state.allNotes;
       newNotes.push(action.payload);
-      state.notes = sortByDate(newNotes);
+      state.allNotes = sortByDate(newNotes);
     },
     deleteNote(state, action) {
-      state.notes = state.notes?.filter(item => item.id !== action.payload);
-    },
-    favNote(state, action) {
-      const index = state.notes?.findIndex(item => item.id === action.payload);
-      const otherNotes = state.notes?.filter(
+      state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
-      let selectedNote = state.notes[index];
+    },
+    favNote(state, action) {
+      const index = state.allNotes?.findIndex(
+        item => item.id === action.payload,
+      );
+      const otherNotes = state.allNotes?.filter(
+        item => item.id !== action.payload,
+      );
+      let selectedNote = state.allNotes[index];
       selectedNote.isFavorite = !selectedNote.isFavorite;
       otherNotes.push(selectedNote);
-      state.notes = sortByDate(otherNotes);
+      state.allNotes = sortByDate(otherNotes);
     },
     selectNote(state, action) {
-      const index = state.notes?.findIndex(item => item.id === action.payload);
-      state.crrNote = state.notes[index];
+      const index = state.allNotes?.findIndex(
+        item => item.id === action.payload,
+      );
+      state.crrNote = state.allNotes[index];
       console.log(state.crrNote);
     },
     editNote(state, action) {
-      const newNotes = state.notes?.filter(
+      const newNotes = state.allNotes?.filter(
         item => item.id !== action.payload.id,
       );
       let editedNote = action.payload;
       newNotes.push(editedNote);
-      state.notes = sortByDate(newNotes);
+      state.allNotes = sortByDate(newNotes);
+    },
+    //filtering
+    filterNotesByCategory(state, action) {
+      console.log(state.allNotes);
+      if (action.payload === 'All') {
+        //no filter
+        state.filteredNotes = state.allNotes;
+      } else {
+        state.filteredNotes = state.allNotes?.filter(
+          note => note.category === action.payload,
+        );
+      }
     },
     resetNotes(state) {
-      state.notes = [];
+      state.allNotes = [];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {addNote, deleteNote, favNote, selectNote, editNote, resetNotes} =
-  noteSlice.actions;
+export const {
+  addNote,
+  deleteNote,
+  favNote,
+  selectNote,
+  editNote,
+  filterNotesByCategory,
+  resetNotes,
+} = noteSlice.actions;
 
 export default noteSlice.reducer;

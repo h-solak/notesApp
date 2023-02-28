@@ -5,20 +5,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 /* Components */
 import StandartNote from '../notes/StandartNote';
 import {useSelector, useDispatch} from 'react-redux';
-import {resetNotes} from '../../redux/slices/noteSlice';
+import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 
 const HomeNoteList = ({navigation}) => {
   const dispatch = useDispatch();
-  const notes = useSelector(state => state.note.notes);
+  const filteredNotes = useSelector(state => state.note.allNotes);
 
   return (
     <View className="h-full bg-red mt-3 pb-24">
-      {/* Two favorites */}
       {/*Individual Notes*/}
-
-      {notes?.length > 0 ? (
+      {filteredNotes?.length > 0 ? (
         <ScrollView className="mt-3 flex-col">
-          {notes?.map((item, index) => (
+          {filteredNotes?.map((item, index) => (
             <StandartNote
               key={index}
               id={item.id}
