@@ -13,7 +13,7 @@ const Topbar = ({navigation}) => {
         <View className="w-full flex-row items-center justify-end gap-3">
           <Image
             source={{
-              uri: 'https://hasansolak.com/static/media/me.ceef88180459ba31b0ae.png',
+              uri: 'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403',
             }}
             className="w-8 h-8 rounded-full"
             style={{borderWidth: 2, borderColor: '#ffffff'}}

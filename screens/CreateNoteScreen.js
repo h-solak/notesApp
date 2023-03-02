@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   ToastAndroid,
+  Image,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -63,11 +64,26 @@ const CreateScreen = ({navigation}) => {
       className="relative h-full w-full px-4 py-4"
       style={{backgroundColor: noteDetails.color}}>
       {/* <ScrollView className="bg-black px-1"> */}
-      <TouchableOpacity
-        className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
-        onPress={() => navigation.navigate('Home')}>
-        <EntypoIcon name="chevron-left" size={28} color="#929292" />
-      </TouchableOpacity>
+      <View className="flex-row items-center justify-between">
+        <TouchableOpacity
+          className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
+          onPress={() => navigation.navigate('Home')}>
+          <EntypoIcon name="chevron-left" size={28} color="#929292" />
+        </TouchableOpacity>
+        <View className="flex-row items-center gap-1">
+          <Text className="text-gray-400 text-xs">Aaa</Text>
+          <Image
+            source={{
+              uri: 'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403',
+            }}
+            className="w-10 h-10 rounded-full"
+            style={{borderWidth: 2, borderColor: '#ffffff'}}
+          />
+          <TouchableOpacity>
+            <EntypoIcon name="dots-three-vertical" size={22} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      </View>
       <TextInput
         className="bg-transparent text-white text-6xl font-bold"
         multiline={true}

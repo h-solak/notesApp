@@ -2,10 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {
-  editCategory,
-  filterNotesByCategory,
-} from '../../redux/slices/noteSlice';
+import {filterNotesByCategory} from '../../redux/slices/noteSlice';
 
 const Categories = () => {
   const scrollRef = useRef();

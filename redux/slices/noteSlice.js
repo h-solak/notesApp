@@ -20,15 +20,19 @@ const sortByDate = arr => {
   });
 };
 
-const refilterAfterUpdate = (allNotes, filteredNotes, selectedCategory) => {
+const refilterAfterUpdate = (allNotes, selectedCategory) => {
   //update filteredNotes after changes
-  let newFilteredNotes = allNotes;
-  if (selectedCategory === 'All') {
-    return newFilteredNotes;
+  if (selectedCategory === 'All' || !selectedCategory) {
+    return allNotes;
   } else {
-    newFilteredNotes?.filter(item => item.category === selectedCategory);
+    console.log('12312', allNotes);
+    console.log(
+      'a',
+      allNotes?.filter(item => item.category === selectedCategory),
+    );
+    let newNotes = allNotes?.filter(item => item.category === selectedCategory);
+    return newNotes;
   }
-  return newFilteredNotes;
 };
 
 export const noteSlice = createSlice({
@@ -41,24 +45,12 @@ export const noteSlice = createSlice({
     selectedCategory: 'All',
   },
   reducers: {
-    editCategory(state) {
-      state.categories = [
-        'Plans',
-        'Writing',
-        'Music',
-        'Bruh',
-        'Stuff',
-        'Aha',
-        'Laaa',
-      ];
-    },
     addNote(state, action) {
       let newNotes = state.allNotes;
       newNotes.push(action.payload);
       state.allNotes = sortByDate(newNotes);
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
-        state.filteredNotes,
         state.selectedCategory,
       );
     },
@@ -68,7 +60,6 @@ export const noteSlice = createSlice({
       );
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
-        state.filteredNotes,
         state.selectedCategory,
       );
     },
@@ -86,7 +77,6 @@ export const noteSlice = createSlice({
       state.allNotes = sortByDate(otherNotes);
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
-        state.filteredNotes,
         state.selectedCategory,
       );
     },
@@ -107,7 +97,6 @@ export const noteSlice = createSlice({
       state.allNotes = sortByDate(newNotes);
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
-        state.filteredNotes,
         state.selectedCategory,
       );
     },
@@ -135,7 +124,6 @@ export const noteSlice = createSlice({
       state.allNotes = [];
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
-        state.filteredNotes,
         state.selectedCategory,
       );
     },
@@ -144,7 +132,6 @@ export const noteSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  editCategory,
   addNote,
   deleteNote,
   favNote,
