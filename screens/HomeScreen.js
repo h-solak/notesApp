@@ -18,9 +18,9 @@ const HomeScreen = ({navigation}) => {
         <Topbar navigation={navigation} />
         <Types />
         <Categories />
-        <TouchableOpacity
-          className="mt-1 w-2 h-2 bg-gray-500 items-center justify-center rounded-sm"
-          onPress={() => dispatch(resetNotes())}></TouchableOpacity>
+        {/* <TouchableOpacity
+          className="mt-1 w-6 h-6 bg-gray-500 items-center justify-center rounded-sm"
+          onPress={() => dispatch(resetNotes())}></TouchableOpacity> */}
         <NotesList navigation={navigation} />
       </ScrollView>
       <Bottombar navigation={navigation} screen={'Home'} />

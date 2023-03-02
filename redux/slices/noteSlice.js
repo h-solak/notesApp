@@ -41,6 +41,17 @@ export const noteSlice = createSlice({
     selectedCategory: 'All',
   },
   reducers: {
+    editCategory(state) {
+      state.categories = [
+        'Plans',
+        'Writing',
+        'Music',
+        'Bruh',
+        'Stuff',
+        'Aha',
+        'Laaa',
+      ];
+    },
     addNote(state, action) {
       let newNotes = state.allNotes;
       newNotes.push(action.payload);
@@ -100,9 +111,17 @@ export const noteSlice = createSlice({
         state.selectedCategory,
       );
     },
-    //filtering
     filterNotesByCategory(state, action) {
+      //adding the chosen category to the start
       state.selectedCategory = action.payload;
+      let sortedCategories = state.categories?.filter(
+        item => item !== state.selectedCategory,
+      );
+      if (state.selectedCategory !== 'All') {
+        sortedCategories?.unshift(state.selectedCategory);
+      }
+      state.categories = sortedCategories;
+      //apply the filter
       if (action.payload === 'All') {
         //no filter
         state.filteredNotes = state.allNotes;
@@ -125,6 +144,7 @@ export const noteSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  editCategory,
   addNote,
   deleteNote,
   favNote,
