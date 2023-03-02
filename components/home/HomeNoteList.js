@@ -9,7 +9,7 @@ import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 
 const HomeNoteList = ({navigation}) => {
   const dispatch = useDispatch();
-  const filteredNotes = useSelector(state => state.note.allNotes);
+  const filteredNotes = useSelector(state => state.note.filteredNotes);
 
   return (
     <View className="h-full bg-red mt-3 pb-24">

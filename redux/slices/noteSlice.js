@@ -20,11 +20,22 @@ const sortByDate = arr => {
   });
 };
 
+const refilterAfterUpdate = (allNotes, filteredNotes, selectedCategory) => {
+  //update filteredNotes after changes
+  let newFilteredNotes = allNotes;
+  if (selectedCategory === 'All') {
+    return newFilteredNotes;
+  } else {
+    newFilteredNotes?.filter(item => item.category === selectedCategory);
+  }
+  return newFilteredNotes;
+};
+
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
-    allNotes: [], //All notes
-    filteredNotes: [], //
+    allNotes: [], //All notes without filter (It will only be used in this slice)
+    filteredNotes: [], //This will be shown on the app
     crrNote: {}, //Selected note to edit
     categories: [],
     selectedCategory: 'All',
@@ -34,13 +45,24 @@ export const noteSlice = createSlice({
       let newNotes = state.allNotes;
       newNotes.push(action.payload);
       state.allNotes = sortByDate(newNotes);
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.filteredNotes,
+        state.selectedCategory,
+      );
     },
     deleteNote(state, action) {
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.filteredNotes,
+        state.selectedCategory,
+      );
     },
     favNote(state, action) {
+      //adding a note to favorites
       const index = state.allNotes?.findIndex(
         item => item.id === action.payload,
       );
@@ -51,8 +73,14 @@ export const noteSlice = createSlice({
       selectedNote.isFavorite = !selectedNote.isFavorite;
       otherNotes.push(selectedNote);
       state.allNotes = sortByDate(otherNotes);
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.filteredNotes,
+        state.selectedCategory,
+      );
     },
     selectNote(state, action) {
+      //choosing a note to edit
       const index = state.allNotes?.findIndex(
         item => item.id === action.payload,
       );
@@ -66,21 +94,31 @@ export const noteSlice = createSlice({
       let editedNote = action.payload;
       newNotes.push(editedNote);
       state.allNotes = sortByDate(newNotes);
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.filteredNotes,
+        state.selectedCategory,
+      );
     },
     //filtering
     filterNotesByCategory(state, action) {
-      console.log(state.allNotes);
+      state.selectedCategory = action.payload;
       if (action.payload === 'All') {
         //no filter
         state.filteredNotes = state.allNotes;
       } else {
         state.filteredNotes = state.allNotes?.filter(
-          note => note.category === action.payload,
+          note => note.category == action.payload,
         );
       }
     },
     resetNotes(state) {
       state.allNotes = [];
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.filteredNotes,
+        state.selectedCategory,
+      );
     },
   },
 });
@@ -92,6 +130,7 @@ export const {
   favNote,
   selectNote,
   editNote,
+  setFilterForNotes,
   filterNotesByCategory,
   resetNotes,
 } = noteSlice.actions;

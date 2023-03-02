@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {filterNotesByCategory} from '../../redux/slices/noteSlice';
 
 const Categories = () => {
+  const dispatch = useDispatch();
   const filteredNotes = useSelector(state => state.note.filteredNotes);
   const categories = useSelector(state => state.note.categories);
   const selectedCategory = useSelector(state => state.note.selectedCategory);
   const allCategories =
-    categories?.length > 0 ? ['All'].concat(categories) : ['All', 'Plans'];
-  console.log(allCategories, 'a', selectedCategory);
+    categories?.length > 0
+      ? ['All'].concat(categories)
+      : ['All', 'Plans', 'Aa'];
   return (
     <View className="h-8 mt-10">
       <ScrollView
@@ -23,8 +25,7 @@ const Categories = () => {
             className={`items-center justify-center px-5 rounded-full`}
             style={item === selectedCategory ? {backgroundColor: '#fff'} : null}
             onPress={() => {
-              filterNotesByCategory(item);
-              console.log(filteredNotes);
+              dispatch(filterNotesByCategory(item));
             }}>
             <Text
               className={`${
