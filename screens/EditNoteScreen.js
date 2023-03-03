@@ -76,7 +76,7 @@ const EditNoteScreen = ({navigation}) => {
       <View className="flex-row items-center justify-between">
         <TouchableOpacity
           className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.goBack()}>
           <EntypoIcon name="chevron-left" size={28} color="#929292" />
         </TouchableOpacity>
         <View className="flex-row items-center gap-1">

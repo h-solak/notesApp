@@ -35,14 +35,28 @@ const refilterAfterUpdate = (allNotes, selectedCategory) => {
   }
 };
 
+const updateSearchedNotesAfterChange = (allNotes, searchText) => {
+  if (searchText?.length > 0) {
+    let newSearchedNotes = allNotes?.filter(
+      item =>
+        item.title?.toLowerCase().includes(searchText?.toLowerCase().trim()) ||
+        item.text?.toLowerCase().includes(searchText?.toLowerCase().trim()),
+    );
+    return newSearchedNotes;
+  }
+  return allNotes;
+};
+
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
     allNotes: [], //All notes without filter (It will only be used in this slice)
     filteredNotes: [], //This will be shown on the app
+    selectedCategory: 'All',
+    searchedNotes: [],
+    searchText: '',
     crrNote: {}, //Selected note to edit
     categories: [],
-    selectedCategory: 'All',
   },
   reducers: {
     addNote(state, action) {
@@ -78,6 +92,10 @@ export const noteSlice = createSlice({
       state.filteredNotes = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
+      );
+      state.searchedNotes = updateSearchedNotesAfterChange(
+        state.allNotes,
+        state.searchText,
       );
     },
     selectNote(state, action) {
@@ -120,6 +138,22 @@ export const noteSlice = createSlice({
         );
       }
     },
+    searchNotes(state, action) {
+      let newSearchedNotes = state.allNotes.filter(
+        item =>
+          item.title
+            ?.toLowerCase()
+            .includes(action.payload?.toLowerCase().trim()) ||
+          item.text
+            ?.toLowerCase()
+            .includes(action.payload?.toLowerCase().trim()),
+      );
+      state.searchText = action.payload;
+      state.searchedNotes = newSearchedNotes;
+    },
+    resetSearchedNotes(state) {
+      state.searchedNotes = state.allNotes;
+    },
     resetNotes(state) {
       state.allNotes = [];
       state.filteredNotes = refilterAfterUpdate(
@@ -137,8 +171,9 @@ export const {
   favNote,
   selectNote,
   editNote,
-  setFilterForNotes,
   filterNotesByCategory,
+  searchNotes,
+  resetSearchedNotes,
   resetNotes,
 } = noteSlice.actions;
 
