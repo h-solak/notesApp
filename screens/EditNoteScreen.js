@@ -51,7 +51,10 @@ const EditNoteScreen = ({navigation}) => {
             text: noteText.trim(),
             color: noteDetails.color,
             emoji: noteDetails.emoji,
-            category: 'Shopping',
+            category: {
+              id: '015beb40-0000-450b-95be-f409afa89ac8',
+              name: 'Plans',
+            },
             isFavorite: crrNote.isFavorite,
             createdAt: crrNote.createdAt,
             updatedAt: crrDate,

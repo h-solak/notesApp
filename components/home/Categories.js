@@ -3,13 +3,17 @@ import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {filterNotesByCategory} from '../../redux/slices/noteSlice';
+import EditCategoriesModal from './EditCategoriesModal';
 
 const Categories = () => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
+  const filteredNotes = useSelector(state => state.note.filteredNotes);
   const categories = useSelector(state => state.note.categories);
   const selectedCategory = useSelector(state => state.note.selectedCategory);
-  const allCategories = ['All'].concat(categories);
+  const allCategories = [{id: 0, name: 'All'}].concat(categories); //might cause bugs? (useeffect?)
+  const [editCategoriesModal, setEditCategoriesModal] = useState(false);
+
   useEffect(() => {
     //scroll to the start if the category changes
     scrollRef.current?.scrollTo({
@@ -29,35 +33,26 @@ const Categories = () => {
           <TouchableOpacity
             key={index}
             className={`items-center justify-center px-5 rounded-full`}
-            style={item === selectedCategory ? {backgroundColor: '#fff'} : null}
+            style={
+              item.id == selectedCategory ? {backgroundColor: '#fff'} : null
+            }
             onPress={() => {
-              dispatch(filterNotesByCategory(item));
+              dispatch(filterNotesByCategory(item.id));
             }}>
             <Text
               className={`${
-                item === selectedCategory ? 'text-black' : 'text-white'
+                item.id === selectedCategory ? 'text-black' : 'text-white'
               } font-bold text-base`}>
-              {item}
+              {item.name}{' '}
+              {item.id === selectedCategory && `(${filteredNotes?.length})`}
             </Text>
           </TouchableOpacity>
         ))}
-        {allCategories?.length < 2 ? (
-          <TouchableOpacity
-            className="ml-2 rounded-full items-center justify-center align-middle"
-            style={{alignSelf: 'center'}}>
-            <MaterialIcon
-              name={'add-circle'}
-              size={24}
-              style={{color: '#fff'}}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            className="ml-3 bg-secondary p-1 rounded-full flex-row items-center justify-center align-middle"
-            style={{alignSelf: 'center'}}>
-            <MaterialIcon name={'edit'} size={16} style={{color: '#000'}} />
-          </TouchableOpacity>
-        )}
+
+        <EditCategoriesModal
+          modal={editCategoriesModal}
+          setModal={setEditCategoriesModal}
+        />
       </ScrollView>
     </View>
   );
