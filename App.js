@@ -25,6 +25,7 @@ import HomeScreen from './screens/HomeScreen';
 import CreateNoteScreen from './screens/CreateNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen';
 import SearchScreen from './screens/SearchScreen';
+import NoteTypeScreen from './screens/NoteTypeScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -74,6 +75,11 @@ function App() {
             <Stack.Screen
               name="Search"
               component={SearchScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="NoteType"
+              component={NoteTypeScreen}
               options={{headerShown: false}}
             />
           </Drawer.Navigator>

@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -34,14 +35,29 @@ const SearchScreen = ({navigation}) => {
           onPress={() => navigation.navigate('Home')}>
           <Ionicon name="arrow-back" size={30} color="#929292" />
         </TouchableOpacity>
-        <TextInput
-          placeholder="Search your notes..."
-          className="flex-1 py-2 px-2 bg-white text-black rounded-xl"
-          placeholderTextColor={'#000'}
-          value={searchText}
-          onChangeText={onSearchTextChange}
-          autoFocus
-        />
+        <View className="flex-1 bg-white rounded-xl flex-row justify-betweendsad items-center">
+          <TextInput
+            placeholder="Search your notes..."
+            className="flex-1 py-2 px-2 bg-white text-black rounded-xl"
+            placeholderTextColor={'#000'}
+            value={searchText}
+            onChangeText={onSearchTextChange}
+            autoFocus
+          />
+          {searchText?.length > 0 && (
+            <TouchableOpacity
+              className="bg-transparent px-2"
+              onPress={() => {
+                onSearchTextChange('');
+              }}>
+              <MaterialIcon
+                name={'close'}
+                size={18}
+                style={{color: '#929292'}}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       <View className="flex-1 mt-2">

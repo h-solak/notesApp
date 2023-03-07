@@ -51,10 +51,12 @@ export const noteSlice = createSlice({
   name: 'note',
   initialState: {
     allNotes: [], //All notes without filter (It will only be used in this slice)
-    filteredNotes: [], //This will be shown on the app
+    filteredNotes: [], //Notes filtered by categories
     selectedCategory: 'All',
+    searchText: '', //last search input (stored for updating searched notes in case of a change)
     searchedNotes: [],
-    searchText: '',
+    selectedNoteType: '', //Favorites, alarmed notes, notes with images...
+    notesFilteredByType: [], //
     crrNote: {}, //Selected note to edit
     categories: [],
   },
@@ -172,6 +174,17 @@ export const noteSlice = createSlice({
         );
       }
     },
+    selectNoteTypeAndFilter(state, action) {
+      state.selectedNoteType = action.payload;
+      if (action.payload === 'Your Favorites') {
+        state.notesFilteredByType = state.allNotes?.filter(
+          item => item.isFavorite === true,
+        );
+      } else {
+        state.notesFilteredByType = [];
+      }
+      console.log(state.notesFilteredByType);
+    },
     searchNotes(state, action) {
       let newSearchedNotes = state.allNotes.filter(
         item =>
@@ -208,6 +221,7 @@ export const {
   filterNotesByCategory,
   addCategory,
   deleteCategory,
+  selectNoteTypeAndFilter,
   searchNotes,
   resetSearchedNotes,
   resetNotes,
