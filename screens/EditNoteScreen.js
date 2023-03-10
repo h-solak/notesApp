@@ -29,6 +29,7 @@ const EditNoteScreen = ({navigation}) => {
     color: '#000000',
     emoji: '✍️',
   });
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
   //page start
   useEffect(() => {
@@ -130,6 +131,8 @@ const EditNoteScreen = ({navigation}) => {
           <NoteColorPicker
             noteDetails={noteDetails}
             setNoteDetails={setNoteDetails}
+            colorPickerVisible={colorPickerVisible}
+            setColorPickerVisible={setColorPickerVisible}
           />
           <View className="flex-row gap-2">
             <TouchableOpacity
