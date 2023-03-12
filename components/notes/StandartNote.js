@@ -5,6 +5,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import {deleteNote, favNote, selectNote} from '../../redux/slices/noteSlice';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const StandartNote = ({
   id,
@@ -18,10 +19,20 @@ const StandartNote = ({
 }) => {
   const dispatch = useDispatch();
 
+  const renderLeftActions = (progress, drag) => {
+    return (
+      <TouchableOpacity
+        className="pl-1 rounded-full items-center justify-center"
+        onPress={() => dispatch(deleteNote(id))}>
+        <MaterialIcon name={'archive'} size={24} style={{color: '#ffffff'}} />
+      </TouchableOpacity>
+    );
+  };
+
   const renderRightActions = (progress, drag) => {
     return (
       <TouchableOpacity
-        className="rounded-full items-center justify-center "
+        className="pr-1 rounded-full items-center justify-center"
         onPress={() => dispatch(deleteNote(id))}>
         <FW5Icon name={'trash'} size={20} style={{color: '#ffffff'}} />
       </TouchableOpacity>
@@ -30,6 +41,9 @@ const StandartNote = ({
 
   return (
     <Swipeable
+      renderLeftActions={(progress, dragX) =>
+        renderLeftActions(progress, dragX, id)
+      }
       renderRightActions={(progress, dragX) =>
         renderRightActions(progress, dragX, id)
       }
