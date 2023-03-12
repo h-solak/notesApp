@@ -22,15 +22,12 @@ const sortByDate = arr => {
 
 const refilterAfterUpdate = (allNotes, selectedCategory) => {
   //update filteredNotes after changes
-  if (selectedCategory === 'All' || !selectedCategory) {
+  if (selectedCategory == 0 || !selectedCategory) {
     return allNotes;
   } else {
-    console.log('12312', allNotes);
-    console.log(
-      'a',
-      allNotes?.filter(item => item.category === selectedCategory),
+    let newNotes = allNotes?.filter(item =>
+      item.categories?.includes(selectedCategory),
     );
-    let newNotes = allNotes?.filter(item => item.category === selectedCategory);
     return newNotes;
   }
 };
@@ -121,6 +118,7 @@ export const noteSlice = createSlice({
       );
     },
     addCategory(state, action) {
+      console.log(action.payload);
       const categoryAlreadyExists = state.categories.some(
         item =>
           item.name.toLowerCase().trim() ===
@@ -149,14 +147,12 @@ export const noteSlice = createSlice({
     filterNotesByCategory(state, action) {
       /*FIRSTLY - adding the chosen category to the start*/
       state.selectedCategory = action.payload;
-      //if "all" is not selected, add it to the start
+      //if "all" is not selected, add the chosen category to the left
       if (action.payload != 0) {
-        console.log(action.payload);
         const chosenCategoryIndex = state.categories?.findIndex(
           item => item.id == action.payload,
         );
         let chosenCategory = state.categories[chosenCategoryIndex];
-        console.log(chosenCategoryIndex);
         let sortedCategories = state.categories?.filter(
           item => item.id !== state.selectedCategory,
         );
@@ -166,11 +162,11 @@ export const noteSlice = createSlice({
 
       /* SECONDLY - Filtering */
       if (action.payload === 0) {
-        //no filter
+        //no filter (All)
         state.filteredNotes = state.allNotes;
       } else {
-        state.filteredNotes = state.allNotes?.filter(
-          note => note.category.id == action.payload,
+        state.filteredNotes = state.allNotes?.filter(note =>
+          note.categories?.includes(action.payload),
         );
       }
     },

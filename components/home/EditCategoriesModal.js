@@ -18,7 +18,8 @@ const EditCategoriesModal = ({modal, setModal}) => {
   const categories = useSelector(state => state.note.categories);
   const [categoryInput, setCategoryInput] = useState('');
 
-  const addCategory = () => {
+  const handleAddCategory = () => {
+    console.log(categoryInput);
     try {
       if (categoryInput !== '') {
         dispatch(addCategory(categoryInput));
@@ -71,7 +72,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
                   placeholder="Add a category"
                   maxLength={15}
                   value={categoryInput}
-                  onSubmitEditing={() => addCategory()}
+                  onSubmitEditing={() => handleAddCategory()}
                   onChangeText={text => {
                     setCategoryInput(text);
                   }}
@@ -91,7 +92,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
                 )}
                 <TouchableOpacity
                   className="bg-noteGrey-900 py-2 px-2 rounded-r-xl"
-                  onPress={() => addCategory()}>
+                  onPress={() => handleAddCategory()}>
                   <MaterialIcon
                     name={'add'}
                     size={20}
