@@ -22,7 +22,7 @@ const StandartNote = ({
   const renderLeftActions = (progress, drag) => {
     return (
       <TouchableOpacity
-        className="pl-1 rounded-full items-center justify-center"
+        className="rounded-full items-center justify-center"
         onPress={() => dispatch(deleteNote(id))}>
         <MaterialIcon name={'archive'} size={24} style={{color: '#ffffff'}} />
       </TouchableOpacity>
@@ -32,9 +32,9 @@ const StandartNote = ({
   const renderRightActions = (progress, drag) => {
     return (
       <TouchableOpacity
-        className="pr-1 rounded-full items-center justify-center"
+        className="rounded-full items-center justify-center"
         onPress={() => dispatch(deleteNote(id))}>
-        <FW5Icon name={'trash'} size={20} style={{color: '#ffffff'}} />
+        <FW5Icon name={'trash'} size={17} style={{color: '#ffffff'}} />
       </TouchableOpacity>
     );
   };

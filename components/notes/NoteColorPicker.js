@@ -46,12 +46,12 @@ const NoteColorPicker = ({
           setColorPickerVisible(false);
         }}>
         <Pressable
-          className="basis-4/6 bottom-0 w-full"
+          className="basis-5/6 bottom-0 w-full"
           onPress={() =>
             setColorPickerVisible(!colorPickerVisible)
           }></Pressable>
         <View
-          className="basis-2/6 bottom-0 w-full border-t-2 border-noteGrey-900 px-3"
+          className="basis-1/6 bottom-0 w-full border-t-2 border-noteGrey-900 px-3"
           style={{backgroundColor: `${noteDetails.color}`}}>
           <Text className="mt-3">Colors</Text>
           <View className="flex-row py-3 gap-4 justify-between">
@@ -77,10 +77,6 @@ const NoteColorPicker = ({
               </Pressable>
             ))}
           </View>
-          <Text>Emojis</Text>
-          <Pressable onPress={() => setColorPickerVisible(!colorPickerVisible)}>
-            <Text className="mt-5 bg-gray-700 text-center">Hide Modal</Text>
-          </Pressable>
         </View>
       </View>
     </Modal>
