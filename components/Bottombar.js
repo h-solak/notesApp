@@ -11,7 +11,7 @@ import {BlurView, VibrancyView} from '@react-native-community/blur';
 const Bottombar = ({navigation}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
   return (
-    <View className="absolute bottom-0 w-full flex-row justify-center p-4">
+    <View className="absolute bottom-0 p-4 w-1/2 self-center">
       <View
         className="relative flex-row justify-center items-center rounded-full px-3 py-2"
         style={{
@@ -36,18 +36,18 @@ const Bottombar = ({navigation}) => {
         />
         <View className="flex-row items-center justify-around rounded-full gap-1">
           <TouchableOpacity
-            className="h-14 w-14 justify-center items-center bg-black rounded-full"
+            className="h-16 w-16 justify-center items-center bg-black rounded-full"
             onPress={() => navigation.navigate('CreateNote')}>
             <Text className="text-white text-4xl">+</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            className="p-3 h-14 w-14 rounded-full items-center justify-center"
+            className="p-3 h-16 w-16 rounded-full items-center justify-center"
             onPress={() => navigation.navigate('CreateNote')}
             style={{backgroundColor: 'rgba(255,255,255,0.2)'}}>
             <MaterialIcon
               name="keyboard-voice"
-              size={28}
+              size={30}
               style={{color: '#fff'}}
             />
           </TouchableOpacity>
