@@ -38,7 +38,9 @@ const Bottombar = ({navigation}) => {
           <TouchableOpacity
             className="h-16 w-16 justify-center items-center bg-black rounded-full"
             onPress={() => navigation.navigate('CreateNote')}>
-            <Text className="text-white text-4xl">+</Text>
+            <Text className="text-white" style={{fontSize: 36}}>
+              +
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity

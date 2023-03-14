@@ -28,43 +28,47 @@ const SearchScreen = ({navigation}) => {
   }, []);
 
   return (
-    <View className="bg-black h-full w-full">
+    <View className="bg-black h-full w-full pt-3 px-2">
       <View className="w-full flex-row items-center gap-2">
         <TouchableOpacity
-          className="w-8 h-8 items-center justify-center rounded-xl"
+          className="w-8 h-8 items-center justify-center"
           onPress={() => navigation.navigate('Home')}>
           <Ionicon name="arrow-back" size={30} color="#929292" />
         </TouchableOpacity>
-        <View className="flex-1 bg-white rounded-xl flex-row justify-betweendsad items-center">
-          <TextInput
-            placeholder="Search your notes..."
-            className="flex-1 py-2 px-2 bg-white text-black rounded-xl"
-            placeholderTextColor={'#000'}
-            value={searchText}
-            onChangeText={onSearchTextChange}
-            autoFocus
-          />
-          {searchText?.length > 0 && (
-            <TouchableOpacity
-              className="bg-transparent px-2"
-              onPress={() => {
-                onSearchTextChange('');
-              }}>
-              <MaterialIcon
-                name={'close'}
-                size={18}
-                style={{color: '#929292'}}
-              />
-            </TouchableOpacity>
-          )}
+        <View className="px-1 flex-1 flex-row justify-between items-center bg-transparent border-2 border-noteGrey-900 rounded-xl">
+          <View className="flex-row items-center">
+            <Text className="">
+              <EntypoIcon name="magnifying-glass" size={20} color="#929292" />
+            </Text>
+            <TextInput
+              placeholder="Search your notes..."
+              className="flex-1 py-2 text-white"
+              placeholderTextColor={'#929292'}
+              value={searchText}
+              onChangeText={onSearchTextChange}
+              autoFocus
+            />
+            {searchText?.length > 0 && (
+              <TouchableOpacity
+                className="bg-transparent"
+                onPress={() => {
+                  onSearchTextChange('');
+                }}>
+                <MaterialIcon
+                  name={'close'}
+                  size={18}
+                  style={{color: '#929292'}}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
 
       <View className="flex-1 mt-2">
         {searchText.length > 0 && (
-          <View className="flex-row items-center justify-center px-2 gap-1 ">
-            <EntypoIcon name="magnifying-glass" size={16} color="#6b7280" />
-            <Text className="text-gray-500">
+          <View className="flex-row items-center justify-center px-2">
+            <Text className="text-noteGrey-500">
               {searchedNotes?.length} result(s) found
             </Text>
           </View>

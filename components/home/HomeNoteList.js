@@ -14,7 +14,7 @@ const HomeNoteList = ({navigation}) => {
     <View className="h-full bg-red mt-3 pb-24">
       {/*Individual Notes*/}
       {filteredNotes?.length > 0 ? (
-        <ScrollView className="mt-3 flex-col">
+        <ScrollView className="mt-3 flex-col px-4">
           {filteredNotes?.map((item, index) => (
             <StandartNote
               key={index}

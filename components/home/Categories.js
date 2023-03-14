@@ -23,7 +23,7 @@ const Categories = () => {
   }, [selectedCategory]);
 
   return (
-    <View className="h-8 mt-10">
+    <View className="h-8 mt-10 px-4">
       <ScrollView
         className="h-full"
         horizontal={true}
@@ -32,9 +32,13 @@ const Categories = () => {
         {allCategories?.map((item, index) => (
           <TouchableOpacity
             key={index}
-            className={`items-center justify-center px-5 rounded-full`}
+            className={`items-center justify-center rounded-full ${
+              item.id !== selectedCategory ? 'px-3' : 'px-5'
+            }`} /* a solution for padding issues when "all" is not selected */
             style={
-              item.id == selectedCategory ? {backgroundColor: '#fff'} : null
+              item.id == selectedCategory
+                ? {backgroundColor: '#fff', padding: 4}
+                : null
             }
             onPress={() => {
               dispatch(filterNotesByCategory(item.id));

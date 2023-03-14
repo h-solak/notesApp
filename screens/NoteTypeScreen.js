@@ -17,7 +17,7 @@ const NoteTypeScreen = ({navigation}) => {
   );
   const selectedNoteType = useSelector(state => state.note.selectedNoteType);
   return (
-    <View className="bg-black h-full w-full">
+    <View className="bg-black h-full w-full pt-2">
       <ScrollView className={`flex-col px-2`}>
         <View className="mb-5 flex-row items-center justify-between">
           <View className="flex-row items-center gap-2">

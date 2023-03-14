@@ -29,14 +29,17 @@ const NoteTypeCarousels = ({navigation}) => {
   return (
     <View className="mt-7 h-64">
       <ScrollView
-        className="w-full h-40 flex-row gap-3"
+        className="h-40 flex-row gap-3 pl-4 pr-4"
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
         {allTypes.map((item, index) => (
           <TouchableOpacity
             key={index}
-            className="w-40 relative rounded-3xl px-5"
+            className={`w-40 rounded-3xl px-5 ${
+              index === allTypes?.length - 1 ? 'mr-8' : null
+            }`}
             style={{backgroundColor: item.color}}
+            activeOpacity={0.8}
             onPress={() => {
               dispatch(selectNoteTypeAndFilter(item.filter));
               navigation.navigate('NoteType');

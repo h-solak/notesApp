@@ -12,9 +12,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View className="h-full w-full">
-      <ScrollView
-        className="bg-black px-2"
-        showsVerticalScrollIndicator={false}>
+      <ScrollView className="bg-black" showsVerticalScrollIndicator={false}>
         <Topbar navigation={navigation} />
         <NoteTypeCarousels navigation={navigation} />
         <Categories />
