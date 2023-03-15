@@ -53,6 +53,12 @@ const Categories = () => {
           </TouchableOpacity>
         ))}
 
+        <TouchableOpacity
+          className="ml-3 w-6 h-6 bg-secondary p-1 rounded-full flex-row items-center justify-center align-middle self-center"
+          onPress={() => setEditCategoriesModal(!editCategoriesModal)}>
+          <MaterialIcon name={'edit'} size={16} style={{color: '#000'}} />
+        </TouchableOpacity>
+
         <EditCategoriesModal
           modal={editCategoriesModal}
           setModal={setEditCategoriesModal}

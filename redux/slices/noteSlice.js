@@ -137,6 +137,9 @@ export const noteSlice = createSlice({
       );
       let editedCategory = state.categories[index];
       editedCategory.name = action.payload.newName.trim();
+      state.categories = state.categories.filter(
+        item => item.id !== action.payload.id,
+      );
       state.categories.push(editedCategory);
     },
     deleteCategory(state, action) {
@@ -216,6 +219,7 @@ export const {
   editNote,
   filterNotesByCategory,
   addCategory,
+  editCategory,
   deleteCategory,
   selectNoteTypeAndFilter,
   searchNotes,
