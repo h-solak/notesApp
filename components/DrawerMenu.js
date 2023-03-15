@@ -21,14 +21,21 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 const AppDrawer = props => {
   return (
     <DrawerContentScrollView>
-      <View className="bg-black py-5 h-full">
-        <Text>Hey</Text>
-        <AntIcon
-          name={'close'}
-          size={44}
-          color="#fff"
-          onPress={() => props.navigation.dispatch(DrawerActions.closeDrawer())}
-        />
+      <View className="py-5 h-full">
+        <View className="flex-row justify-between items-top px-4">
+          <View className="gap-1">
+            <Text className="text-white text-4xl font-bold">Note're</Text>
+            <Text className="text-white text-4xl font-bold">Dame</Text>
+          </View>
+          {/* <AntIcon
+            name={'close'}
+            size={32}
+            color="#fff"
+            onPress={() =>
+              props.navigation.dispatch(DrawerActions.closeDrawer())
+            }
+          /> */}
+        </View>
       </View>
     </DrawerContentScrollView>
   );

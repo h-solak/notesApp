@@ -53,7 +53,7 @@ function App() {
             drawerPosition="right"
             screenOptions={{
               drawerStyle: {
-                backgroundColor: '#101010',
+                backgroundColor: '#000',
                 width: 240,
               },
             }}>

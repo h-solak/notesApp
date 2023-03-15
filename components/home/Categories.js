@@ -34,7 +34,7 @@ const Categories = () => {
             key={index}
             className={`items-center justify-center rounded-full ${
               item.id !== selectedCategory ? 'px-3' : 'px-5'
-            }`} /* a solution for padding issues when "all" is not selected */
+            }`}
             style={
               item.id == selectedCategory
                 ? {backgroundColor: '#fff', padding: 4}

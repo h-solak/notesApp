@@ -34,19 +34,25 @@ const Bottombar = ({navigation}) => {
           blurRadius={12}
           overlayColor=""
         />
-        <View className="flex-row items-center justify-around rounded-full gap-1">
+        <View className="flex-row items-center justify-center rounded-full gap-1">
           <TouchableOpacity
-            className="h-16 w-16 justify-center items-center bg-black rounded-full"
+            className="justify-center items-center bg-black rounded-full"
+            style={{width: 64, height: 64}}
             onPress={() => navigation.navigate('CreateNote')}>
-            <Text className="text-white" style={{fontSize: 36}}>
+            {/* Temporary padding pb-1 for the text - will be fixed */}
+            <Text className="text-white pb-1" style={{fontSize: 40}}>
               +
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            className="p-3 h-16 w-16 rounded-full items-center justify-center"
+            className="p-3 rounded-full items-center justify-center"
             onPress={() => navigation.navigate('CreateNote')}
-            style={{backgroundColor: 'rgba(255,255,255,0.2)'}}>
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              width: 64,
+              height: 64,
+            }}>
             <MaterialIcon
               name="keyboard-voice"
               size={30}
