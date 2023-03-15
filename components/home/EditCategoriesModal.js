@@ -51,7 +51,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
         setModal(false);
       }}>
       <View
-        className="self-center py-3 px-3 rounded-2xl bg-noteGrey-900"
+        className="self-center py-5 px-3 rounded-2xl bg-noteGrey-900"
         style={{
           width: width * 0.7,
           height: height * 0.5,
@@ -172,7 +172,14 @@ const EditCategoriesModal = ({modal, setModal}) => {
               </View>
             ))}
           </ScrollView>
-        ) : null}
+        ) : (
+          <View className="mt-24 px-5 text-center">
+            <Text className="text-center ">Nothing to see here.</Text>
+            <Text className="text-center font-bold">
+              (Add some categories like "Shopping")
+            </Text>
+          </View>
+        )}
         {/* <TouchableOpacity
                 className="p-1 border-red-50 items-center justify-center"
                 onPress={() => setModal(!modal)}>
