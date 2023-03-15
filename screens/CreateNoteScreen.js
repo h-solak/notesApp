@@ -64,7 +64,11 @@ const CreateScreen = ({navigation}) => {
       } catch (err) {
         console.log(err);
       } finally {
-        ToastAndroid.show('Your note is saved', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          'Your note is saved',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
         navigation.navigate('Home');
         setNoteDetails({
           title: '',
@@ -95,10 +99,31 @@ const CreateScreen = ({navigation}) => {
       style={{backgroundColor: noteDetails.color}}>
       {/* <ScrollView className="bg-black px-1"> */}
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
           onPress={() => navigation.navigate('Home')}>
           <EntypoIcon name="chevron-left" size={28} color="#929292" />
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          className="w-9 h-9 items-center justify-center rounded-xl py-1 "
+          style={{
+            overflow: 'hidden',
+          }}
+          onPress={() => navigation.navigate('Home')}>
+          <BlurView
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              right: 0,
+            }}
+            blurType="light"
+            blurAmount={32}
+            blurRadius={25}
+            overlayColor="#ffffff30"
+          />
+          <EntypoIcon name="chevron-left" size={28} color="#fff" />
         </TouchableOpacity>
         <View className="flex-row items-center gap-2">
           <TouchableOpacity
