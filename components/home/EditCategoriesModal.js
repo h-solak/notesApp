@@ -70,7 +70,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
         </Text>
         <View className="flex-row justify-center items-center mb-2">
           <View
-            className="flex-row items-center gap-0 bg-black rounded-l-xl "
+            className="flex-row items-center gap-0 bg-black rounded-l-xl border-r border-r-noteGrey-300"
             style={{
               width: width * 0.5,
             }}>
@@ -100,7 +100,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
             )}
           </View>
           <TouchableOpacity
-            className="h-10  px-3 rounded-r-xl items-center justify-center self-center align-middle bg-black border-l border-l-noteGrey-300"
+            className="h-10  px-3 rounded-r-xl items-center justify-center self-center align-middle bg-black  border-l border-l-noteGrey-300"
             style={{
               width: width * 0.1,
             }}

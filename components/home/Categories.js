@@ -11,8 +11,13 @@ const Categories = () => {
   const filteredNotes = useSelector(state => state.note.filteredNotes);
   const categories = useSelector(state => state.note.categories);
   const selectedCategory = useSelector(state => state.note.selectedCategory);
-  const allCategories = [{id: 0, name: 'All'}].concat(categories); //might cause bugs? (useeffect?)
+  let allCategories = [{id: 0, name: 'All'}].concat(categories);
+
   const [editCategoriesModal, setEditCategoriesModal] = useState(false);
+
+  useEffect(() => {
+    allCategories = [{id: 0, name: 'All'}].concat(categories);
+  }, [categories, filteredNotes]);
 
   useEffect(() => {
     //scroll to the start if the category changes
@@ -20,7 +25,15 @@ const Categories = () => {
       x: 0,
       animated: false /* ? */,
     });
-  }, [selectedCategory]);
+
+    //if selected category is deleted or all categories are deleted, select "all"
+    if (
+      !categories?.some(item => item.id === selectedCategory) ||
+      categories.length === 0
+    ) {
+      dispatch(filterNotesByCategory(0));
+    }
+  }, [selectedCategory, categories]);
 
   return (
     <View className="h-8 mt-10 px-4">
