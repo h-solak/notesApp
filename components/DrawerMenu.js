@@ -47,17 +47,21 @@ const AppDrawer = props => {
               Calendar
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Archive')}>
             <MaterialIcon
               name={'archive'}
               size={24}
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-base font-semibold">
-              Archieved Notes
+              Archived Notes
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Trash')}>
             <MCIcons name={'trash-can'} size={24} style={{color: '#929292'}} />
             <Text className="text-noteGrey-300 text-base font-semibold">
               Trash

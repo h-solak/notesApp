@@ -1,14 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-} from 'react-native';
+import {useWindowDimensions} from 'react-native';
 
 /* Third-Party */
 import {NavigationContainer} from '@react-navigation/native';
@@ -26,6 +18,8 @@ import CreateNoteScreen from './screens/CreateNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen';
 import SearchScreen from './screens/SearchScreen';
 import NoteTypeScreen from './screens/NoteTypeScreen';
+import TrashScreen from './screens/TrashScreen';
+import ArchiveScreen from './screens/ArchiveScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,6 +32,8 @@ Yukarı kaydırınca ekran esnemiyor?? stacklerden dolayı mı
 ??????
 */
 function App() {
+  const {height, width} = useWindowDimensions();
+
   return (
     <Provider store={store}>
       <PersistGate
@@ -80,6 +76,16 @@ function App() {
             <Stack.Screen
               name="NoteType"
               component={NoteTypeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Trash"
+              component={TrashScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Archive"
+              component={ArchiveScreen}
               options={{headerShown: false}}
             />
           </Drawer.Navigator>

@@ -3,7 +3,12 @@ import {View, Text, TouchableOpacity, Button} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
-import {deleteNote, favNote, selectNote} from '../../redux/slices/noteSlice';
+import {
+  archiveNote,
+  deleteNote,
+  favNote,
+  selectNote,
+} from '../../redux/slices/noteSlice';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -19,17 +24,17 @@ const StandartNote = ({
 }) => {
   const dispatch = useDispatch();
 
-  const renderLeftActions = (progress, drag) => {
+  const renderLeftActions = (progress, drag, id) => {
     return (
       <TouchableOpacity
         className="rounded-full items-center justify-center"
-        onPress={() => dispatch(deleteNote(id))}>
+        onPress={() => dispatch(archiveNote(id))}>
         <MaterialIcon name={'archive'} size={24} style={{color: '#ffffff'}} />
       </TouchableOpacity>
     );
   };
 
-  const renderRightActions = (progress, drag) => {
+  const renderRightActions = (progress, drag, id) => {
     return (
       <TouchableOpacity
         className="rounded-full items-center justify-center"

@@ -49,6 +49,8 @@ export const noteSlice = createSlice({
   initialState: {
     allNotes: [], //All notes without filter (It will only be used in this slice)
     filteredNotes: [], //Notes filtered by categories
+    archivedNotes: [],
+    trashedNotes: [],
     selectedCategory: 'All',
     searchText: '', //last search input (stored for updating searched notes in case of a change)
     searchedNotes: [],
@@ -68,6 +70,33 @@ export const noteSlice = createSlice({
       );
     },
     deleteNote(state, action) {
+      let index = state.allNotes?.findIndex(item => item.id === action.payload);
+      let trashedNote = state.allNotes[index];
+      let newTrashedNotes = state.trashedNotes;
+      newTrashedNotes?.push(trashedNote);
+      state.trashedNotes = newTrashedNotes;
+      console.log(state.trashedNotes);
+      state.allNotes = state.allNotes?.filter(
+        item => item.id !== action.payload,
+      );
+      state.filteredNotes = refilterAfterUpdate(
+        state.allNotes,
+        state.selectedCategory,
+      );
+    },
+    removeFromTrash(state, action) {}, //undelete
+    permanentlyDeleteNote(state, action) {
+      state.trashedNotes = state.trashedNotes?.filter(
+        item => item.id !== action.payload,
+      );
+    },
+    archiveNote(state, action) {
+      let index = state.allNotes?.findIndex(item => item.id === action.payload);
+      let selectedNote = state.allNotes[index];
+      let newArchivedNotes = state.archivedNotes;
+      newArchivedNotes?.push(selectedNote);
+      state.archivedNotes = newArchivedNotes;
+      console.log(state.archivedNotes);
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
@@ -214,6 +243,7 @@ export const noteSlice = createSlice({
 export const {
   addNote,
   deleteNote,
+  archiveNote,
   favNote,
   selectNote,
   editNote,

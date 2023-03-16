@@ -7,70 +7,104 @@ import {
   TouchableOpacity,
   ToastAndroid,
   Image,
-  KeyboardAvoidingView,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import {BlurView} from '@react-native-community/blur';
-import moment from 'moment';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/* \_(^_^)_/ */
+import uuid from 'react-native-uuid';
+import {BlurView} from '@react-native-community/blur';
+import Modal from 'react-native-modal';
+import EmojiPicker from 'rn-emoji-keyboard';
+import moment from 'moment';
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
 import {editNote} from '../redux/slices/noteSlice';
 
 const EditNoteScreen = ({navigation}) => {
-  const dispatch = useDispatch();
-  const crrNote = useSelector(state => state.note.crrNote);
-
-  const [noteTitle, onChangeNoteTitle] = useState('');
-  const [noteText, onChangeNoteText] = useState('');
   const [noteDetails, setNoteDetails] = useState({
+    title: '',
+    text: '',
     color: '#000000',
     emoji: '✍️',
   });
-  const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [chosenCategories, setChosenCategories] = useState([]);
 
-  //page start
-  useEffect(() => {
-    onChangeNoteTitle(crrNote.title);
-    onChangeNoteText(crrNote.text);
-    setNoteDetails({
-      color: crrNote.color,
-      emoji: crrNote.emoji,
-    });
-  }, [crrNote]);
+  const allCategories = useSelector(state => state.note.categories);
+
+  const crrNote = useSelector(state => state.note.crrNote);
+
+  //modals
+  const [optionsModal, setOptionsModal] = useState(false); //three vertical dots
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [emojiModal, setEmojiModal] = useState(false);
+  const [emojiPicker, setEmojiPicker] = useState(false);
+  const [categoriesModal, setCategoriesModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    if (!(noteText === '' && noteTitle === '')) {
+    if (!(noteDetails.text === '' && noteDetails.title === '')) {
       try {
         const crrDate = new Date();
         dispatch(
           editNote({
-            id: crrNote.id,
-            title: noteTitle.trim(),
-            text: noteText.trim(),
+            id: crrNote?.id,
+            title: noteDetails.title.trim(),
+            text: noteDetails.text.trim(),
             color: noteDetails.color,
             emoji: noteDetails.emoji,
-            category: {
-              id: '015beb40-0000-450b-95be-f409afa89ac8',
-              name: 'Plans',
-            },
-            isFavorite: crrNote.isFavorite,
-            createdAt: crrNote.createdAt,
-            updatedAt: crrDate,
+            categories: chosenCategories,
+            isFavorite: crrNote?.isFavorite,
+            createdAt: crrNote?.createdAt,
+            updatedAt: crrDate, //when the text or title is changed
           }),
         );
       } catch (err) {
         console.log(err);
       } finally {
-        ToastAndroid.show('Your note is saved', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          'Your note is saved',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
         navigation.navigate('Home');
-        onChangeNoteTitle('');
-        onChangeNoteText('');
+        setNoteDetails({
+          title: '',
+          text: '',
+          color: '#000000',
+          emoji: '✍️',
+        });
       }
     }
   };
+
+  const handleCategories = chosenItemId => {
+    if (!chosenCategories.includes(chosenItemId)) {
+      setChosenCategories(old => [...old, chosenItemId]);
+    } else {
+      let newChosenCategories = chosenCategories?.filter(
+        item => item !== chosenItemId,
+      );
+      console.log('ah be', newChosenCategories);
+      setChosenCategories(newChosenCategories);
+    }
+    console.log(chosenCategories);
+  };
+
+  //page load
+  useEffect(() => {
+    setNoteDetails({
+      title: crrNote?.title,
+      text: crrNote?.text,
+      color: crrNote?.color,
+      emoji: crrNote?.emoji,
+    });
+    setChosenCategories(crrNote?.categories);
+  }, [crrNote]);
 
   return (
     <View
@@ -78,20 +112,46 @@ const EditNoteScreen = ({navigation}) => {
       style={{backgroundColor: noteDetails.color}}>
       {/* <ScrollView className="bg-black px-1"> */}
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
-          onPress={() => navigation.goBack()}>
+          onPress={() => navigation.navigate('Home')}>
           <EntypoIcon name="chevron-left" size={28} color="#929292" />
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          className="w-9 h-9 items-center justify-center rounded-xl py-1 "
+          style={{
+            overflow: 'hidden',
+          }}
+          onPress={() => navigation.navigate('Home')}>
+          <BlurView
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              right: 0,
+            }}
+            blurType="light"
+            blurAmount={32}
+            blurRadius={25}
+            overlayColor="#ffffff30"
+          />
+          <EntypoIcon name="chevron-left" size={28} color="#fff" />
         </TouchableOpacity>
-        <View className="flex-row items-center gap-1">
+        <View className="flex-row items-center gap-2">
           <View className="items-end">
-            <Text className="text-white text-sm">Ciri Icabet</Text>
+            {/* <Text className="text-white text-sm">Ciri Icabet</Text> */}
+            <Text className="text-noteGrey-300 text-xs">Edited</Text>
             <Text className="text-noteGrey-300 text-xs">
-              {`${moment(crrNote.updatedAt).format('L')}, ${moment(
-                crrNote.updatedAt,
-              ).format('LT')}`}
+              {`${moment(crrNote?.updatedAt).format('ll')}`}
             </Text>
           </View>
+          <TouchableOpacity
+            className="items-center justify-center"
+            onPress={() => setEmojiModal(!emojiModal)}>
+            <Text className="text-black text-2xl">{noteDetails.emoji}</Text>
+          </TouchableOpacity>
+
           <Image
             source={{
               uri: 'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403',
@@ -99,19 +159,68 @@ const EditNoteScreen = ({navigation}) => {
             className="w-10 h-10 rounded-full"
             style={{borderWidth: 2, borderColor: '#ffffff'}}
           />
-          <TouchableOpacity>
-            <EntypoIcon name="dots-three-vertical" size={22} color="#fff" />
-          </TouchableOpacity>
+          <View className="items-center justify-center relative">
+            <TouchableOpacity
+              className="p-1"
+              onPress={() => setOptionsModal(!optionsModal)}>
+              <EntypoIcon name="dots-three-vertical" size={22} color="#fff" />
+            </TouchableOpacity>
+            <Modal
+              animationInTiming={1}
+              animationOutTiming={1}
+              backdropColor="#00000050"
+              isVisible={optionsModal}
+              onBackdropPress={() => setOptionsModal(false)}>
+              <View className="absolute top-8 right-0 bg-noteGrey-900 py-3 px-7 rounded-2xl">
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => setOptionsModal(false)}>
+                  <Text className="text-base text-white py-1">Details</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => {
+                    setEmojiModal(true);
+                    setOptionsModal(false);
+                  }}>
+                  <Text className="text-base text-white py-1">Emoji</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => {
+                    setOptionsModal(!optionsModal);
+                    setCategoriesModal(!categoriesModal);
+                  }}>
+                  <Text className="text-base text-white py-1">Categories</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => setColorPickerVisible(!colorPickerVisible)}>
+                  <Text className="text-base text-white py-1">Color</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => setOptionsModal(false)}>
+                  <Text className="text-base text-white py-1">Share</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          </View>
         </View>
       </View>
       <TextInput
-        className="bg-transparent text-white text-6xl font-bold pt-5"
+        className="bg-transparent text-white text-6xl font-bold"
         multiline={true}
         numberOfLines={2}
-        placeholder="Add A Title Here"
-        value={noteTitle}
+        placeholder="Add a Title Here"
+        value={noteDetails.title}
         placeholderTextColor="#fff"
-        onChangeText={noteTitle => onChangeNoteTitle(noteTitle)}
+        onChangeText={title =>
+          setNoteDetails(noteDetails => ({
+            ...noteDetails,
+            title: title,
+          }))
+        }
         style={{textAlignVertical: 'top'}}
       />
       <TextInput
@@ -120,27 +229,39 @@ const EditNoteScreen = ({navigation}) => {
         numberOfLines={24}
         placeholder="Note"
         placeholderTextColor="#929292"
-        value={noteText}
-        onChangeText={noteText => onChangeNoteText(noteText)}
+        value={noteDetails.text}
+        onChangeText={text =>
+          setNoteDetails(noteDetails => ({
+            ...noteDetails,
+            text: text,
+          }))
+        }
         blurOnSubmit={true}
         style={{textAlignVertical: 'top', fontWeight: '400'}}
       />
       {/* BottomBar for notes */}
-      <KeyboardAvoidingView behavior="height">
-        <View className="w-full flex-row items-center justify-between">
-          <NoteColorPicker
-            noteDetails={noteDetails}
-            setNoteDetails={setNoteDetails}
-            colorPickerVisible={colorPickerVisible}
-            setColorPickerVisible={setColorPickerVisible}
-          />
-          <View className="flex-row gap-2">
+      <View className="flex-row items-center justify-between">
+        <NoteColorPicker
+          noteDetails={noteDetails}
+          setNoteDetails={setNoteDetails}
+          colorPickerVisible={colorPickerVisible}
+          setColorPickerVisible={setColorPickerVisible}
+        />
+        <View className="w-full items-center justify-end flex-row gap-2">
+          {/* <TouchableOpacity
+            className="items-center justify-center"
+            onPress={() => setEmojiModal(!emojiModal)}>
+            <Text className="text-black text-2xl">{noteDetails.emoji}</Text>
+          </TouchableOpacity> */}
+          <View className="flex-row items-center gap-2">
             <TouchableOpacity
               className="w-24 items-center rounded-xl py-1"
               style={{
                 overflow: 'hidden',
               }}
-              onPress={handleSubmit}>
+              onPress={() => {
+                navigation.navigate('Home');
+              }}>
               <BlurView
                 style={{
                   position: 'absolute',
@@ -179,7 +300,105 @@ const EditNoteScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
+      <Modal
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        backdropColor="#000"
+        isVisible={emojiModal}
+        onBackdropPress={() => setEmojiModal(false)}>
+        <View className="self-center w-2/3 bg-noteGrey-900 py-5 px-5  rounded-2xl">
+          <Text className="text-white text-center text-base">
+            Pick an emoji for your note
+          </Text>
+          <TouchableOpacity
+            className="self-center mt-3 rounded-full bg-white w-14 h-14 items-center justify-center"
+            onPress={() => setEmojiPicker(true)}>
+            <Text className="text-center text-3xl text-black">
+              {noteDetails.emoji}
+            </Text>
+          </TouchableOpacity>
+          <Text className="mt-3 text-center text-xs">
+            (Press on the emoji to change it)
+          </Text>
+          <TouchableOpacity
+            className="mt-3 w-full justify-end bg-noteGrey-900 py-2 px-2 rounded-r-xl flex-row items-center"
+            onPress={() => setEmojiModal(false)}>
+            <MaterialIcon name={'done'} size={20} style={{color: '#fff'}} />
+            <Text className="text-white">Done</Text>
+          </TouchableOpacity>
+          {/* <TextInput
+            className="self-center text-3xl"
+            value={noteDetails.emoji}
+            // onChange={() =>
+            //   setNoteDetails(noteDetails => ({
+            //     ...noteDetails,
+            //     noteDetails: '✍️',
+            //   }))
+            // }
+          /> */}
+          <EmojiPicker
+            onEmojiSelected={emojiObject =>
+              setNoteDetails(noteDetails => ({
+                ...noteDetails,
+                emoji: emojiObject.emoji,
+              }))
+            }
+            open={emojiPicker}
+            onClose={() => setEmojiPicker(false)}
+            theme={{
+              backdrop: '#16161888',
+              knob: '#766dfc',
+              container: '#282829',
+              header: '#fff',
+              skinTonesContainer: '#252427',
+              category: {
+                icon: '#766dfc',
+                iconActive: '#fff',
+                container: '#252427',
+                containerActive: '#766dfc',
+              },
+            }}
+          />
+        </View>
+      </Modal>
+      <Modal
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        backdropColor="#000"
+        isVisible={categoriesModal}
+        onBackdropPress={() => setCategoriesModal(false)}>
+        <View className="self-center bg-noteGrey-900 w-2/3 p-3 rounded-xl">
+          <Text className="text-lg text-white text-center">Categories</Text>
+          <View className="gap-1">
+            {allCategories?.length > 0 ? (
+              allCategories.map((item, index) => (
+                <TouchableOpacity
+                  className="flex-row items-center gap-1"
+                  onPress={() => handleCategories(item.id)}
+                  key={index}>
+                  <IonIcon
+                    name={
+                      chosenCategories.includes(item.id)
+                        ? 'checkmark-circle'
+                        : 'checkmark-circle-outline'
+                    }
+                    size={24}
+                    style={{
+                      color: chosenCategories.includes(item.id)
+                        ? '#fff'
+                        : '#929292',
+                    }}
+                  />
+                  <Text className="text-base">{item.name}</Text>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <Text className="py-5 text-center">No categories found</Text>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

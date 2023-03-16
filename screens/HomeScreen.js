@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView, View, TouchableOpacity, Text} from 'react-native';
+import {ScrollView, View, useWindowDimensions} from 'react-native';
 import Topbar from '../components/home/Topbar';
 import NotesList from '../components/home/HomeNoteList';
 import Bottombar from '../components/Bottombar';
@@ -9,10 +9,14 @@ import {useDispatch} from 'react-redux';
 import NoteTypeCarousels from '../components/home/NoteTypeCarousels';
 const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const {height, width} = useWindowDimensions();
 
   return (
     <View className="h-full w-full">
-      <ScrollView className="bg-black" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="bg-black"
+        showsVerticalScrollIndicator={false}
+        style={{minHeight: height, width: width}}>
         <Topbar navigation={navigation} />
         <NoteTypeCarousels navigation={navigation} />
         <Categories />
