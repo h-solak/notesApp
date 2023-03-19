@@ -22,7 +22,7 @@ import moment from 'moment';
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
-import {editNote} from '../redux/slices/noteSlice';
+import {deleteNote, editNote} from '../redux/slices/noteSlice';
 
 const EditNoteScreen = ({navigation}) => {
   const [noteDetails, setNoteDetails] = useState({
@@ -170,7 +170,8 @@ const EditNoteScreen = ({navigation}) => {
               animationOutTiming={1}
               backdropColor="#00000050"
               isVisible={optionsModal}
-              onBackdropPress={() => setOptionsModal(false)}>
+              onBackdropPress={() => setOptionsModal(false)}
+              onBackButtonPress={() => setOptionsModal(false)}>
               <View className="absolute top-8 right-0 bg-noteGrey-900 py-3 px-7 rounded-2xl">
                 <TouchableOpacity
                   className="py-1"
@@ -202,6 +203,19 @@ const EditNoteScreen = ({navigation}) => {
                   className="py-1"
                   onPress={() => setOptionsModal(false)}>
                   <Text className="text-base text-white py-1">Share</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="py-1"
+                  onPress={() => {
+                    dispatch(deleteNote(crrNote?.id));
+                    navigation.navigate('Home');
+                    ToastAndroid.show(
+                      'Your note is trashed',
+                      ToastAndroid.SHORT,
+                      ToastAndroid.CENTER,
+                    );
+                  }}>
+                  <Text className="text-base text-white py-1">Delete</Text>
                 </TouchableOpacity>
               </View>
             </Modal>
@@ -306,7 +320,8 @@ const EditNoteScreen = ({navigation}) => {
         animationOut="fadeOut"
         backdropColor="#000"
         isVisible={emojiModal}
-        onBackdropPress={() => setEmojiModal(false)}>
+        onBackdropPress={() => setEmojiModal(false)}
+        onBackButtonPress={() => setEmojiModal(false)}>
         <View className="self-center w-2/3 bg-noteGrey-900 py-5 px-5  rounded-2xl">
           <Text className="text-white text-center text-base">
             Pick an emoji for your note
@@ -367,7 +382,8 @@ const EditNoteScreen = ({navigation}) => {
         animationOut="fadeOut"
         backdropColor="#000"
         isVisible={categoriesModal}
-        onBackdropPress={() => setCategoriesModal(false)}>
+        onBackdropPress={() => setCategoriesModal(false)}
+        onBackButtonPress={() => setCategoriesModal(false)}>
         <View className="self-center bg-noteGrey-900 w-2/3 p-3 rounded-xl">
           <Text className="text-lg text-white text-center">Categories</Text>
           <View className="gap-1">
