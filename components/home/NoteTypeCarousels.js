@@ -44,7 +44,7 @@ const NoteTypeCarousels = ({navigation}) => {
         showsHorizontalScrollIndicator={false}>
         <TouchableOpacity
           className={`w-40 rounded-3xl px-5`}
-          style={{width: width * 0.45, backgroundColor: '#8838ff'}}
+          style={{width: width * 0.4, backgroundColor: '#8838ff'}}
           activeOpacity={0.8}
           onPress={null}>
           <Text
