@@ -13,6 +13,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 /* List of favorite notes, alarmed notes... */
 const TrashScreen = ({navigation}) => {
   const trashedNotes = useSelector(state => state.note.trashedNotes);
+  console.log(trashedNotes);
   return (
     <View className="bg-black h-full w-full pt-2">
       <ScrollView className={`flex-col px-2`}>
@@ -42,6 +43,7 @@ const TrashScreen = ({navigation}) => {
               emoji={item?.emoji}
               category={item?.category}
               isFavorite={item?.isFavorite}
+              isTrashScreen={true}
               navigation={navigation}
             />
           ))

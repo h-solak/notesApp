@@ -32,7 +32,7 @@ const refilterAfterUpdate = (allNotes, selectedCategory) => {
   }
 };
 
-const updateSearchedNotesAfterChange = (allNotes, searchText) => {
+const updateSearchedNotesAfterUpdate = (allNotes, searchText) => {
   if (searchText?.length > 0) {
     let newSearchedNotes = allNotes?.filter(
       item =>
@@ -121,7 +121,7 @@ export const noteSlice = createSlice({
         state.allNotes,
         state.selectedCategory,
       );
-      state.searchedNotes = updateSearchedNotesAfterChange(
+      state.searchedNotes = updateSearchedNotesAfterUpdate(
         state.allNotes,
         state.searchText,
       );
@@ -243,6 +243,7 @@ export const noteSlice = createSlice({
 export const {
   addNote,
   deleteNote,
+  permanentlyDeleteNote,
   archiveNote,
   favNote,
   selectNote,
