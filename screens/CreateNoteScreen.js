@@ -159,8 +159,8 @@ const CreateScreen = ({navigation}) => {
                 <TouchableOpacity
                   className="py-1"
                   onPress={() => {
+                    setOptionsModal(!optionsModal);
                     setEmojiModal(true);
-                    setOptionsModal(false);
                   }}>
                   <Text className="text-base text-white py-1">Emoji</Text>
                 </TouchableOpacity>
@@ -174,7 +174,10 @@ const CreateScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="py-1"
-                  onPress={() => setColorPickerVisible(!colorPickerVisible)}>
+                  onPress={() => {
+                    setOptionsModal(!optionsModal);
+                    setColorPickerVisible(!colorPickerVisible);
+                  }}>
                   <Text className="text-base text-white py-1">Color</Text>
                 </TouchableOpacity>
                 <TouchableOpacity

@@ -49,6 +49,11 @@ const EditCategoriesModal = ({modal, setModal}) => {
         setEditedCategory('');
         setIsEditing('');
         setModal(false);
+      }}
+      onBackButtonPress={() => {
+        setEditedCategory('');
+        setIsEditing('');
+        setModal(false);
       }}>
       <View
         className="self-center py-5 px-3 rounded-2xl bg-noteGrey-900"

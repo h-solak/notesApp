@@ -9,11 +9,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Modal,
   Pressable,
   TouchableWithoutFeedback,
+  useWindowDimensions,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import Modal from 'react-native-modal';
 
 const NoteColorPicker = ({
   noteDetails,
@@ -29,54 +30,41 @@ const NoteColorPicker = ({
     '#01614c',
     '#944826',
   ];
+  const {height, width} = useWindowDimensions();
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={colorPickerVisible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        setColorPickerVisible(!colorPickerVisible);
-      }}>
+      animationIn="fadeIn"
+      animationOut="fadeOut"
+      backdropColor="#000"
+      isVisible={colorPickerVisible}
+      onBackdropPress={() => setColorPickerVisible(false)}
+      onBackButtonPress={() => setColorPickerVisible(false)}>
       <View
-        className="flex-col relative h-full w-full bottom-0"
-        style={{backgroundColor: 'rgba(0,0,0,0.5)'}}
-        activeOpacity={1}
-        onPressOut={() => {
-          setColorPickerVisible(false);
-        }}>
-        <Pressable
-          className="basis-5/6 bottom-0 w-full"
-          onPress={() =>
-            setColorPickerVisible(!colorPickerVisible)
-          }></Pressable>
-        <View
-          className="basis-1/6 bottom-0 w-full border-t-2 border-noteGrey-900 px-3"
-          style={{backgroundColor: `${noteDetails.color}`}}>
-          <Text className="mt-3">Colors</Text>
-          <View className="flex-row py-3 gap-4 justify-between">
-            {allColors.map((item, index) => (
-              <Pressable
-                key={index}
-                onPress={() => {
-                  setNoteDetails(noteDetails => ({
-                    ...noteDetails,
-                    color: item,
-                  }));
-                }}>
-                <View
-                  className={`h-8 w-8 rounded-full ${
-                    noteDetails.color === item
-                      ? 'border-gray-50'
-                      : 'border-gray-400'
-                  }`}
-                  style={{
-                    backgroundColor: item,
-                    borderWidth: noteDetails.color === item ? 1.5 : 1,
-                  }}></View>
-              </Pressable>
-            ))}
-          </View>
+        className="self-center absolute bottom-0 py-6 px-4 rounded-t-lg border-t-2 border-t-white70"
+        style={{width: width, backgroundColor: `${noteDetails.color}`}}>
+        <Text className="">Colors</Text>
+        <View className="flex-row py-6 justify-between" style={{gap: 4}}>
+          {allColors.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                setNoteDetails(noteDetails => ({
+                  ...noteDetails,
+                  color: item,
+                }));
+              }}>
+              <View
+                className={`h-8 w-8 rounded-full ${
+                  noteDetails.color === item
+                    ? 'border-2 border-white'
+                    : 'border-noteGrey-300'
+                }`}
+                style={{
+                  backgroundColor: item,
+                  borderWidth: noteDetails.color === item ? 1.5 : 1,
+                }}></View>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     </Modal>
