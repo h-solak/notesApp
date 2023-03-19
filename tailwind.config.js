@@ -7,7 +7,15 @@ module.exports = {
   ],
   theme: {
     colors: {
-      secondary: '#ffffff50',
+      white10: '#ffffff10',
+      white20: '#ffffff20',
+      white30: '#ffffff30',
+      white40: '#ffffff40',
+      white50: '#ffffff50',
+      white60: '#ffffff60',
+      white70: '#ffffff70',
+      white80: '#ffffff80',
+      white90: '#ffffff90',
       noteGrey: {
         300: '#929292',
         500: '#6d6d6d',
