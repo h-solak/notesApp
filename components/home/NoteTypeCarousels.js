@@ -11,6 +11,10 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useDispatch} from 'react-redux';
 import {selectNoteTypeAndFilter} from '../../redux/slices/noteSlice';
 
+import FavoritesSvg from '../../assets/svg/undrawheart.svg';
+import AlarmedNotesSvg from '../../assets/svg/undrawalarm.svg';
+import ImageNotesSvg from '../../assets/svg/undrawimages.svg';
+
 const NoteTypeCarousels = ({navigation}) => {
   const dispatch = useDispatch();
   const {width, height} = useWindowDimensions();
@@ -21,19 +25,49 @@ const NoteTypeCarousels = ({navigation}) => {
       name: 'Your\nFavorites',
       filter: 'Your Favorites',
       color: '#A824D3',
-      img: 'https://i.ibb.co/yPDQyMp/pngwing-com-2.png',
+      img: (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 25,
+            right: '5%',
+            resizeMode: 'contain',
+          }}>
+          <FavoritesSvg width={width * 0.3} height={width * 0.3} />
+        </View>
+      ), //parent's width is width*0.4
     },
     {
       name: 'Alarmed Notes',
       filter: 'Alarmed Notes',
       color: '#3498db',
-      img: 'https://i.ibb.co/4MCPJht/pngwing-com.png',
+      img: (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 25,
+            right: '5%',
+            resizeMode: 'contain',
+          }}>
+          <AlarmedNotesSvg width={width * 0.3} height={width * 0.3} />
+        </View>
+      ),
     },
     {
       name: 'Notes with Images',
       filter: 'Notes with Images',
       color: '#248a22',
-      img: 'https://i.ibb.co/6rk9sW8/pngwing-com-1.png',
+      img: (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 25,
+            right: '5%',
+            resizeMode: 'contain',
+          }}>
+          <ImageNotesSvg width={width * 0.3} height={width * 0.3} />
+        </View>
+      ),
     },
   ];
   return (
@@ -42,7 +76,8 @@ const NoteTypeCarousels = ({navigation}) => {
         className="h-40 flex-row gap-3 pl-4 pr-4"
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity
+        {/*DAILY TASKS FEATURE -NOT DONE- */}
+        {/* <TouchableOpacity
           className={`w-40 rounded-3xl px-5`}
           style={{width: width * 0.4, backgroundColor: '#8838ff'}}
           activeOpacity={0.8}
@@ -50,9 +85,9 @@ const NoteTypeCarousels = ({navigation}) => {
           <Text
             className="text-white font-bold text-xl mt-6 pr-4"
             style={{lineHeight: 24}}>
-            {'Tasks'}
+            {'Daily Tasks'}
           </Text>
-          <View className="my-8" style={{gap: 16}}>
+          <View className="my-6" style={{gap: 16}}>
             {[0, 0, 0].map((item, index) => (
               <TouchableOpacity
                 key={index}
@@ -75,7 +110,7 @@ const NoteTypeCarousels = ({navigation}) => {
               </TouchableOpacity>
             ))}
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {allTypes.map((item, index) => (
           <TouchableOpacity
             key={index}
@@ -105,7 +140,9 @@ const NoteTypeCarousels = ({navigation}) => {
               {item.name}
             </Text>
 
-            <Image
+            {item.img}
+
+            {/* <Image
               className="absolute"
               source={{uri: item.img}}
               style={{
@@ -117,7 +154,7 @@ const NoteTypeCarousels = ({navigation}) => {
                 // borderWidth: 2,
                 // borderColor: '#ffffff',
               }}
-            />
+            /> */}
           </TouchableOpacity>
         ))}
       </ScrollView>
