@@ -150,19 +150,39 @@ const CreateScreen = ({navigation}) => {
               backdropColor="#00000050"
               isVisible={optionsModal}
               onBackdropPress={() => setOptionsModal(false)}>
-              <View className="absolute top-8 right-0 bg-noteGrey-900 py-3 px-7 rounded-2xl">
+              <View
+                className="absolute top-8 right-0 bg-noteGrey-900 py-3 px-7 rounded-2xl"
+                style={{
+                  overflow: 'hidden',
+                }}>
+                <BlurView
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                  }}
+                  blurType="light"
+                  blurAmount={32}
+                  blurRadius={25}
+                  overlayColor="#44444480"
+                />
                 <TouchableOpacity
                   className="py-1"
                   onPress={() => setOptionsModal(false)}>
                   <Text className="text-base text-white py-1">Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className="py-1"
+                  className="py-1 flex-row justify-between"
                   onPress={() => {
                     setOptionsModal(!optionsModal);
                     setEmojiModal(true);
                   }}>
                   <Text className="text-base text-white py-1">Emoji</Text>
+                  <Text className="text-base text-white py-1">
+                    {noteDetails.emoji}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="py-1"
@@ -173,12 +193,20 @@ const CreateScreen = ({navigation}) => {
                   <Text className="text-base text-white py-1">Categories</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className="py-1"
+                  className="py-1 flex-1 flex-row items-center justify-between"
+                  style={{gap: 6}}
                   onPress={() => {
                     setOptionsModal(!optionsModal);
                     setColorPickerVisible(!colorPickerVisible);
                   }}>
-                  <Text className="text-base text-white py-1">Color</Text>
+                  <Text className="text-base text-white">Color</Text>
+                  <View
+                    className="rounded-full border border-white"
+                    style={{
+                      backgroundColor: noteDetails.color,
+                      width: 16,
+                      height: 16,
+                    }}></View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="py-1"
