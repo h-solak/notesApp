@@ -90,8 +90,9 @@ const StandartNote = ({
                 className={` text-base font-bold ${
                   title !== '' ? 'text-white' : 'text-slate-300'
                 }`}>
+                {/* BAD! BAAAAAAAAD!!! */}
                 {title !== ''
-                  ? title
+                  ? `${title.slice(0, 10)}`
                   : text.length > 10
                   ? `${text.slice(0, 10)}...`
                   : text}
