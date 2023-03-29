@@ -98,7 +98,7 @@ const StandartNote = ({
                   : text}
               </Text>
               <Text className="text-secondary" style={{fontSize: 13}}>
-                Standart Note
+                Standard Note
               </Text>
             </View>
           </View>
