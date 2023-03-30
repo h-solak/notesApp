@@ -27,7 +27,6 @@ const EditCategoriesModal = ({modal, setModal}) => {
   const [isEditing, setIsEditing] = useState(false); //id of the category that is currently being edited
 
   const handleAddCategory = () => {
-    console.log(categoryInput);
     try {
       if (categoryInput !== '') {
         dispatch(addCategory(categoryInput));
