@@ -89,10 +89,8 @@ const EditNoteScreen = ({navigation}) => {
       let newChosenCategories = chosenCategories?.filter(
         item => item !== chosenItemId,
       );
-      console.log('ah be', newChosenCategories);
       setChosenCategories(newChosenCategories);
     }
-    console.log(chosenCategories);
   };
 
   //page load

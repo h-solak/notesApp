@@ -75,7 +75,6 @@ export const noteSlice = createSlice({
       let newTrashedNotes = state.trashedNotes;
       newTrashedNotes?.push(trashedNote);
       state.trashedNotes = newTrashedNotes;
-      console.log(state.trashedNotes);
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
@@ -96,7 +95,6 @@ export const noteSlice = createSlice({
       let newArchivedNotes = state.archivedNotes;
       newArchivedNotes?.push(selectedNote);
       state.archivedNotes = newArchivedNotes;
-      console.log(state.archivedNotes);
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
@@ -132,7 +130,6 @@ export const noteSlice = createSlice({
         item => item.id === action.payload,
       );
       state.crrNote = state.allNotes[index];
-      console.log(state.crrNote);
     },
     editNote(state, action) {
       const newNotes = state.allNotes?.filter(
@@ -147,7 +144,6 @@ export const noteSlice = createSlice({
       );
     },
     addCategory(state, action) {
-      console.log(action.payload);
       const categoryAlreadyExists = state.categories.some(
         item =>
           item.name.toLowerCase().trim() ===
@@ -211,7 +207,6 @@ export const noteSlice = createSlice({
       } else {
         state.notesFilteredByType = [];
       }
-      console.log(state.notesFilteredByType);
     },
     searchNotes(state, action) {
       let newSearchedNotes = state.allNotes.filter(
