@@ -70,6 +70,7 @@ export const noteSlice = createSlice({
       );
     },
     deleteNote(state, action) {
+      //send to trash
       let index = state.allNotes?.findIndex(item => item.id === action.payload);
       let trashedNote = state.allNotes[index];
       let newTrashedNotes = state.trashedNotes;
@@ -82,6 +83,22 @@ export const noteSlice = createSlice({
         state.allNotes,
         state.selectedCategory,
       );
+    },
+    deleteMultipleNotes(state, action) {
+      let selectedNotes = action.payload; //array of IDs
+      console.log('abuuuu', selectedNotes);
+      selectedNotes.map(noteID => {
+        let index = state.allNotes?.findIndex(item => item.id === noteID);
+        let trashedNote = state.allNotes[index];
+        let newTrashedNotes = state.trashedNotes;
+        newTrashedNotes?.push(trashedNote);
+        state.trashedNotes = newTrashedNotes;
+        state.allNotes = state.allNotes?.filter(item => item.id !== noteID);
+        state.filteredNotes = refilterAfterUpdate(
+          state.allNotes,
+          state.selectedCategory,
+        );
+      });
     },
     removeFromTrash(state, action) {}, //undelete
     permanentlyDeleteNote(state, action) {
@@ -238,6 +255,7 @@ export const noteSlice = createSlice({
 export const {
   addNote,
   deleteNote,
+  deleteMultipleNotes,
   permanentlyDeleteNote,
   archiveNote,
   favNote,

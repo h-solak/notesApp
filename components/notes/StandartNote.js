@@ -22,6 +22,8 @@ const StandartNote = ({
   category,
   isFavorite,
   isTrashScreen,
+  handleLongPress,
+  selectedNoteIds,
   navigation,
 }) => {
   const dispatch = useDispatch();
@@ -65,18 +67,26 @@ const StandartNote = ({
         <TouchableOpacity
           className={`mb-3 px-4 py-2 flex-row rounded-full justify-between items-center`}
           style={{
-            backgroundColor: color,
-            borderColor: color === '#000000' ? '#222222' : color,
-            borderWidth: 1.5,
+            backgroundColor: selectedNoteIds?.includes(id)
+              ? `${color}80`
+              : color,
+            borderColor: selectedNoteIds?.includes(id)
+              ? '#929292'
+              : color === '#000000'
+              ? '#222222'
+              : color,
+            borderWidth: 2,
+            // opacity: selectedNoteIds?.includes(id) ? 0.6 : 1,
           }}
-          onPress={
-            !isTrashScreen
-              ? () => {
-                  dispatch(selectNote(id));
-                  navigation.navigate('EditNote');
-                }
-              : null
-          }>
+          onPress={() => {
+            if (selectedNoteIds?.length > 0) {
+              handleLongPress(id);
+            } else {
+              dispatch(selectNote(id));
+              navigation.navigate('EditNote');
+            }
+          }}
+          onLongPress={() => handleLongPress(id)}>
           <View className="flex-row items-center justify-start gap-3">
             <View className="h-14 w-14 p-2 bg-white items-center justify-center rounded-full">
               <Text
