@@ -45,7 +45,7 @@ const NoteTypeScreen = ({navigation}) => {
         style={{height: height * 0.05, width: width}}>
         {selectedNoteIds?.length > 0 ? (
           <View
-            className="bg-noteGrey-500 h-full w-full px-4 flex-row justify-between items-center rounded-"
+            className="bg-noteGrey-900 h-full w-full px-4 flex-row justify-between items-center"
             style={{height: height * 0.075}}>
             <View className="flex-row items-center" style={{gap: 12}}>
               <TouchableOpacity
@@ -90,7 +90,7 @@ const NoteTypeScreen = ({navigation}) => {
           </View>
         ) : (
           <>
-            <View className="flex-row items-center" style={{gap: 8}}>
+            <View className="flex-row items-center px-2" style={{gap: 8}}>
               <TouchableOpacity
                 className="w-8 h-8 items-center justify-center rounded-xl"
                 onPress={() => navigation.navigate('Home')}>
