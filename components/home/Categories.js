@@ -38,7 +38,6 @@ const Categories = () => {
   return (
     <View className="h-8 mt-10 px-4">
       <ScrollView
-        className="h-full"
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         ref={scrollRef}>
@@ -46,13 +45,8 @@ const Categories = () => {
           <TouchableOpacity
             key={index}
             className={`items-center justify-center rounded-full ${
-              item.id !== selectedCategory ? 'px-3' : 'px-5'
+              item.id !== selectedCategory ? 'px-3' : 'bg-white px-5'
             }`}
-            style={
-              item.id == selectedCategory
-                ? {backgroundColor: '#fff', padding: 4}
-                : null
-            }
             onPress={() => {
               dispatch(filterNotesByCategory(item.id));
             }}>
