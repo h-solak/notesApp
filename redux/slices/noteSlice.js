@@ -25,10 +25,10 @@ const refilterAfterUpdate = (allNotes, selectedCategory) => {
   if (selectedCategory == 0 || !selectedCategory) {
     return allNotes;
   } else {
-    let newNotes = allNotes?.filter(item =>
+    let newFilteredNotes = allNotes?.filter(item =>
       item.categories?.includes(selectedCategory),
     );
-    return newNotes;
+    return newFilteredNotes;
   }
 };
 
@@ -42,6 +42,13 @@ const updateSearchedNotesAfterUpdate = (allNotes, searchText) => {
     return newSearchedNotes;
   }
   return allNotes;
+};
+
+const updateNoteTypeNotesAfterChange = (allNotes, selectedNoteType) => {
+  if (selectedNoteType === 'Your Favorites') {
+    const newNoteTypeNotes = allNotes.filter(item => item.isFavorite === true);
+    return newNoteTypeNotes;
+  }
 };
 
 export const noteSlice = createSlice({
@@ -139,6 +146,10 @@ export const noteSlice = createSlice({
       state.searchedNotes = updateSearchedNotesAfterUpdate(
         state.allNotes,
         state.searchText,
+      );
+      state.notesFilteredByType = updateNoteTypeNotesAfterChange(
+        state.allNotes,
+        state.selectedNoteType,
       );
     },
     selectNote(state, action) {
