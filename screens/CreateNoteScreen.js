@@ -206,20 +206,20 @@ const CreateScreen = ({navigation}) => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="py-1 flex-1 flex-row items-center justify-between"
-                    style={{gap: 6}}
+                    className="py-1 flex-1 flex-row items-center align-middle justify-between"
                     onPress={() => {
                       setOptionsModal(!optionsModal);
                       setColorPickerVisible(!colorPickerVisible);
                     }}>
                     <Text className="text-base text-white">Color</Text>
                     <View
-                      className="rounded-full border border-white"
+                      className="rounded-full border border-white "
                       style={{
                         backgroundColor: noteDetails.color,
-                        width: 16,
-                        height: 16,
-                      }}></View>
+                        width: 18,
+                        height: 18,
+                      }}
+                    />
                   </TouchableOpacity>
                   <TouchableOpacity
                     className="py-1"
@@ -231,7 +231,7 @@ const CreateScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        <ScrollView className="flex-col">
+        <ScrollView className="mt-2 flex-col">
           <TextInput
             className="flex-1 bg-transparent text-white text-2xl font-semibold"
             multiline={true}
@@ -263,8 +263,7 @@ const CreateScreen = ({navigation}) => {
             style={{fontWeight: '400'}}
           />
         </ScrollView>
-        {/* BottomBar for notes */}
-        <View className="flex-row items-center justify-between">
+        <View style={{flex: 1}}>
           <NoteColorPicker
             noteDetails={noteDetails}
             setNoteDetails={setNoteDetails}
