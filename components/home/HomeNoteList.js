@@ -1,14 +1,50 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 
 /* Components */
 import StandartNote from '../notes/StandartNote';
 import {useSelector, useDispatch} from 'react-redux';
 import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 
-const HomeNoteList = ({navigation}) => {
+const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
   const filteredNotes = useSelector(state => state.note.filteredNotes);
+  const handleLongPress = id => {
+    if (selectedNoteIds?.includes(id)) {
+      let oldArr = selectedNoteIds;
+      oldArr = oldArr.filter(item => item !== id);
+      setSelectedNoteIds(oldArr);
+    } else {
+      setSelectedNoteIds(oldArray => [...oldArray, id]);
+    }
+  };
+
+  useEffect(() => {
+    console.log(selectedNoteIds);
+  }, [selectedNoteIds]);
+
+  //if user presses on back button when select mode on
+  useEffect(() => {
+    const backAction = () => {
+      if (selectedNoteIds?.length > 0) {
+        setSelectedNoteIds([]);
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [selectedNoteIds]);
 
   return (
     <View className="h-full bg-red mt-3 pb-24">
@@ -25,6 +61,8 @@ const HomeNoteList = ({navigation}) => {
               emoji={item?.emoji}
               category={item.category}
               isFavorite={item.isFavorite}
+              handleLongPress={handleLongPress}
+              selectedNoteIds={selectedNoteIds}
               navigation={navigation}
             />
           ))}
