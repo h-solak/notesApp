@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   useWindowDimensions,
+  BackHandler,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -36,6 +37,25 @@ const NoteTypeScreen = ({navigation}) => {
 
   useEffect(() => {
     console.log(selectedNoteIds);
+  }, [selectedNoteIds]);
+
+  //if user presses on back button when select mode on
+  useEffect(() => {
+    const backAction = () => {
+      if (selectedNoteIds?.length > 0) {
+        setSelectedNoteIds([]);
+      } else {
+        navigation.navigate('Home');
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
   }, [selectedNoteIds]);
 
   return (
