@@ -4,11 +4,11 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const Topbar = ({navigation}) => {
   return (
-    <View className="w-full mt-10 flex-row justify-between items-start">
+    <View className="w-full mt-5 flex-row justify-between items-center">
       <View className="pl-4 basis-6/12 flex-column">
-        <Text className="text-white text-5xl font-bold">Note're</Text>
+        <Text className="text-white text-4xl font-bold">Noteflow</Text>
         <View className="basis-6/12 flex-row items-center gap-2">
-          <Text className="text-white text-5xl font-bold">Dame</Text>
+          {/* <Text className="text-white text-5xl font-bold">Note</Text> */}
           {/* <Text className="text- font-bold text-noteGrey-500">v0.1</Text> */}
         </View>
       </View>
