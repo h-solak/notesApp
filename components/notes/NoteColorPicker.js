@@ -36,13 +36,20 @@ const NoteColorPicker = ({
       animationIn="fadeIn"
       animationOut="fadeOut"
       backdropColor="#000"
+      style={{margin: 0}}
       isVisible={colorPickerVisible}
       onBackdropPress={() => setColorPickerVisible(false)}
       onBackButtonPress={() => setColorPickerVisible(false)}>
       <View
-        className="self-center absolute bottom-0 py-6 px-4 rounded-t-lg border-t-2 border-t-white70"
-        style={{width: width, backgroundColor: `${noteDetails.color}`}}>
-        <Text className="">Colors</Text>
+        className="self-center px-4 flex-col justify-center rounded-t-lg border-t-2 border-t-noteGrey-500"
+        style={{
+          width: width,
+          height: height * 0.2,
+          position: 'absolute',
+          bottom: 0,
+          backgroundColor: `${noteDetails.color}`,
+        }}>
+        <Text className="text-white">Colors</Text>
         <View className="flex-row py-6 justify-between" style={{gap: 4}}>
           {allColors.map((item, index) => (
             <TouchableOpacity
