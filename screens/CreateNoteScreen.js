@@ -198,8 +198,9 @@ const CreateScreen = ({navigation}) => {
                   <TouchableOpacity
                     className="py-1"
                     onPress={() => {
-                      setOptionsModal(!optionsModal);
-                      setCategoriesModal(!categoriesModal);
+                      navigation.navigate('EditCategories');
+                      // setOptionsModal(!optionsModal);
+                      // setCategoriesModal(!categoriesModal);
                     }}>
                     <Text className="text-base text-white py-1">
                       Categories

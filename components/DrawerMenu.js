@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import CreateScreen from '../screens/CreateNoteScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -21,30 +22,31 @@ import {NavigationContainer, DrawerActions} from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const AppDrawer = props => {
+  const {height, width} = useWindowDimensions();
   //TO CLOSE: props.navigation.dispatch(DrawerActions.closeDrawer())
   return (
     <DrawerContentScrollView>
-      <View className="py-5 h-full">
-        <View className="flex-row justify- items-end px-4">
-          <View className="gap-1">
-            <Text className="text-white text-4xl font-bold">Note're</Text>
-            <View className="flex-row items-center">
-              <Text className="text-white text-4xl font-bold">Dame</Text>
-              <Text className="ml-2 text-noteGrey-300 text-xl font-bold">
-                v1
-              </Text>
-            </View>
-          </View>
+      <View className="py-5 px-4" style={{height: height}}>
+        <View className="flex-row">
+          <Text className="text-white text-2xl font-bold">Noteflow</Text>
         </View>
-        <View className="pt-8 pb-2 options px-4">
+        <View className="pt-8 pb-2 options">
           <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
             <MCIcons
               name={'calendar-week'}
-              size={24}
+              size={20}
               style={{color: '#929292'}}
             />
-            <Text className="text-noteGrey-300 text-base font-semibold">
+            <Text className="text-noteGrey-300 text-md font-semibold">
               Calendar
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('EditCategories')}>
+            <MCIcons name={'tag'} size={20} style={{color: '#929292'}} />
+            <Text className="text-noteGrey-300 text-sm font-semibold">
+              Categories
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -52,30 +54,44 @@ const AppDrawer = props => {
             onPress={() => props.navigation.navigate('Archive')}>
             <MaterialIcon
               name={'archive'}
-              size={24}
+              size={20}
               style={{color: '#929292'}}
             />
-            <Text className="text-noteGrey-300 text-base font-semibold">
+            <Text className="text-noteGrey-300 text-sm font-semibold">
               Archived Notes
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-noteGrey- py-3 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Trash')}>
-            <MCIcons name={'trash-can'} size={24} style={{color: '#929292'}} />
-            <Text className="text-noteGrey-300 text-base font-semibold">
+            <MCIcons name={'trash-can'} size={20} style={{color: '#929292'}} />
+            <Text className="text-noteGrey-300 text-md font-semibold">
               Trash
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <View className="py-2 border-t border-noteGrey-900 px-4">
-          <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
-            <MCIcons name={'pencil'} size={24} style={{color: '#929292'}} />
-            <Text className="text-noteGrey-300 text-base font-semibold">
-              Edit Categories
+        {/* Settings and user section */}
+        <View className="flex-1 justify-between my-2 py-2 border-t border-noteGrey-900">
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Trash')}>
+            <MaterialIcon
+              name={'settings'}
+              size={20}
+              style={{color: '#929292'}}
+            />
+            <Text className="text-noteGrey-300 text-md font-semibold">
+              Settings
             </Text>
           </TouchableOpacity>
-        </View> */}
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row justify- items-center gap-3"
+            onPress={() => null}>
+            <Text className="text-noteGrey-300 text-xs font-semibold">
+              Noteflow v1.0 (beta)
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </DrawerContentScrollView>
   );

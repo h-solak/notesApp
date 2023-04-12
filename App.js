@@ -18,6 +18,7 @@ import CreateNoteScreen from './screens/CreateNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen';
 import SearchScreen from './screens/SearchScreen';
 import NoteTypeScreen from './screens/NoteTypeScreen';
+import EditCategoriesScreen from './screens/EditCategoriesScreen';
 import TrashScreen from './screens/TrashScreen';
 import ArchiveScreen from './screens/ArchiveScreen';
 
@@ -52,6 +53,7 @@ function App() {
                 backgroundColor: '#000',
                 width: 240,
               },
+              swipeEdgeWidth: 0,
             }}>
             <Stack.Screen
               name="Home"
@@ -76,6 +78,11 @@ function App() {
             <Stack.Screen
               name="NoteType"
               component={NoteTypeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="EditCategories"
+              component={EditCategoriesScreen}
               options={{headerShown: false}}
             />
             <Stack.Screen
