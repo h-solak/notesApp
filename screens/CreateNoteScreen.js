@@ -120,7 +120,7 @@ const CreateScreen = ({navigation}) => {
             style={{
               overflow: 'hidden',
             }}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.goBack()}>
             <BlurView
               style={{
                 position: 'absolute',

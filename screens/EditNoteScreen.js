@@ -76,7 +76,7 @@ const EditNoteScreen = ({navigation}) => {
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
-        navigation.navigate('Home');
+        navigation.goBack();
         setNoteDetails({
           title: '',
           text: '',
@@ -126,7 +126,7 @@ const EditNoteScreen = ({navigation}) => {
             style={{
               overflow: 'hidden',
             }}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.goBack()}>
             <BlurView
               style={{
                 position: 'absolute',
@@ -405,7 +405,7 @@ const EditNoteScreen = ({navigation}) => {
                 overflow: 'hidden',
               }}
               onPress={() => {
-                navigation.navigate('Home');
+                navigation.goBack();
               }}>
               <BlurView
                 style={{

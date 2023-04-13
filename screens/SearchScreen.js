@@ -32,7 +32,7 @@ const SearchScreen = ({navigation}) => {
       <View className="w-full flex-row items-center gap-2">
         <TouchableOpacity
           className="w-8 h-8 items-center justify-center"
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.goBack()}>
           <Ionicon name="arrow-back" size={30} color="#929292" />
         </TouchableOpacity>
         <View className="px-1 flex-1 flex-row justify-between items-center bg-transparent border-2 border-noteGrey-900 rounded-xl">

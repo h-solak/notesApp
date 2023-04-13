@@ -10,9 +10,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {BlurView, VibrancyView} from '@react-native-community/blur';
 const Bottombar = ({navigation}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
+  const screen = 'Home';
   return (
-    <View className="absolute bottom-0 p-4 w-1/2 self-center">
-      <View
+    <View
+      className="absolute bottom-0 p-4 w-full self-center flex-row items-center justify-between"
+      style={{backgroundColor: 'rgba(0,0,0,0.8)'}}>
+      {/* <View
         className="relative flex-row justify-center items-center rounded-full px-3 py-2"
         style={{
           zIndex: 9999,
@@ -39,7 +42,6 @@ const Bottombar = ({navigation}) => {
             className="justify-center items-center bg-black rounded-full"
             style={{width: 64, height: 64}}
             onPress={() => navigation.navigate('CreateNote')}>
-            {/* Temporary padding pb-1 for the text - will be fixed */}
             <Text className="text-white pb-1" style={{fontSize: 40}}>
               +
             </Text>
@@ -60,9 +62,8 @@ const Bottombar = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
-      {/*
       <TouchableOpacity
         className="p-2"
         onPress={() => navigation.navigate('Home')}>
@@ -72,7 +73,9 @@ const Bottombar = ({navigation}) => {
           style={{color: screen === 'Home' ? '#fff' : '#6d6d6d'}}
         />
       </TouchableOpacity>
-      <TouchableOpacity className="p-2">
+      <TouchableOpacity
+        className="p-2"
+        onPress={() => navigation.navigate('Search')}>
         <EntypoIcon
           name="magnifying-glass"
           size={28}
@@ -89,20 +92,20 @@ const Bottombar = ({navigation}) => {
         />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
+        <MaterialIcon
+          name="keyboard-voice"
+          size={28}
+          style={{color: screen === 'Menu' ? '#fff' : '#6d6d6d'}}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity className="p-2">
         <FeatherIcon
           name="calendar"
           size={28}
           style={{color: screen === 'Calendar' ? '#fff' : '#6d6d6d'}}
         />
       </TouchableOpacity>
-      <TouchableOpacity className="p-2">
-        <EntypoIcon
-          name="menu"
-          size={28}
-          style={{color: screen === 'Menu' ? '#fff' : '#6d6d6d'}}
-          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-        />
-      </TouchableOpacity> */}
     </View>
   );
 };

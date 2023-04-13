@@ -32,6 +32,49 @@ Yukarı kaydırınca ekran esnemiyor?? stacklerden dolayı mı
 ????????
 ??????
 */
+
+function DrawerNavigation() {
+  return (
+    <Drawer.Navigator
+      useLegacyImplementation
+      drawerContent={props => <DrawerMenu {...props} />}
+      drawerPosition="right"
+      initialRouteName="Home"
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#000',
+          width: 240,
+        },
+        swipeEdgeWidth: 0,
+      }}>
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{headerShown: false, animation: 'simple_push'}}
+      />
+      <Drawer.Screen
+        name="NoteType"
+        component={NoteTypeScreen}
+        options={{headerShown: false, animation: 'none'}}
+      />
+      <Drawer.Screen
+        name="EditCategories"
+        component={EditCategoriesScreen}
+        options={{headerShown: false, animation: 'none'}}
+      />
+      <Drawer.Screen
+        name="Trash"
+        component={TrashScreen}
+        options={{headerShown: false, animation: 'none'}}
+      />
+      <Drawer.Screen
+        name="Archive"
+        component={ArchiveScreen}
+        options={{headerShown: false, animation: 'none'}}
+      />
+    </Drawer.Navigator>
+  );
+}
 function App() {
   const {height, width} = useWindowDimensions();
 
@@ -42,60 +85,55 @@ function App() {
         persistor={persistor}>
         <NavigationContainer>
           {/*<Stack.Navigator screenOptions={{animation: 'none'}}> -- DISABLE FOR ALL*/}
-          {/* SCREEN SPESIFIC: options={{headerShown: false, animation: 'none'}} */}
-          <Drawer.Navigator
-            useLegacyImplementation
-            drawerContent={props => <DrawerMenu {...props} />}
-            initialRouteName="Home"
-            drawerPosition="right"
-            screenOptions={{
-              drawerStyle: {
-                backgroundColor: '#000',
-                width: 240,
-              },
-              swipeEdgeWidth: 0,
-            }}>
+          {/* SCREEN SPESIFIC: options={{headerShown: false, animation:"none", animation: 'none'}} */}
+
+          <Stack.Navigator initialRouteName="Home" useLegacyImplementation>
             <Stack.Screen
+              options={{headerShown: false, animation: 'none'}}
+              name="DrawerNavigation"
+              component={DrawerNavigation}
+            />
+            {/* <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{headerShown: false}}
-            />
+              options={{headerShown: false, animation: 'default'}}
+            /> */}
             <Stack.Screen
               name="CreateNote"
               component={CreateNoteScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="EditNote"
               component={EditNoteScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'simple_push'}}
             />
             <Stack.Screen
               name="Search"
               component={SearchScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="NoteType"
               component={NoteTypeScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="EditCategories"
               component={EditCategoriesScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="Trash"
               component={TrashScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="Archive"
               component={ArchiveScreen}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
-          </Drawer.Navigator>
+          </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
