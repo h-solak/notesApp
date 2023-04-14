@@ -5,7 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {filterNotesByCategory} from '../../redux/slices/noteSlice';
 import EditCategoriesModal from './EditCategoriesModal';
 
-const Categories = () => {
+const Categories = ({navigation}) => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const filteredNotes = useSelector(state => state.note.filteredNotes);
@@ -62,7 +62,9 @@ const Categories = () => {
 
         <TouchableOpacity
           className="ml-3 w-6 h-6 bg-noteGrey-300 p-1 rounded-full flex-row items-center justify-center align-middle self-center"
-          onPress={() => setEditCategoriesModal(!editCategoriesModal)}>
+          onPress={() => navigation.navigate('EditCategories')}
+          //setEditCategoriesModal(!editCategoriesModal)
+        >
           <MaterialIcon name={'edit'} size={16} style={{color: '#000'}} />
         </TouchableOpacity>
 

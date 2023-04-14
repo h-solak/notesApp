@@ -4,31 +4,29 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const Topbar = ({navigation}) => {
   return (
-    <View className="w-full mt-5 flex-row justify-between items-center">
-      <View className="pl-4 basis-6/12 flex-column">
-        <Text className="text-white text-4xl font-bold">Noteflow</Text>
-        <View className="basis-6/12 flex-row items-center gap-2">
-          {/* <Text className="text-white text-5xl font-bold">Note</Text> */}
-          {/* <Text className="text- font-bold text-noteGrey-500">v0.1</Text> */}
-        </View>
+    <View className="w-full mt-5 flex-row justify-between items-top">
+      <View className="pl-4 basis-6/12 flex-row items-top" style={{gap: 4}}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <IonIcon name={'menu'} size={32} color="#fff" />
+        </TouchableOpacity>
+        <Text className="text-white text-2xl font-bold">Noteflow</Text>
       </View>
 
-      <View className=" basis-6/12">
-        <View className="w-full flex-row items-center justify-end gap-3">
+      <View className="pr-4 basis-6/12">
+        <View
+          className="w-full flex-row items-center justify-end"
+          style={{gap: 10}}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+            <IonIcon name={'search'} size={28} color="#fff" />
+          </TouchableOpacity> */}
           <TouchableOpacity>
             <Image
               source={{
                 uri: 'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403',
               }}
-              className="w-8 h-8 rounded-full"
+              className="w-7 h-7 rounded-full"
               style={{borderWidth: 2, borderColor: '#ffffff'}}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <IonIcon name={'search'} size={36} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <IonIcon name={'menu'} size={44} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>

@@ -107,7 +107,7 @@ const StandartNote = ({
                   ? `${text.slice(0, 10)}...`
                   : text}
               </Text>
-              <Text className="text-secondary" style={{fontSize: 13}}>
+              <Text className="text-secondary" style={{fontSize: 12}}>
                 Standard Note
               </Text>
             </View>

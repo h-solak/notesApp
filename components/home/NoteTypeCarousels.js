@@ -71,7 +71,7 @@ const NoteTypeCarousels = ({navigation}) => {
     },
   ];
   return (
-    <View className="mt-7 h-64">
+    <View className="mt-4 h-64">
       <ScrollView
         className="h-40 flex-row gap-3 pl-4 pr-4"
         horizontal={true}

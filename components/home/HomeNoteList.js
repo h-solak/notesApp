@@ -68,7 +68,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
           ))}
         </ScrollView>
       ) : (
-        <View className="mt-20 items-center justify-center">
+        <View className="mt-20 items-center justify-center" style={{gap: 4}}>
           <Text className="text-noteGrey-500">Nothing to see</Text>
         </View>
       )}

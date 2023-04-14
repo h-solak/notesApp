@@ -12,6 +12,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetSearchedNotes, searchNotes} from '../redux/slices/noteSlice';
 import StandartNote from '../components/notes/StandartNote';
+import Bottombar from '../components/Bottombar';
 
 const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -28,8 +29,8 @@ const SearchScreen = ({navigation}) => {
   }, []);
 
   return (
-    <View className="bg-black h-full w-full pt-3 px-2">
-      <View className="w-full flex-row items-center gap-2">
+    <View className="bg-black h-full w-full pt-3">
+      <View className="w-full flex-row items-center gap-2 px-2">
         <TouchableOpacity
           className="w-8 h-8 items-center justify-center"
           onPress={() => navigation.goBack()}>
@@ -65,7 +66,7 @@ const SearchScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View className="flex-1 mt-2">
+      <View className="flex-1 mt-2 px-2">
         {searchText.length > 0 && (
           <View className="flex-row items-center justify-center px-2">
             <Text className="text-noteGrey-500">
@@ -97,6 +98,7 @@ const SearchScreen = ({navigation}) => {
           </View>
         ) : null} */}
       </View>
+      <Bottombar screen="Search" navigation={navigation} />
     </View>
   );
 };

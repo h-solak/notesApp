@@ -8,13 +8,12 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {BlurView, VibrancyView} from '@react-native-community/blur';
-const Bottombar = ({navigation}) => {
+const Bottombar = ({screen, navigation}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
-  const screen = 'Home';
   return (
     <View
-      className="absolute bottom-0 p-4 w-full self-center flex-row items-center justify-between"
-      style={{backgroundColor: 'rgba(0,0,0,0.8)'}}>
+      className="absolute bottom-0 px-6 py-0 w-full self-center flex-row items-center justify-between"
+      style={{backgroundColor: 'rgba(0,0,0,1)'}}>
       {/* <View
         className="relative flex-row justify-center items-center rounded-full px-3 py-2"
         style={{
@@ -88,7 +87,7 @@ const Bottombar = ({navigation}) => {
         <IonIcon
           name="add-circle-outline"
           size={36}
-          style={{color: screen === 'Create' ? '#fff' : '#6d6d6d'}}
+          style={{color: '#6d6d6d'}}
         />
       </TouchableOpacity>
       <TouchableOpacity className="p-2">
