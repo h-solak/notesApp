@@ -45,7 +45,7 @@ const Categories = ({navigation}) => {
           <TouchableOpacity
             key={index}
             className={`items-center justify-center rounded-full ${
-              item.id !== selectedCategory ? 'px-3' : 'bg-white px-5'
+              item.id !== selectedCategory ? 'px-2' : 'bg-white px-4'
             }`}
             onPress={() => {
               dispatch(filterNotesByCategory(item.id));
@@ -53,7 +53,7 @@ const Categories = ({navigation}) => {
             <Text
               className={`${
                 item.id === selectedCategory ? 'text-black' : 'text-white'
-              } font-bold text-base`}>
+              } font-bold text-sm`}>
               {item.name}{' '}
               {item.id === selectedCategory && `(${filteredNotes?.length})`}
             </Text>
@@ -62,8 +62,8 @@ const Categories = ({navigation}) => {
 
         <TouchableOpacity
           className="ml-3 w-6 h-6 bg-noteGrey-300 p-1 rounded-full flex-row items-center justify-center align-middle self-center"
-          onPress={() => navigation.navigate('EditCategories')}
-          //setEditCategoriesModal(!editCategoriesModal)
+          onPress={() => setEditCategoriesModal(!editCategoriesModal)}
+          //navigation.navigate('EditCategories')
         >
           <MaterialIcon name={'edit'} size={16} style={{color: '#000'}} />
         </TouchableOpacity>
