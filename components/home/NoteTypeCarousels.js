@@ -135,7 +135,7 @@ const NoteTypeCarousels = ({navigation}) => {
               <AntIcon name="hearto" size={22} style={{color: '#fff'}} />
             </TouchableOpacity> */}
             <Text
-              className="text-white font-bold text-xl mt-6 pr-4"
+              className="text-white font-bold text-lg mt-6 pr-4"
               style={{lineHeight: 24}}>
               {item.name}
             </Text>
