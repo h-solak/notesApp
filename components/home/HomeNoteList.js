@@ -5,6 +5,8 @@ import {
   Text,
   TouchableOpacity,
   BackHandler,
+  FlatList,
+  useWindowDimensions,
 } from 'react-native';
 
 /* Components */
@@ -14,6 +16,7 @@ import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 
 const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
+  const {height, width} = useWindowDimensions();
   const filteredNotes = useSelector(state => state.note.filteredNotes);
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {
@@ -50,7 +53,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
     <View className="h-full bg-red mt-3 pb-24">
       {/*Individual Notes*/}
       {filteredNotes?.length > 0 ? (
-        <ScrollView className="mt-3 flex-col px-4">
+        <ScrollView className="mt-3 px-4" style={{width: width}}>
           {filteredNotes?.map((item, index) => (
             <StandartNote
               key={index}
