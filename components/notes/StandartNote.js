@@ -37,7 +37,7 @@ const StandartNote = ({
   return (
     id && (
       <TouchableOpacity
-        className={`mb-3 py-2 flex-row rounded-xl justify-between items-center`}
+        className={`flex-1 mb-3 py-2 flex-row justify-between items-center`}
         style={{
           backgroundColor: selectedNoteIds?.includes(id) ? `${color}80` : color,
           borderColor: selectedNoteIds?.includes(id)
@@ -46,7 +46,7 @@ const StandartNote = ({
             ? '#222222'
             : color,
           borderWidth: 2,
-          width: width / 1.1,
+          borderRadius: 24,
           // opacity: selectedNoteIds?.includes(id) ? 0.6 : 1,
         }}
         onPress={() => {
@@ -69,14 +69,14 @@ const StandartNote = ({
           <View className="flex-1 flex-col">
             {title && (
               <Text
-                style={{fontSize: 14, flexWrap: 'wrap'}}
+                style={{fontSize: 15, flexWrap: 'wrap'}}
                 className={`font-bold`}>
                 {title}
               </Text>
             )}
             {text && (
               <Text style={{fontSize: 13, flexWrap: 'wrap'}} className={``}>
-                {text.slice(0, 200)}
+                {text?.length > 200 ? `${text.slice(0, 200)}...` : text}
               </Text>
             )}
             {/* <Text className="text-secondary" style={{fontSize: 12}}>
