@@ -36,6 +36,8 @@ const EditNoteScreen = ({navigation}) => {
     color: '#000000',
     emoji: '✍️',
   });
+
+  const [wordCount, setWordCount] = useState(0);
   const [chosenCategories, setChosenCategories] = useState([]);
 
   const allCategories = useSelector(state => state.note.categories);
@@ -112,20 +114,24 @@ const EditNoteScreen = ({navigation}) => {
 
   useEffect(() => {
     handleChange();
+    console.log(chosenCategories);
   }, [noteDetails, chosenCategories]);
+
+  useEffect(() => {
+    const trimmedText = noteDetails?.text.trim();
+    const totalWords = trimmedText
+      .split(' ')
+      .filter(item => item !== '').length;
+    setWordCount(totalWords);
+  }, [noteDetails.text]);
 
   return (
     <View>
-      <ScrollView
-        className="relative h-full w-full px-4 py-4"
-        showsVerticalScrollIndicator={false}
-        style={{backgroundColor: noteDetails.color}}>
-        <View className="flex-row items-center justify-between">
-          {/* <TouchableOpacity
-        className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
-        onPress={() => navigation.navigate('Home')}>
-        <EntypoIcon name="chevron-left" size={28} color="#929292" />
-      </TouchableOpacity> */}
+      <View
+        className="relative pt-4"
+        // showsVerticalScrollIndicator={false}
+        style={{height: height, backgroundColor: noteDetails.color}}>
+        <View className="flex-row items-center justify-between px-4">
           <TouchableOpacity
             className="w-9 h-9 items-center justify-center rounded-xl py-1 "
             style={{
@@ -242,7 +248,7 @@ const EditNoteScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        <ScrollView className="flex-col">
+        <ScrollView showsVerticalScrollIndicator={false} className="mt-5 px-4">
           <TextInput
             className="flex-1 bg-transparent text-white text-2xl font-semibold"
             multiline={true}
@@ -259,7 +265,7 @@ const EditNoteScreen = ({navigation}) => {
             style={{textAlignVertical: 'top'}}
           />
           <TextInput
-            className="pb-24 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
+            className="pb-80 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
             multiline={true}
             // onTextLayout={onTextLayout}
             placeholder="Note"
@@ -274,15 +280,56 @@ const EditNoteScreen = ({navigation}) => {
             style={{fontWeight: '400'}}
           />
         </ScrollView>
-        {/* BottomBar for notes */}
-        <View className="flex-row items-center justify-between">
-          <NoteColorPicker
-            noteDetails={noteDetails}
-            setNoteDetails={setNoteDetails}
-            colorPickerVisible={colorPickerVisible}
-            setColorPickerVisible={setColorPickerVisible}
-          />
+        {/* Notes Bottombar */}
+        <View
+          className="absolute bottom-0 flex-1 px-3 py-3 flex-row justify-between items-center"
+          style={{
+            overflow: 'hidden',
+            width: width,
+            // position: 'absolute',
+            // bottom: 0,
+            backgroundColor: `${noteDetails?.color}`,
+          }}>
+          <Text className="text-xs">{wordCount} Words</Text>
+          {/* CATEGORIES WILL BE LISTED AT THE END OF THE TEXT INPUT AND USER WILL BE ABLE TO REMOVE OR ADD FROM THERE*/}
+          {/* {chosenCategories?.length > 0 && (
+            <View className="flex-row" style={{gap: 4}}>
+              {allCategories?.map(item => {
+                if (chosenCategories?.includes(item.id)) {
+                  return <Text key={item.id}>{item.name}</Text>;
+                }
+              })}
+            </View>
+          )} */}
+          {crrNote?.updatedAt && (
+            <Text className="text-xs">
+              Edited on {moment(crrNote?.updatedAt).format('MMM Do YY')}
+            </Text>
+          )}
         </View>
+
+        {/* <BlurView
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            right: 0,
+          }}
+          blurType="light"
+          blurAmount={32}
+          blurRadius={25}
+          overlayColor="#ffffff80"
+        /> */}
+      </View>
+      {/* Modals */}
+      <>
+        <NoteColorPicker
+          noteDetails={noteDetails}
+          setNoteDetails={setNoteDetails}
+          colorPickerVisible={colorPickerVisible}
+          setColorPickerVisible={setColorPickerVisible}
+        />
         <Modal
           animationIn="fadeIn"
           animationOut="fadeOut"
@@ -377,7 +424,7 @@ const EditNoteScreen = ({navigation}) => {
             </View>
           </View>
         </Modal>
-      </ScrollView>
+      </>
       {/* <KeyboardAvoidingView
         behavior="height"
         className="px-5 py-3"
