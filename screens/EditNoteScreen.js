@@ -51,7 +51,7 @@ const EditNoteScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleChange = () => {
     if (!(noteDetails.text === '' && noteDetails.title === '')) {
       try {
         const crrDate = new Date();
@@ -70,20 +70,21 @@ const EditNoteScreen = ({navigation}) => {
         );
       } catch (err) {
         console.log(err);
-      } finally {
-        ToastAndroid.show(
-          'Your note is saved',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-        navigation.goBack();
-        setNoteDetails({
-          title: '',
-          text: '',
-          color: '#000000',
-          emoji: '✍️',
-        });
       }
+      // finally {
+      //   ToastAndroid.show(
+      //     'Your note is saved',
+      //     ToastAndroid.SHORT,
+      //     ToastAndroid.CENTER,
+      //   );
+      //   navigation.goBack();
+      //   setNoteDetails({
+      //     title: '',
+      //     text: '',
+      //     color: '#000000',
+      //     emoji: '✍️',
+      //   });
+      // }
     }
   };
 
@@ -108,6 +109,10 @@ const EditNoteScreen = ({navigation}) => {
     });
     setChosenCategories(crrNote?.categories);
   }, [crrNote]);
+
+  useEffect(() => {
+    handleChange();
+  }, [noteDetails, chosenCategories]);
 
   return (
     <View>
@@ -140,7 +145,7 @@ const EditNoteScreen = ({navigation}) => {
               blurRadius={25}
               overlayColor="#ffffff30"
             />
-            <EntypoIcon name="chevron-left" size={28} color="#fff" />
+            <MaterialIcon name="done" size={24} color="#fff" />
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
@@ -373,7 +378,7 @@ const EditNoteScreen = ({navigation}) => {
           </View>
         </Modal>
       </ScrollView>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior="height"
         className="px-5 py-3"
         style={{
@@ -384,19 +389,6 @@ const EditNoteScreen = ({navigation}) => {
           // overflow: 'hidden',
         }}
         keyboardVerticalOffset={height * 0.4}>
-        {/* <BlurView
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          right: 0,
-        }}
-        blurType="light"
-        blurAmount={32}
-        blurRadius={25}
-        overlayColor="#ffffff30"
-      /> */}
         <TouchableWithoutFeedback>
           <View className="w-full flex-row justify-end" style={{gap: 12}}>
             <TouchableOpacity
@@ -445,7 +437,7 @@ const EditNoteScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView> */}
     </View>
   );
 };

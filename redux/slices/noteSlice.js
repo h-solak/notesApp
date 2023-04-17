@@ -67,6 +67,22 @@ export const noteSlice = createSlice({
     categories: [],
   },
   reducers: {
+    createNote(state, action) {
+      const crrDate = new Date();
+      const newId = uuid.v4();
+
+      state.crrNote = {
+        id: newId,
+        title: '',
+        text: '',
+        color: '#000000',
+        emoji: '✍️',
+        categories: [],
+        isFavorite: false,
+        createdAt: crrDate,
+        updatedAt: crrDate,
+      };
+    },
     addNote(state, action) {
       let newNotes = state.allNotes;
       newNotes.push(action.payload);
@@ -264,6 +280,7 @@ export const noteSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  createNote,
   addNote,
   deleteNote,
   deleteMultipleNotes,

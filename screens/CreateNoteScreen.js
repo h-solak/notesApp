@@ -27,7 +27,7 @@ import EmojiPicker from 'rn-emoji-keyboard';
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
-import {addNote} from '../redux/slices/noteSlice';
+import {addNote, createNote, editNote} from '../redux/slices/noteSlice';
 
 const CreateScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
@@ -41,6 +41,7 @@ const CreateScreen = ({navigation}) => {
   const [chosenCategories, setChosenCategories] = useState([]);
 
   const allCategories = useSelector(state => state.note.categories);
+  const crrNote = useSelector(state => state.note.crrNote);
 
   //modals
   const [optionsModal, setOptionsModal] = useState(false); //three vertical dots
@@ -56,39 +57,34 @@ const CreateScreen = ({navigation}) => {
     setNumOfLines(e.nativeEvent.lines.length);
   };
 
-  const handleSubmit = () => {
+  const handleChange = () => {
     if (!(noteDetails.text === '' && noteDetails.title === '')) {
       try {
         const crrDate = new Date();
         dispatch(
-          addNote({
-            id: uuid.v4(),
+          editNote({
+            id: crrNote.id, //it is already created in noteSlice
             title: noteDetails.title.trim(),
             text: noteDetails.text.trim(),
             color: noteDetails.color,
             emoji: noteDetails.emoji,
             categories: chosenCategories,
             isFavorite: false,
-            createdAt: crrDate,
+            createdAt: crrNote?.createdAt,
             updatedAt: crrDate, //when the text or title is changed
           }),
         );
       } catch (err) {
         console.log(err);
-      } finally {
-        ToastAndroid.show(
-          'Your note is saved',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-        navigation.navigate('Home');
-        setNoteDetails({
-          title: '',
-          text: '',
-          color: '#000000',
-          emoji: '✍️',
-        });
       }
+      // finally {
+      //   ToastAndroid.show(
+      //     'Your note is saved',
+      //     ToastAndroid.SHORT,
+      //     ToastAndroid.CENTER,
+      //   );
+      //   navigation.navigate('Home');
+      // }
     }
   };
 
@@ -102,6 +98,18 @@ const CreateScreen = ({navigation}) => {
       setChosenCategories(newChosenCategories);
     }
   };
+
+  useEffect(() => {
+    dispatch(createNote());
+    setChosenCategories(crrNote?.categories);
+  }, []);
+
+  useEffect(() => {
+    console.log(crrNote);
+  }, [crrNote]);
+  useEffect(() => {
+    handleChange();
+  }, [noteDetails]);
 
   return (
     <View>
@@ -120,7 +128,16 @@ const CreateScreen = ({navigation}) => {
             style={{
               overflow: 'hidden',
             }}
-            onPress={() => navigation.goBack()}>
+            onPress={() => {
+              if (noteDetails.title.length > 0 || noteDetails.text.length > 0) {
+                ToastAndroid.show(
+                  'Your note is saved',
+                  ToastAndroid.SHORT,
+                  ToastAndroid.CENTER,
+                );
+              }
+              navigation.goBack();
+            }}>
             <BlurView
               style={{
                 position: 'absolute',
@@ -134,7 +151,11 @@ const CreateScreen = ({navigation}) => {
               blurRadius={25}
               overlayColor="#ffffff30"
             />
-            <EntypoIcon name="chevron-left" size={28} color="#fff" />
+            {noteDetails.title.length > 0 || noteDetails.text.length > 0 ? (
+              <MaterialIcon name="done" size={24} color="#fff" />
+            ) : (
+              <EntypoIcon name={'chevron-left'} size={28} color="#fff" />
+            )}
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
@@ -367,7 +388,7 @@ const CreateScreen = ({navigation}) => {
           </View>
         </Modal>
       </ScrollView>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior="height"
         className="px-5 py-3"
         style={{
@@ -378,19 +399,6 @@ const CreateScreen = ({navigation}) => {
           // overflow: 'hidden',
         }}
         keyboardVerticalOffset={height * 0.4}>
-        {/* <BlurView
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            right: 0,
-          }}
-          blurType="light"
-          blurAmount={32}
-          blurRadius={25}
-          overlayColor="#ffffff30"
-        /> */}
         <TouchableWithoutFeedback>
           <View className="w-full flex-row justify-end" style={{gap: 12}}>
             <TouchableOpacity
@@ -439,7 +447,7 @@ const CreateScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView> */}
     </View>
   );
 };
