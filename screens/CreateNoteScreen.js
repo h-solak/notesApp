@@ -23,6 +23,7 @@ import uuid from 'react-native-uuid';
 import {BlurView} from '@react-native-community/blur';
 import Modal from 'react-native-modal';
 import EmojiPicker from 'rn-emoji-keyboard';
+import moment from 'moment';
 
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
@@ -39,6 +40,7 @@ const CreateScreen = ({navigation}) => {
   });
   const [numOfLines, setNumOfLines] = useState(0);
   const [chosenCategories, setChosenCategories] = useState([]);
+  const [wordCount, setWordCount] = useState(0);
 
   const allCategories = useSelector(state => state.note.categories);
   const crrNote = useSelector(state => state.note.crrNote);
@@ -105,39 +107,30 @@ const CreateScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log(crrNote);
-  }, [crrNote]);
-  useEffect(() => {
     handleChange();
   }, [noteDetails]);
 
+  useEffect(() => {
+    const trimmedText = noteDetails?.text.trim();
+    const totalWords = trimmedText
+      .split(' ')
+      .filter(item => item !== '').length;
+    setWordCount(totalWords);
+  }, [noteDetails.text]);
+
   return (
     <View>
-      <ScrollView
-        className="relative h-full w-full px-4 py-4"
-        showsVerticalScrollIndicator={false}
-        style={{backgroundColor: noteDetails.color}}>
-        <View className="flex-row items-center justify-between">
-          {/* <TouchableOpacity
-          className="bg-noteGrey-900 w-8 h-8 items-center justify-center rounded-xl"
-          onPress={() => navigation.navigate('Home')}>
-          <EntypoIcon name="chevron-left" size={28} color="#929292" />
-        </TouchableOpacity> */}
+      <View
+        className="relative pt-4"
+        // showsVerticalScrollIndicator={false}
+        style={{height: height, backgroundColor: noteDetails.color}}>
+        <View className="flex-row items-center justify-between px-4">
           <TouchableOpacity
             className="w-9 h-9 items-center justify-center rounded-xl py-1 "
             style={{
               overflow: 'hidden',
             }}
-            onPress={() => {
-              if (noteDetails.title.length > 0 || noteDetails.text.length > 0) {
-                ToastAndroid.show(
-                  'Your note is saved',
-                  ToastAndroid.SHORT,
-                  ToastAndroid.CENTER,
-                );
-              }
-              navigation.goBack();
-            }}>
+            onPress={() => navigation.goBack()}>
             <BlurView
               style={{
                 position: 'absolute',
@@ -151,11 +144,7 @@ const CreateScreen = ({navigation}) => {
               blurRadius={25}
               overlayColor="#ffffff30"
             />
-            {noteDetails.title.length > 0 || noteDetails.text.length > 0 ? (
-              <MaterialIcon name="done" size={24} color="#fff" />
-            ) : (
-              <EntypoIcon name={'chevron-left'} size={28} color="#fff" />
-            )}
+            <MaterialIcon name="done" size={24} color="#fff" />
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
@@ -219,29 +208,36 @@ const CreateScreen = ({navigation}) => {
                   <TouchableOpacity
                     className="py-1"
                     onPress={() => {
-                      navigation.navigate('EditCategories');
-                      // setOptionsModal(!optionsModal);
-                      // setCategoriesModal(!categoriesModal);
+                      setOptionsModal(!optionsModal);
+                      setCategoriesModal(!categoriesModal);
                     }}>
                     <Text className="text-base text-white py-1">
                       Categories
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="py-1 flex-1 flex-row items-center align-middle justify-between"
+                    className="py-1 flex-1 flex-row items-center justify-between"
+                    style={{gap: 6}}
                     onPress={() => {
                       setOptionsModal(!optionsModal);
                       setColorPickerVisible(!colorPickerVisible);
                     }}>
                     <Text className="text-base text-white">Color</Text>
                     <View
-                      className="rounded-full border border-white "
+                      className="rounded-full border border-white"
                       style={{
                         backgroundColor: noteDetails.color,
-                        width: 18,
-                        height: 18,
-                      }}
-                    />
+                        width: 16,
+                        height: 16,
+                      }}></View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="py-1"
+                    onPress={() => {
+                      dispatch(deleteNote(crrNote?.id));
+                      navigation.goBack();
+                    }}>
+                    <Text className="text-base text-white py-1">Delete</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     className="py-1"
@@ -253,9 +249,9 @@ const CreateScreen = ({navigation}) => {
             </View>
           </View>
         </View>
-        <ScrollView className="mt-2 flex-col">
+        <ScrollView showsVerticalScrollIndicator={false} className="mt-5 px-4">
           <TextInput
-            className="flex-1 bg-transparent text-white text-2xl font-semibold"
+            className="bg-red-50 flex-1 bg-transparent text-white text-2xl font-semibold"
             multiline={true}
             maxLength={50}
             placeholder="Title"
@@ -270,7 +266,7 @@ const CreateScreen = ({navigation}) => {
             style={{textAlignVertical: 'top'}}
           />
           <TextInput
-            className="pb-24 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
+            className="pb-80 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
             multiline={true}
             // onTextLayout={onTextLayout}
             placeholder="Note"
@@ -285,14 +281,51 @@ const CreateScreen = ({navigation}) => {
             style={{fontWeight: '400'}}
           />
         </ScrollView>
-        <View style={{flex: 1}}>
-          <NoteColorPicker
-            noteDetails={noteDetails}
-            setNoteDetails={setNoteDetails}
-            colorPickerVisible={colorPickerVisible}
-            setColorPickerVisible={setColorPickerVisible}
-          />
+        {/* Notes Bottombar */}
+        <View
+          className="absolute bottom-0 flex-1 px-3 py-3 flex-row justify-between items-center"
+          style={{
+            overflow: 'hidden',
+            width: width,
+            // position: 'absolute',
+            // bottom: 0,
+            backgroundColor: `${noteDetails?.color}`,
+          }}>
+          {wordCount > 0 && <Text className="text-xs">{wordCount} Words</Text>}
+          {/* CATEGORIES WILL BE LISTED AT THE END OF THE TEXT INPUT AND USER WILL BE ABLE TO REMOVE OR ADD FROM THERE*/}
+          {/* {chosenCategories?.length > 0 && (
+            <View className="flex-row" style={{gap: 4}}>
+              {allCategories?.map(item => {
+                if (chosenCategories?.includes(item.id)) {
+                  return <Text key={item.id}>{item.name}</Text>;
+                }
+              })}
+            </View>
+          )} */}
         </View>
+
+        {/* <BlurView
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            right: 0,
+          }}
+          blurType="light"
+          blurAmount={32}
+          blurRadius={25}
+          overlayColor="#ffffff80"
+        /> */}
+      </View>
+      {/* Modals */}
+      <>
+        <NoteColorPicker
+          noteDetails={noteDetails}
+          setNoteDetails={setNoteDetails}
+          colorPickerVisible={colorPickerVisible}
+          setColorPickerVisible={setColorPickerVisible}
+        />
         <Modal
           animationIn="fadeIn"
           animationOut="fadeOut"
@@ -320,15 +353,15 @@ const CreateScreen = ({navigation}) => {
               <Text className="text-white"> Done</Text>
             </TouchableOpacity>
             {/* <TextInput
-            className="self-center text-3xl"
-            value={noteDetails.emoji}
-            // onChange={() =>
-            //   setNoteDetails(noteDetails => ({
-            //     ...noteDetails,
-            //     noteDetails: '✍️',
-            //   }))
-            // }
-          /> */}
+          className="self-center text-3xl"
+          value={noteDetails.emoji}
+          // onChange={() =>
+          //   setNoteDetails(noteDetails => ({
+          //     ...noteDetails,
+          //     noteDetails: '✍️',
+          //   }))
+          // }
+        /> */}
             <EmojiPicker
               onEmojiSelected={emojiObject =>
                 setNoteDetails(noteDetails => ({
@@ -387,7 +420,7 @@ const CreateScreen = ({navigation}) => {
             </View>
           </View>
         </Modal>
-      </ScrollView>
+      </>
       {/* <KeyboardAvoidingView
         behavior="height"
         className="px-5 py-3"
@@ -407,7 +440,7 @@ const CreateScreen = ({navigation}) => {
                 overflow: 'hidden',
               }}
               onPress={() => {
-                navigation.navigate('Home');
+                navigation.goBack();
               }}>
               <BlurView
                 style={{
