@@ -8,7 +8,9 @@ import EditCategoriesModal from './EditCategoriesModal';
 const Categories = ({navigation}) => {
   const scrollRef = useRef();
   const dispatch = useDispatch();
-  const filteredNotes = useSelector(state => state.note.filteredNotes);
+  const notesFilteredByCategory = useSelector(
+    state => state.note.notesFilteredByCategory,
+  );
   const categories = useSelector(state => state.note.categories);
   const selectedCategory = useSelector(state => state.note.selectedCategory);
   let allCategories = [{id: 0, name: 'All'}].concat(categories);
@@ -17,7 +19,7 @@ const Categories = ({navigation}) => {
 
   useEffect(() => {
     allCategories = [{id: 0, name: 'All'}].concat(categories);
-  }, [categories, filteredNotes]);
+  }, [categories, notesFilteredByCategory]);
 
   useEffect(() => {
     //scroll to the start if the category changes
@@ -55,7 +57,8 @@ const Categories = ({navigation}) => {
                 item.id === selectedCategory ? 'text-black' : 'text-white'
               } font-bold text-sm`}>
               {item.name}{' '}
-              {item.id === selectedCategory && `(${filteredNotes?.length})`}
+              {item.id === selectedCategory &&
+                `(${notesFilteredByCategory?.length})`}
             </Text>
           </TouchableOpacity>
         ))}

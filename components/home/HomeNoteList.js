@@ -17,7 +17,9 @@ import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
-  const filteredNotes = useSelector(state => state.note.filteredNotes);
+  const notesFilteredByCategory = useSelector(
+    state => state.note.notesFilteredByCategory,
+  );
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {
       let oldArr = selectedNoteIds;
@@ -52,9 +54,9 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   return (
     <View className="h-full bg-red mt-3 pb-24">
       {/*Individual Notes*/}
-      {filteredNotes?.length > 0 ? (
+      {notesFilteredByCategory?.length > 0 ? (
         <ScrollView className="mt-3 px-4" style={{width: width}}>
-          {filteredNotes?.map((item, index) => (
+          {notesFilteredByCategory?.map((item, index) => (
             <StandartNote
               key={index}
               id={item.id}

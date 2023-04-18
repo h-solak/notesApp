@@ -21,14 +21,14 @@ const sortByDate = arr => {
 };
 
 const refilterAfterUpdate = (allNotes, selectedCategory) => {
-  //update filteredNotes after changes
+  //update notesFilteredByCategory after changes
   if (selectedCategory == 0 || !selectedCategory) {
     return allNotes;
   } else {
-    let newFilteredNotes = allNotes?.filter(item =>
+    let newnotesFilteredByCategory = allNotes?.filter(item =>
       item.categories?.includes(selectedCategory),
     );
-    return newFilteredNotes;
+    return newnotesFilteredByCategory;
   }
 };
 
@@ -55,16 +55,20 @@ export const noteSlice = createSlice({
   name: 'note',
   initialState: {
     allNotes: [], //All notes without filter (It will only be used in this slice)
-    filteredNotes: [], //Notes filtered by categories
     archivedNotes: [],
     trashedNotes: [],
-    selectedCategory: 'All',
+    /*--------------*/
     searchText: '', //last search input (stored for updating searched notes in case of a change)
     searchedNotes: [],
+    /*--------------*/
     selectedNoteType: '', //Favorites, alarmed notes, notes with images...
-    notesFilteredByType: [], //
-    crrNote: {}, //Selected note to edit
+    notesFilteredByType: [],
+    /*--------------*/
+    notesFilteredByCategory: [], //Notes filtered by custom categories user created
     categories: [],
+    selectedCategory: 'All',
+    /*--------------*/
+    crrNote: {}, //Selected note to edit
   },
   reducers: {
     createNote(state, action) {
@@ -87,7 +91,7 @@ export const noteSlice = createSlice({
       let newNotes = state.allNotes;
       newNotes.push(action.payload);
       state.allNotes = sortByDate(newNotes);
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
@@ -102,7 +106,7 @@ export const noteSlice = createSlice({
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
@@ -117,7 +121,7 @@ export const noteSlice = createSlice({
         newTrashedNotes?.push(trashedNote);
         state.trashedNotes = newTrashedNotes;
         state.allNotes = state.allNotes?.filter(item => item.id !== noteID);
-        state.filteredNotes = refilterAfterUpdate(
+        state.notesFilteredByCategory = refilterAfterUpdate(
           state.allNotes,
           state.selectedCategory,
         );
@@ -138,7 +142,7 @@ export const noteSlice = createSlice({
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
       );
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
@@ -155,7 +159,7 @@ export const noteSlice = createSlice({
       selectedNote.isFavorite = !selectedNote.isFavorite;
       otherNotes.push(selectedNote);
       state.allNotes = sortByDate(otherNotes);
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
@@ -182,7 +186,7 @@ export const noteSlice = createSlice({
       let editedNote = action.payload;
       newNotes.push(editedNote);
       state.allNotes = sortByDate(newNotes);
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
@@ -235,9 +239,9 @@ export const noteSlice = createSlice({
       /* SECONDLY - Filtering */
       if (action.payload === 0) {
         //no filter (All)
-        state.filteredNotes = state.allNotes;
+        state.notesFilteredByCategory = state.allNotes;
       } else {
-        state.filteredNotes = state.allNotes?.filter(note =>
+        state.notesFilteredByCategory = state.allNotes?.filter(note =>
           note.categories?.includes(action.payload),
         );
       }
@@ -270,7 +274,7 @@ export const noteSlice = createSlice({
     },
     resetNotes(state) {
       state.allNotes = [];
-      state.filteredNotes = refilterAfterUpdate(
+      state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
       );
