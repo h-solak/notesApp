@@ -35,10 +35,6 @@ const NoteTypeScreen = ({navigation}) => {
     }
   };
 
-  useEffect(() => {
-    console.log(selectedNoteIds);
-  }, [selectedNoteIds]);
-
   //if user presses on back button when select mode on
   useEffect(() => {
     const backAction = () => {

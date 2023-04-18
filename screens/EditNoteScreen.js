@@ -112,9 +112,9 @@ const EditNoteScreen = ({navigation}) => {
     setChosenCategories(crrNote?.categories);
   }, [crrNote]);
 
+  //save note on every change
   useEffect(() => {
     handleChange();
-    console.log(chosenCategories);
   }, [noteDetails, chosenCategories]);
 
   useEffect(() => {

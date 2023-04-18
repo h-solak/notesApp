@@ -131,7 +131,7 @@ const NoteTypeCarousels = ({navigation}) => {
                 backgroundColor: 'rgba(255,255,255,0.3)',
                 zIndex: 99,
               }}
-              onPress={() => console.log('goofy')}>
+              onPress={() =>null}>
               <AntIcon name="hearto" size={22} style={{color: '#fff'}} />
             </TouchableOpacity> */}
             <Text

@@ -129,7 +129,8 @@ const EditCategoriesModal = ({modal, setModal}) => {
                   <TouchableOpacity
                     className="p-1 rounded-full flex-row items-center justify-center align-middle"
                     style={{alignSelf: 'center'}}
-                    onPress={() => console.log('Change Category Name')}>
+                    // onPress={() => console.log('Change Category Name')}
+                  >
                     {isEditing !== item.id ? (
                       <MaterialIcon
                         name={'edit'}
