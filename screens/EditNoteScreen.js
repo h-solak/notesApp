@@ -240,6 +240,14 @@ const EditNoteScreen = ({navigation}) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     className="py-1"
+                    onPress={() => {
+                      dispatch(deleteNote(crrNote?.id));
+                      navigation.goBack();
+                    }}>
+                    <Text className="text-base text-white py-1">Delete</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="py-1"
                     onPress={() => setOptionsModal(false)}>
                     <Text className="text-base text-white py-1">Share</Text>
                   </TouchableOpacity>
