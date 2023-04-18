@@ -10,11 +10,10 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {BlurView, VibrancyView} from '@react-native-community/blur';
 const Bottombar = ({screen, navigation}) => {
   const grey = {color: 'rgba(255,255,255,0.7)'};
+
   return (
-    <View
-      className="absolute bottom-0 px-6 py-0 w-full self-center flex-row items-center justify-between"
-      style={{backgroundColor: 'rgba(0,0,0,1)'}}>
-      {/* <View
+    <View className="absolute bottom-4 py-0 self-center flex-row items-center justify-center">
+      <View
         className="relative flex-row justify-center items-center rounded-full px-3 py-2"
         style={{
           zIndex: 9999,
@@ -61,9 +60,15 @@ const Bottombar = ({screen, navigation}) => {
             />
           </TouchableOpacity>
         </View>
-      </View> */}
+      </View>
+    </View>
+  );
+};
 
-      <TouchableOpacity
+export default Bottombar;
+
+{
+  /* <TouchableOpacity
         className="p-2"
         onPress={() => navigation.navigate('Home')}>
         <AntIcon
@@ -104,9 +109,5 @@ const Bottombar = ({screen, navigation}) => {
           size={28}
           style={{color: screen === 'Calendar' ? '#fff' : '#6d6d6d'}}
         />
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-export default Bottombar;
+      </TouchableOpacity> */
+}
