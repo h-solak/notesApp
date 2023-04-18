@@ -1,24 +1,35 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Topbar = ({navigation}) => {
+  const {height, width} = useWindowDimensions();
   return (
-    <View className="w-full mt-5 flex-row justify-between items-top">
-      <View className="pl-4 basis-6/12 flex-row items-top" style={{gap: 4}}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <IonIcon name={'menu'} size={32} color="#fff" />
-        </TouchableOpacity>
-        <Text className="text-white text-2xl font-bold">Noteflow</Text>
-      </View>
+    <View className="w-full mt-5 flex-row justify-between items-center">
+      <TouchableOpacity
+        className="pl-4 flex-row items-center"
+        style={{gap: 4, width: width / 2}}
+        onPress={() => navigation.openDrawer()}>
+        <MCIcon name={'menu'} size={28} color="#fff" />
+        <Text className="text-white font-bold" style={{fontSize: 22}}>
+          Noteflow
+        </Text>
+      </TouchableOpacity>
 
-      <View className="pr-4 basis-6/12">
+      <View className="pr-4" style={{width: width / 2}}>
         <View
           className="w-full flex-row items-center justify-end"
-          style={{gap: 10}}>
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <IonIcon name={'search'} size={28} color="#fff" />
-          </TouchableOpacity> */}
+          style={{gap: 12}}>
+          <TouchableOpacity onPress={() => null}>
+            <MCIcon name={'calendar-today'} size={28} color="#fff" />
+          </TouchableOpacity>
           <TouchableOpacity>
             <Image
               source={{
