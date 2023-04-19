@@ -48,10 +48,11 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   }, [selectedNoteIds]);
 
   return (
-    <View className="h-full bg-red mt-3 pb-24">
+    <View className="mt-3 pb-24">
       {/*Individual Notes*/}
       {notesFilteredByCategory?.length > 0 ? (
-        <ScrollView className="mt-3 px-4" style={{width: width}}>
+        //notes have px-2, other parts of the home screen have px-4
+        <ScrollView className="mt-3 px-2" style={{width: width}}>
           {notesFilteredByCategory?.map((item, index) => (
             <StandartNote
               key={index}

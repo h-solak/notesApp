@@ -96,7 +96,7 @@ const CreateScreen = ({navigation}) => {
   };
 
   const handleCategories = chosenItemId => {
-    if (!chosenCategories.includes(chosenItemId)) {
+    if (!chosenCategories?.includes(chosenItemId)) {
       setChosenCategories(old => [...old, chosenItemId]);
     } else {
       let newChosenCategories = chosenCategories?.filter(
@@ -408,13 +408,13 @@ const CreateScreen = ({navigation}) => {
                   key={index}>
                   <IonIcon
                     name={
-                      chosenCategories.includes(item.id)
+                      chosenCategories?.includes(item.id)
                         ? 'checkmark-circle'
                         : 'checkmark-circle-outline'
                     }
                     size={24}
                     style={{
-                      color: chosenCategories.includes(item.id)
+                      color: chosenCategories?.includes(item.id)
                         ? '#fff'
                         : '#929292',
                     }}
