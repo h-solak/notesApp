@@ -6,16 +6,10 @@ import {
   Button,
   useWindowDimensions,
 } from 'react-native';
-import {Swipeable} from 'react-native-gesture-handler';
+// import {Swipeable} from 'react-native-gesture-handler';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
-import {
-  archiveNote,
-  deleteNote,
-  favNote,
-  selectNote,
-  permanentlyDeleteNote,
-} from '../../redux/slices/noteSlice';
+import {favNote, selectNote} from '../../redux/slices/noteSlice';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 

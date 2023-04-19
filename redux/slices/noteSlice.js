@@ -96,8 +96,7 @@ export const noteSlice = createSlice({
         state.selectedCategory,
       );
     },
-    deleteNote(state, action) {
-      //send to trash
+    trashNote(state, action) {
       let index = state.allNotes?.findIndex(item => item.id === action.payload);
       let trashedNote = state.allNotes[index];
       let newTrashedNotes = state.trashedNotes;
@@ -111,7 +110,7 @@ export const noteSlice = createSlice({
         state.selectedCategory,
       );
     },
-    deleteMultipleNotes(state, action) {
+    trashMultipleNotes(state, action) {
       let selectedNotes = action.payload; //array of IDs
       console.log('abuuuu', selectedNotes);
       selectedNotes.map(noteID => {
@@ -286,8 +285,8 @@ export const noteSlice = createSlice({
 export const {
   createNote,
   addNote,
-  deleteNote,
-  deleteMultipleNotes,
+  trashNote,
+  trashMultipleNotes,
   permanentlyDeleteNote,
   archiveNote,
   favNote,

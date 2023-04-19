@@ -14,7 +14,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
 import {FlatList} from 'react-native-gesture-handler';
-import {deleteMultipleNotes} from '../redux/slices/noteSlice';
+import {trashMultipleNotes} from '../redux/slices/noteSlice';
 
 /* List of favorite notes, alarmed notes... */
 const NoteTypeScreen = ({navigation}) => {
@@ -157,7 +157,7 @@ const NoteTypeScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center flex-row"
               onPress={() => {
-                dispatch(deleteMultipleNotes(selectedNoteIds));
+                dispatch(trashMultipleNotes(selectedNoteIds));
                 setSelectedNoteIds([]);
               }}>
               <MaterialIcon

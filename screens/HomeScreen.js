@@ -12,7 +12,7 @@ import Topbar from '../components/home/Topbar';
 import NotesList from '../components/home/HomeNoteList';
 import Bottombar from '../components/Bottombar';
 import Categories from '../components/home/Categories';
-import {deleteMultipleNotes, resetNotes} from '../redux/slices/noteSlice';
+import {trashMultipleNotes, resetNotes} from '../redux/slices/noteSlice';
 import {useDispatch} from 'react-redux';
 import NoteTypeCarousels from '../components/home/NoteTypeCarousels';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -92,7 +92,7 @@ const HomeScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center flex-row"
               onPress={() => {
-                dispatch(deleteMultipleNotes(selectedNoteIds));
+                dispatch(trashMultipleNotes(selectedNoteIds));
                 setSelectedNoteIds([]);
               }}>
               <MaterialIcon

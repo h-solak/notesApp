@@ -26,7 +26,7 @@ import moment from 'moment';
 /* Components */
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteNote, editNote} from '../redux/slices/noteSlice';
+import {trashNote, editNote} from '../redux/slices/noteSlice';
 
 const EditNoteScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
@@ -241,7 +241,7 @@ const EditNoteScreen = ({navigation}) => {
                   <TouchableOpacity
                     className="py-1"
                     onPress={() => {
-                      dispatch(deleteNote(crrNote?.id));
+                      dispatch(trashNote(crrNote?.id));
                       navigation.goBack();
                     }}>
                     <Text className="text-base text-white py-1">Delete</Text>
