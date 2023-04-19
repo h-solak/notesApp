@@ -8,19 +8,32 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 import Topbar from '../components/home/Topbar';
 import NotesList from '../components/home/HomeNoteList';
 import Bottombar from '../components/Bottombar';
 import Categories from '../components/home/Categories';
-import {trashMultipleNotes, resetNotes} from '../redux/slices/noteSlice';
-import {useDispatch} from 'react-redux';
+import {
+  trashMultipleNotes,
+  resetNotes,
+  filterNotesByCategory,
+} from '../redux/slices/noteSlice';
+import {useDispatch, useSelector} from 'react-redux';
 import NoteTypeCarousels from '../components/home/NoteTypeCarousels';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 const HomeScreen = ({navigation}) => {
-  const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused(); //this returns true if the user is on this screen
+  const selectedCategory = useSelector(state => state.note.selectedCategory);
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(filterNotesByCategory(selectedCategory));
+    }
+  }, [isFocused]);
 
   return (
     <View className="h-full w-full">
