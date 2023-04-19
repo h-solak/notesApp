@@ -11,7 +11,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetSearchedNotes, searchNotes} from '../redux/slices/noteSlice';
-import StandartNote from '../components/notes/StandartNote';
+import StandardNote from '../components/notes/StandardNote';
 import Bottombar from '../components/Bottombar';
 
 const SearchScreen = ({navigation}) => {
@@ -78,7 +78,7 @@ const SearchScreen = ({navigation}) => {
           <ScrollView
             className={`flex-col ${searchText?.length < 1 ? 'mt-4' : 'mt-2'}`}>
             {searchedNotes?.map((item, index) => (
-              <StandartNote
+              <StandardNote
                 key={index}
                 id={item.id}
                 title={item?.title}

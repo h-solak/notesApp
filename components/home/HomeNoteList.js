@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 /* Components */
-import StandartNote from '../notes/StandartNote';
+import StandardNote from '../notes/StandardNote';
 import {useSelector, useDispatch} from 'react-redux';
 import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 
@@ -54,7 +54,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
         //notes have px-2, other parts of the home screen have px-4
         <ScrollView className="mt-3 px-2" style={{width: width}}>
           {notesFilteredByCategory?.map((item, index) => (
-            <StandartNote
+            <StandardNote
               key={index}
               id={item.id}
               title={item?.title}

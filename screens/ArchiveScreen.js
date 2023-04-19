@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import StandartNote from '../components/notes/StandartNote';
+import StandardNote from '../components/notes/StandardNote';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 /* List of favorite notes, alarmed notes... */
@@ -33,7 +33,7 @@ const ArchiveScreen = ({navigation}) => {
         </View>
         {archivedNotes?.length > 0 &&
           archivedNotes?.map((item, index) => (
-            <StandartNote
+            <StandardNote
               key={index}
               id={item?.id}
               title={item?.title}

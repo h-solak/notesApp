@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import StandartNote from '../components/notes/StandartNote';
+import StandardNote from '../components/notes/StandardNote';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -103,7 +103,7 @@ const NoteTypeScreen = ({navigation}) => {
             className="items-center justify-center px-2 pt-2 pb-16"
             style={{width: width}}>
             {notesFilteredByType?.map(item => (
-              <StandartNote
+              <StandardNote
                 key={item.id}
                 id={item.id}
                 title={item?.title}

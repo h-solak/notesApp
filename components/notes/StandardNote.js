@@ -13,7 +13,7 @@ import {favNote, selectNote} from '../../redux/slices/noteSlice';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-const StandartNote = ({
+const StandardNote = ({
   id,
   title,
   text,
@@ -97,4 +97,4 @@ const StandartNote = ({
   );
 };
 
-export default StandartNote;
+export default StandardNote;
