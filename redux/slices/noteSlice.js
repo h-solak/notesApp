@@ -51,9 +51,15 @@ const updateNoteTypeNotesAfterChange = (allNotes, selectedNoteType) => {
   }
 };
 
+/*
+    Notes: allNotes, archivedNotes, trashedNotes, searchedNotes... (goes on)
+   ***Reducing their number reduces the performance of the app (if I tested correctly...)
+*/
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
+    crrNote: {}, //Selected note to edit (you can see the structure of crrNote in EditNoteScreen)
+    /*--------------*/
     allNotes: [], //All notes without filter (It will only be used in this slice)
     archivedNotes: [],
     trashedNotes: [],
@@ -68,7 +74,6 @@ export const noteSlice = createSlice({
     categories: [],
     selectedCategory: 'All',
     /*--------------*/
-    crrNote: {}, //Selected note to edit
   },
   reducers: {
     createNote(state, action) {
@@ -100,7 +105,7 @@ export const noteSlice = createSlice({
       let index = state.allNotes?.findIndex(item => item.id === action.payload);
       let trashedNote = state.allNotes[index];
       let newTrashedNotes = state.trashedNotes;
-      newTrashedNotes?.push(trashedNote);
+      newTrashedNotes?.unshift(trashedNote); //add to the front (user will see the last trashed note at the top)
       state.trashedNotes = newTrashedNotes;
       state.allNotes = state.allNotes?.filter(
         item => item.id !== action.payload,
@@ -112,12 +117,11 @@ export const noteSlice = createSlice({
     },
     trashMultipleNotes(state, action) {
       let selectedNotes = action.payload; //array of IDs
-      console.log('abuuuu', selectedNotes);
       selectedNotes.map(noteID => {
         let index = state.allNotes?.findIndex(item => item.id === noteID);
         let trashedNote = state.allNotes[index];
         let newTrashedNotes = state.trashedNotes;
-        newTrashedNotes?.push(trashedNote);
+        newTrashedNotes?.unshift(trashedNote); //add to the front
         state.trashedNotes = newTrashedNotes;
         state.allNotes = state.allNotes?.filter(item => item.id !== noteID);
         state.notesFilteredByCategory = refilterAfterUpdate(
@@ -126,11 +130,51 @@ export const noteSlice = createSlice({
         );
       });
     },
-    removeFromTrash(state, action) {}, //undelete
-    permanentlyDeleteNote(state, action) {
+    removeNoteFromTrash(state, action) {
+      //restore note
+      /* action.payload: id of the selected note */
+      let index = state.trashedNotes?.findIndex(
+        item => item.id === action.payload,
+      );
+      const crrDate = new Date();
+      let selectedNote = state.trashedNotes[index];
+      selectedNote.updatedAt = crrDate;
       state.trashedNotes = state.trashedNotes?.filter(
         item => item.id !== action.payload,
       );
+      state.allNotes.push(selectedNote);
+      state.allNotes = sortByDate(state.allNotes);
+    },
+    removeMultipleNotesFromTrash(state, action) {
+      //Restore note
+      /* action.payload: array of ids */
+      let selectedNotes = action.payload;
+      selectedNotes?.map(noteID => {
+        const crrDate = new Date();
+        let index = state.trashedNotes?.findIndex(item => item.id === noteID);
+        let selectedNote = state.trashedNotes[index];
+        selectedNote.updatedAt = crrDate;
+        state.trashedNotes = state.trashedNotes?.filter(
+          item => item.id !== noteID,
+        );
+        state.allNotes.push(selectedNote);
+      });
+      state.allNotes = sortByDate(state.allNotes);
+    },
+    permanentlyDeleteNote(state, action) {
+      /* action.payload: id of the selected note */
+      state.trashedNotes = state.trashedNotes?.filter(
+        item => item.id !== action.payload,
+      );
+    },
+    permanentlyDeleteMultipleNotes(state, action) {
+      /* action.payload: array of ids */
+      let selectedNotes = action.payload;
+      selectedNotes?.map(noteID => {
+        state.trashedNotes = state.trashedNotes?.filter(
+          item => item.id !== noteID,
+        );
+      });
     },
     archiveNote(state, action) {
       let index = state.allNotes?.findIndex(item => item.id === action.payload);
@@ -287,7 +331,10 @@ export const {
   addNote,
   trashNote,
   trashMultipleNotes,
+  removeNoteFromTrash,
+  removeMultipleNotesFromTrash,
   permanentlyDeleteNote,
+  permanentlyDeleteMultipleNotes,
   archiveNote,
   favNote,
   selectNote,
