@@ -74,23 +74,25 @@ const TrashScreen = ({navigation}) => {
         </View>
 
         {trashedNotes?.length > 0 ? (
-          trashedNotes?.map((item, index) => (
-            <TrashedNote
-              key={index}
-              id={item?.id}
-              title={item?.title}
-              text={item?.text}
-              color={item?.color}
-              emoji={item?.emoji}
-              category={item?.category}
-              isFavorite={item?.isFavorite}
-              isTrashScreen={true}
-              selectedNoteIds={selectedNoteIds}
-              setSelectedNoteIds={setSelectedNoteIds}
-              handleLongPress={handleLongPress}
-              navigation={navigation}
-            />
-          ))
+          <View className="pb-8">
+            {trashedNotes?.map((item, index) => (
+              <TrashedNote
+                key={index}
+                id={item?.id}
+                title={item?.title}
+                text={item?.text}
+                color={item?.color}
+                emoji={item?.emoji}
+                category={item?.category}
+                isFavorite={item?.isFavorite}
+                isTrashScreen={true}
+                selectedNoteIds={selectedNoteIds}
+                setSelectedNoteIds={setSelectedNoteIds}
+                handleLongPress={handleLongPress}
+                navigation={navigation}
+              />
+            ))}
+          </View>
         ) : (
           <View className="flex-1 h-80 w-full items-center justify-center">
             <Text className="text-noteGrey-300">Nothing to see here</Text>
@@ -117,6 +119,19 @@ const TrashScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center"
               onPress={() => {
+                const allItems = trashedNotes?.map(item => item?.id);
+                setSelectedNoteIds(allItems);
+              }}>
+              <MaterialIcon
+                name={'select-all'}
+                size={22}
+                style={{color: '#ffffff'}}
+              />
+              <Text className="text-md text-white">Select All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="rounded-full items-center justify-center"
+              onPress={() => {
                 dispatch(removeMultipleNotesFromTrash(selectedNoteIds));
                 setSelectedNoteIds([]);
               }}>
@@ -127,19 +142,7 @@ const TrashScreen = ({navigation}) => {
               />
               <Text className="text-md text-white">Restore</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="rounded-full items-center justify-center"
-              onPress={() => {
-                console.log('archive');
-                setSelectedNoteIds([]);
-              }}>
-              <MaterialIcon
-                name={'archive'}
-                size={22}
-                style={{color: '#ffffff'}}
-              />
-              <Text className="text-md text-white">Archive</Text>
-            </TouchableOpacity>
+
             <TouchableOpacity
               className="rounded-full items-center justify-center"
               onPress={() => {
