@@ -164,7 +164,7 @@ export const noteSlice = createSlice({
     permanentlyDeleteNote(state, action) {
       /* action.payload: id of the selected note */
       state.trashedNotes = state.trashedNotes?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
     },
     permanentlyDeleteMultipleNotes(state, action) {
@@ -172,7 +172,7 @@ export const noteSlice = createSlice({
       let selectedNotes = action.payload;
       selectedNotes?.map(noteID => {
         state.trashedNotes = state.trashedNotes?.filter(
-          item => item.id !== noteID,
+          item => item?.id !== noteID,
         );
       });
     },
