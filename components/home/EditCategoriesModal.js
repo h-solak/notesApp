@@ -119,7 +119,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
             {categories?.map((item, index) => (
               <View
                 className={`flex-row p-1 px-2 justify-between items-center rounded-full self-center ${
-                  isEditing === item.id ? 'bg-neutral-700' : 'bg-black'
+                  isEditing === item?.id ? 'bg-neutral-700' : 'bg-black'
                 }`}
                 key={index}
                 style={{
@@ -131,7 +131,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
                     style={{alignSelf: 'center'}}
                     // onPress={() => console.log('Change Category Name')}
                   >
-                    {isEditing !== item.id ? (
+                    {isEditing !== item?.id ? (
                       <MaterialIcon
                         name={'edit'}
                         size={18}
@@ -159,7 +159,7 @@ const EditCategoriesModal = ({modal, setModal}) => {
                       />
                     )}
                   </TouchableOpacity>
-                  {isEditing !== item.id ? (
+                  {isEditing !== item?.id ? (
                     <Text className="text-white">{item?.name}</Text>
                   ) : (
                     <TextInput

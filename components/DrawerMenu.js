@@ -58,7 +58,7 @@ const AppDrawer = props => {
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-sm font-semibold">
-              Archived Notes
+              Archive
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

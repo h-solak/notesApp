@@ -30,7 +30,7 @@ const Categories = ({navigation}) => {
 
     //if selected category is deleted or all categories are deleted, select "all"
     if (
-      !categories?.some(item => item.id === selectedCategory) ||
+      !categories?.some(item => item?.id === selectedCategory) ||
       categories.length === 0
     ) {
       dispatch(filterNotesByCategory(0));
@@ -47,17 +47,17 @@ const Categories = ({navigation}) => {
           <TouchableOpacity
             key={index}
             className={`items-center justify-center rounded-full ${
-              item.id !== selectedCategory ? 'px-2' : 'bg-white px-4'
+              item?.id !== selectedCategory ? 'px-2' : 'bg-white px-4'
             }`}
             onPress={() => {
-              dispatch(filterNotesByCategory(item.id));
+              dispatch(filterNotesByCategory(item?.id));
             }}>
             <Text
               className={`${
-                item.id === selectedCategory ? 'text-black' : 'text-white'
+                item?.id === selectedCategory ? 'text-black' : 'text-white'
               } font-bold text-sm`}>
-              {item.name}{' '}
-              {item.id === selectedCategory &&
+              {item?.name}{' '}
+              {item?.id === selectedCategory &&
                 `(${notesFilteredByCategory?.length})`}
             </Text>
           </TouchableOpacity>
