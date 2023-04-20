@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CalendarSvg from '../../assets/icons/calendarsvgrepo.svg';
+import MenuSvg from '../../assets/icons/hamburgersvgrepo.svg';
 
 const Topbar = ({navigation}) => {
   const {height, width} = useWindowDimensions();
@@ -17,7 +19,7 @@ const Topbar = ({navigation}) => {
         className="pl-4 flex-row items-center"
         style={{gap: 4, width: width / 2}}
         onPress={() => navigation.openDrawer()}>
-        <MCIcon name={'menu'} size={28} color="#fff" />
+        <MenuSvg width={28} height={28} />
         <Text className="text-white font-bold" style={{fontSize: 22}}>
           Noteflow
         </Text>
@@ -28,7 +30,7 @@ const Topbar = ({navigation}) => {
           className="w-full flex-row items-center justify-end"
           style={{gap: 12}}>
           <TouchableOpacity onPress={() => null}>
-            <MCIcon name={'calendar-today'} size={28} color="#fff" />
+            <CalendarSvg width={28} height={28} />
           </TouchableOpacity>
           <TouchableOpacity>
             <Image
