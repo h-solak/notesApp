@@ -101,8 +101,8 @@ const StandardNote = ({
           <DeleteModal
             isModalOpen={deleteModal}
             setIsModalOpen={setDeleteModal}
-            title={'Permanently Delete Notes'}
-            description={'Notes you selected will be deleted.'}
+            title={'Permanently Delete'}
+            description={'This note will be deleted.'}
             dispatch={() => dispatch(permanentlyDeleteNote(id))}
           />
         </>

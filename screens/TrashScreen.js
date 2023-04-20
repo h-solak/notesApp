@@ -16,12 +16,14 @@ import {
   permanentlyDeleteMultipleNotes,
   removeMultipleNotesFromTrash,
 } from '../redux/slices/noteSlice';
+import DeleteModal from '../components/base/DeleteModal';
 
 /* List of favorite notes, alarmed notes... */
 const TrashScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   const dispatch = useDispatch();
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
+  const [deleteModal, setDeleteModal] = useState(false); //for multiple deletes
   const trashedNotes = useSelector(state => state.note.trashedNotes);
 
   const handleLongPress = id => {
@@ -141,8 +143,7 @@ const TrashScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center"
               onPress={() => {
-                dispatch(permanentlyDeleteMultipleNotes(selectedNoteIds));
-                setSelectedNoteIds([]);
+                setDeleteModal(true);
               }}>
               <MaterialIcon
                 name={'delete'}
@@ -152,6 +153,16 @@ const TrashScreen = ({navigation}) => {
               <Text className="text-md text-white">Delete</Text>
             </TouchableOpacity>
           </View>
+          <DeleteModal
+            isModalOpen={deleteModal}
+            setIsModalOpen={setDeleteModal}
+            title={'Permanently Delete Notes'}
+            description={'Notes you selected will be deleted.'}
+            dispatch={() => {
+              dispatch(permanentlyDeleteMultipleNotes(selectedNoteIds));
+              setSelectedNoteIds([]);
+            }}
+          />
         </View>
       )}
     </View>
