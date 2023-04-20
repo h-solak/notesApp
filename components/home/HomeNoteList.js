@@ -52,17 +52,17 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
       {/*Individual Notes*/}
       {notesFilteredByCategory?.length > 0 ? (
         //notes have px-2, other parts of the home screen have px-4
-        <ScrollView className="mt-3 px-2" style={{width: width}}>
+        <ScrollView className="px-2" style={{width: width}}>
           {notesFilteredByCategory?.map((item, index) => (
             <StandardNote
               key={index}
-              id={item.id}
+              id={item?.id}
               title={item?.title}
               text={item?.text}
               color={item?.color}
               emoji={item?.emoji}
-              category={item.category}
-              isFavorite={item.isFavorite}
+              category={item?.category}
+              isFavorite={item?.isFavorite}
               handleLongPress={handleLongPress}
               selectedNoteIds={selectedNoteIds}
               navigation={navigation}

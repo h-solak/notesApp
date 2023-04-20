@@ -16,7 +16,7 @@ import uuid from 'react-native-uuid';
 
 const sortByDate = arr => {
   return arr.sort(function (a, b) {
-    return new Date(b.updatedAt) - new Date(a.updatedAt);
+    return new Date(b?.updatedAt) - new Date(a?.updatedAt);
   });
 };
 
@@ -28,7 +28,7 @@ const refilterAfterUpdate = (allNotes, selectedCategory) => {
     let newnotesFilteredByCategory = allNotes?.filter(item =>
       item.categories?.includes(selectedCategory),
     );
-    return newnotesFilteredByCategory;
+    return sortByDate(newnotesFilteredByCategory);
   }
 };
 
@@ -46,8 +46,8 @@ const updateSearchedNotesAfterUpdate = (allNotes, searchText) => {
 
 const updateNoteTypeNotesAfterChange = (allNotes, selectedNoteType) => {
   if (selectedNoteType === 'Your Favorites') {
-    const newNoteTypeNotes = allNotes.filter(item => item.isFavorite === true);
-    return newNoteTypeNotes;
+    const newNoteTypeNotes = allNotes.filter(item => item?.isFavorite === true);
+    return sortByDate(newNoteTypeNotes);
   }
 };
 
@@ -60,7 +60,7 @@ export const noteSlice = createSlice({
   initialState: {
     crrNote: {}, //Selected note to edit (you can see the structure of crrNote in EditNoteScreen)
     /*--------------*/
-    allNotes: [], //All notes without filter (It will only be used in this slice)
+    allNotes: [], //Non-filtered notes (Excluding: trashedNotes & archivedNotes)
     archivedNotes: [],
     trashedNotes: [],
     /*--------------*/
@@ -79,7 +79,6 @@ export const noteSlice = createSlice({
     createNote(state, action) {
       const crrDate = new Date();
       const newId = uuid.v4();
-
       state.crrNote = {
         id: newId,
         title: '',
@@ -102,7 +101,9 @@ export const noteSlice = createSlice({
       );
     },
     trashNote(state, action) {
-      let index = state.allNotes?.findIndex(item => item.id === action.payload);
+      const index = state.allNotes?.findIndex(
+        item => item.id === action.payload,
+      );
       let trashedNote = state.allNotes[index];
       let newTrashedNotes = state.trashedNotes;
       newTrashedNotes?.unshift(trashedNote); //add to the front (user will see the last trashed note at the top)
@@ -116,24 +117,24 @@ export const noteSlice = createSlice({
       );
     },
     trashMultipleNotes(state, action) {
-      let selectedNotes = action.payload; //array of IDs
+      const selectedNotes = action.payload; //array of IDs
       selectedNotes.map(noteID => {
-        let index = state.allNotes?.findIndex(item => item.id === noteID);
+        const index = state.allNotes?.findIndex(item => item.id === noteID);
         let trashedNote = state.allNotes[index];
         let newTrashedNotes = state.trashedNotes;
         newTrashedNotes?.unshift(trashedNote); //add to the front
         state.trashedNotes = newTrashedNotes;
         state.allNotes = state.allNotes?.filter(item => item.id !== noteID);
-        state.notesFilteredByCategory = refilterAfterUpdate(
-          state.allNotes,
-          state.selectedCategory,
-        );
       });
+      state.notesFilteredByCategory = refilterAfterUpdate(
+        state.allNotes,
+        state.selectedCategory,
+      );
     },
     removeNoteFromTrash(state, action) {
       //restore note
       /* action.payload: id of the selected note */
-      let index = state.trashedNotes?.findIndex(
+      const index = state.trashedNotes?.findIndex(
         item => item.id === action.payload,
       );
       const crrDate = new Date();
@@ -148,10 +149,10 @@ export const noteSlice = createSlice({
     removeMultipleNotesFromTrash(state, action) {
       //Restore note
       /* action.payload: array of ids */
-      let selectedNotes = action.payload;
+      const selectedNotes = action.payload;
       selectedNotes?.map(noteID => {
         const crrDate = new Date();
-        let index = state.trashedNotes?.findIndex(item => item.id === noteID);
+        const index = state.trashedNotes?.findIndex(item => item.id === noteID);
         let selectedNote = state.trashedNotes[index];
         selectedNote.updatedAt = crrDate;
         state.trashedNotes = state.trashedNotes?.filter(
@@ -169,7 +170,7 @@ export const noteSlice = createSlice({
     },
     permanentlyDeleteMultipleNotes(state, action) {
       /* action.payload: array of ids */
-      let selectedNotes = action.payload;
+      const selectedNotes = action.payload;
       selectedNotes?.map(noteID => {
         state.trashedNotes = state.trashedNotes?.filter(
           item => item?.id !== noteID,
@@ -177,17 +178,80 @@ export const noteSlice = createSlice({
       });
     },
     archiveNote(state, action) {
-      let index = state.allNotes?.findIndex(item => item.id === action.payload);
+      const index = state.allNotes?.findIndex(
+        item => item?.id === action.payload,
+      );
       let selectedNote = state.allNotes[index];
       let newArchivedNotes = state.archivedNotes;
-      newArchivedNotes?.push(selectedNote);
+      newArchivedNotes?.unshift(selectedNote);
       state.archivedNotes = newArchivedNotes;
       state.allNotes = state.allNotes?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
+      //updating notes in every screen
       state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
+      );
+      state.searchedNotes = updateSearchedNotesAfterUpdate(
+        state.allNotes,
+        state.searchText,
+      );
+      state.notesFilteredByType = updateNoteTypeNotesAfterChange(
+        state.allNotes,
+        state.selectedNoteType,
+      );
+    },
+    archiveMultipleNotes(state, action) {
+      /* action.payload: array of ids */
+      const selectedNotes = action.payload;
+      selectedNotes?.map(noteID => {
+        const index = state.allNotes?.findIndex(item => item?.id === noteID);
+        let selectedNote = state.allNotes[index];
+        let newArchivedNotes = state.archivedNotes;
+        newArchivedNotes?.unshift(selectedNote);
+        state.archivedNotes = newArchivedNotes;
+        state.allNotes = state.allNotes?.filter(item => item?.id !== noteID);
+      });
+      //updating notes in every screen
+      state.notesFilteredByCategory = refilterAfterUpdate(
+        state.allNotes,
+        state.selectedCategory,
+      );
+      state.searchedNotes = updateSearchedNotesAfterUpdate(
+        state.allNotes,
+        state.searchText,
+      );
+      state.notesFilteredByType = updateNoteTypeNotesAfterChange(
+        state.allNotes,
+        state.selectedNoteType,
+      );
+    },
+    unarchiveNotes(state, action) {
+      /* action.payload: array of ids */
+      const selectedNotes = action.payload;
+      selectedNotes?.map(noteID => {
+        const index = state.archivedNotes?.findIndex(
+          item => item?.id === noteID,
+        );
+        const selectedNote = state.archivedNotes[index];
+        state.allNotes?.push(selectedNote);
+        state.archivedNotes = state.archivedNotes?.filter(
+          item => item?.id !== noteID,
+        );
+      });
+      //updating notes in every screen
+      state.notesFilteredByCategory = refilterAfterUpdate(
+        state.allNotes,
+        state.selectedCategory,
+      );
+      state.searchedNotes = updateSearchedNotesAfterUpdate(
+        state.allNotes,
+        state.searchText,
+      );
+      state.notesFilteredByType = updateNoteTypeNotesAfterChange(
+        state.allNotes,
+        state.selectedNoteType,
       );
     },
     favNote(state, action) {
@@ -202,6 +266,7 @@ export const noteSlice = createSlice({
       selectedNote.isFavorite = !selectedNote.isFavorite;
       otherNotes.push(selectedNote);
       state.allNotes = sortByDate(otherNotes);
+      //updating notes in every screen
       state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
         state.selectedCategory,
@@ -216,6 +281,12 @@ export const noteSlice = createSlice({
       );
     },
     selectNote(state, action) {
+      state.allNotes = [];
+      state.archivedNotes = [];
+      state.trashedNotes = [];
+      state.notesFilteredByCategory = [];
+      state.notesFilteredByType = [];
+      state.searchedNotes = [];
       //choosing a note to edit
       const index = state.allNotes?.findIndex(
         item => item.id === action.payload,
@@ -248,7 +319,7 @@ export const noteSlice = createSlice({
       }
     },
     editCategory(state, action) {
-      let index = state.categories.findIndex(
+      const index = state.categories.findIndex(
         item => item.id === action.payload.id,
       );
       let editedCategory = state.categories[index];
@@ -269,11 +340,11 @@ export const noteSlice = createSlice({
       //if "all" is not selected, add the chosen category to the left
       if (action.payload != 0) {
         const chosenCategoryIndex = state.categories?.findIndex(
-          item => item.id == action.payload,
+          item => item?.id == action.payload,
         );
         let chosenCategory = state.categories[chosenCategoryIndex];
         let sortedCategories = state.categories?.filter(
-          item => item.id !== state.selectedCategory,
+          item => item?.id !== state.selectedCategory,
         );
         sortedCategories?.unshift(chosenCategory);
         state.categories = sortedCategories;
@@ -285,7 +356,7 @@ export const noteSlice = createSlice({
         state.notesFilteredByCategory = state.allNotes;
       } else {
         state.notesFilteredByCategory = state.allNotes?.filter(note =>
-          note.categories?.includes(action.payload),
+          note?.categories?.includes(action.payload),
         );
       }
     },
@@ -336,6 +407,8 @@ export const {
   permanentlyDeleteNote,
   permanentlyDeleteMultipleNotes,
   archiveNote,
+  archiveMultipleNotes,
+  unarchiveNotes,
   favNote,
   selectNote,
   editNote,

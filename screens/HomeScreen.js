@@ -17,6 +17,7 @@ import {
   trashMultipleNotes,
   resetNotes,
   filterNotesByCategory,
+  archiveMultipleNotes,
 } from '../redux/slices/noteSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import NoteTypeCarousels from '../components/home/NoteTypeCarousels';
@@ -27,6 +28,9 @@ const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused(); //this returns true if the user is on this screen
   const selectedCategory = useSelector(state => state.note.selectedCategory);
+  const notesFilteredByCategory = useSelector(
+    state => state.note.notesFilteredByCategory,
+  );
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
 
   useEffect(() => {
@@ -34,6 +38,10 @@ const HomeScreen = ({navigation}) => {
       dispatch(filterNotesByCategory(selectedCategory));
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    setSelectedNoteIds([]);
+  }, [selectedCategory]);
 
   return (
     <View className="h-full w-full">
@@ -90,9 +98,22 @@ const HomeScreen = ({navigation}) => {
           </View>
           <View className="flex-row items-center" style={{gap: 24}}>
             <TouchableOpacity
-              className="rounded-full items-center justify-center flex-row"
+              className="rounded-full items-center justify-center"
               onPress={() => {
-                console.log('archive');
+                const allItems = notesFilteredByCategory?.map(item => item?.id);
+                setSelectedNoteIds(allItems);
+              }}>
+              <MaterialIcon
+                name={'select-all'}
+                size={22}
+                style={{color: '#ffffff'}}
+              />
+              <Text className="text-md text-white">Select All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="rounded-full items-center justify-center"
+              onPress={() => {
+                dispatch(archiveMultipleNotes(selectedNoteIds));
                 setSelectedNoteIds([]);
               }}>
               <MaterialIcon
@@ -103,7 +124,7 @@ const HomeScreen = ({navigation}) => {
               <Text className="text-md text-white">Archive</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="rounded-full items-center justify-center flex-row"
+              className="rounded-full items-center justify-center"
               onPress={() => {
                 dispatch(trashMultipleNotes(selectedNoteIds));
                 setSelectedNoteIds([]);

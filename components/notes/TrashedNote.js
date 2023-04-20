@@ -33,7 +33,7 @@ const StandardNote = ({
   return (
     id && (
       <TouchableHighlight
-        className={`flex-1 mb-3 py-2 flex-row justify-between items-center`}
+        className={`flex-1 mb-3 py-3 px-2 flex-row justify-between items-center`}
         style={{
           backgroundColor: selectedNoteIds?.includes(id) ? `${color}80` : color,
           borderColor: selectedNoteIds?.includes(id)
@@ -58,8 +58,8 @@ const StandardNote = ({
         <>
           <View
             className="flex-row items-center justify-start"
-            style={{width: (width / 1.1) * 0.8}}>
-            <View className="p-2 items-center justify-center rounded-full">
+            style={{gap: 8}}>
+            <View className="items-center justify-center rounded-full">
               <Text
                 className="text-2xl"
                 style={{color: '#000000', zIndex: 9999}}>
@@ -84,7 +84,7 @@ const StandardNote = ({
             </Text> */}
             </View>
           </View>
-          <TouchableHighlight
+          {/* <TouchableHighlight
             className="flex-1 items-center justify-center"
             style={{
               width: (width / 1.1) * 0.2,
@@ -97,7 +97,7 @@ const StandardNote = ({
               size={22}
               style={{color: '#929292'}}
             />
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           <DeleteModal
             isModalOpen={deleteModal}
             setIsModalOpen={setDeleteModal}
