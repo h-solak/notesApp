@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {useDispatch} from 'react-redux';
 import {selectNote, permanentlyDeleteNote} from '../../redux/slices/noteSlice';
 import FW5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import DeleteModal from '../base/DeleteModal';
 
 const StandardNote = ({
   id,
@@ -28,6 +29,7 @@ const StandardNote = ({
 }) => {
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
+  const [deleteModal, setDeleteModal] = useState(false);
   return (
     id && (
       <TouchableHighlight
@@ -89,13 +91,20 @@ const StandardNote = ({
               height: 50,
               // backgroundColor: 'rgba(255,255,255,0.2)',
             }}
-            onPress={() => dispatch(permanentlyDeleteNote(id))}>
+            onPress={() => setDeleteModal(true)}>
             <MaterialIcon
               name={'delete'}
               size={22}
               style={{color: '#929292'}}
             />
           </TouchableHighlight>
+          <DeleteModal
+            isModalOpen={deleteModal}
+            setIsModalOpen={setDeleteModal}
+            title={'Permanently Delete Notes'}
+            description={'Notes you selected will be deleted.'}
+            dispatch={() => dispatch(permanentlyDeleteNote(id))}
+          />
         </>
       </TouchableHighlight>
     )
