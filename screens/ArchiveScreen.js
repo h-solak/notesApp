@@ -61,7 +61,7 @@ const ArchiveScreen = ({navigation}) => {
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
               style={{gap: 8}}>
               <MenuSvg width={28} height={28} />
-              <Text className="text-xl text-white font-bold">Trash</Text>
+              <Text className="text-xl text-white font-bold">Archive</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
