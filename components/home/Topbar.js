@@ -17,7 +17,7 @@ const Topbar = ({navigation}) => {
     <View className="w-full mt-5 flex-row justify-between items-center">
       <TouchableOpacity
         className="pl-4 flex-row items-center"
-        style={{gap: 4, width: width / 2}}
+        style={{gap: 8, width: width / 2}}
         onPress={() => navigation.openDrawer()}>
         <MenuSvg width={28} height={28} />
         <Text className="text-white font-bold" style={{fontSize: 22}}>

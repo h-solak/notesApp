@@ -17,6 +17,8 @@ import {
   removeMultipleNotesFromTrash,
 } from '../redux/slices/noteSlice';
 import DeleteModal from '../components/base/DeleteModal';
+import MenuSvg from '../assets/icons/hamburgersvgrepo.svg';
+import {DrawerActions} from '@react-navigation/native';
 
 /* List of favorite notes, alarmed notes... */
 const TrashScreen = ({navigation}) => {
@@ -60,11 +62,12 @@ const TrashScreen = ({navigation}) => {
         <View className="mb-5 py-1 flex-row items-center justify-between">
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
-              className="w-8 h-8 items-center justify-center rounded-xl"
-              onPress={() => navigation.navigate('Home')}>
-              <Ionicon name="arrow-back" size={24} color="#fff" />
+              className="flex-row items-center justify-center rounded-xl"
+              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+              style={{gap: 8}}>
+              <MenuSvg width={28} height={28} />
+              <Text className="text-xl text-white font-bold">Trash</Text>
             </TouchableOpacity>
-            <Text className="text-xl text-white font-bold">Trash</Text>
           </View>
           <TouchableOpacity
             className="w-8 h-8 items-center justify-center rounded-xl"

@@ -21,6 +21,7 @@ import {
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import HomeSvg from '../assets/icons/homesvgrepo.svg';
 const AppDrawer = props => {
   const {height, width} = useWindowDimensions();
   //TO CLOSE: props.navigation.dispatch(DrawerActions.closeDrawer())
@@ -31,6 +32,14 @@ const AppDrawer = props => {
           <Text className="text-white text-2xl font-bold">Noteflow</Text>
         </View>
         <View className="pt-8 pb-2 options">
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Home')}>
+            <HomeSvg width={19} height={19} />
+            <Text className="text-noteGrey-300 text-md font-semibold">
+              Home
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
             <MCIcons
               name={'calendar-week'}
