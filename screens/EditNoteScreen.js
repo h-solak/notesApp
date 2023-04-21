@@ -411,22 +411,22 @@ const EditNoteScreen = ({navigation}) => {
               {allCategories.map((item, index) => (
                 <TouchableOpacity
                   className="flex-row items-center gap-1"
-                  onPress={() => handleCategories(item.id)}
+                  onPress={() => handleCategories(item?.id)}
                   key={index}>
                   <IonIcon
                     name={
-                      chosenCategories.includes(item.id)
+                      chosenCategories.includes(item?.id)
                         ? 'checkmark-circle'
                         : 'checkmark-circle-outline'
                     }
                     size={24}
                     style={{
-                      color: chosenCategories.includes(item.id)
+                      color: chosenCategories.includes(item?.id)
                         ? '#fff'
                         : '#929292',
                     }}
                   />
-                  <Text className="text-base">{item.name}</Text>
+                  <Text className="text-base">{item?.name}</Text>
                 </TouchableOpacity>
               ))}
             </View>
