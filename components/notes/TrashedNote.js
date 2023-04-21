@@ -49,7 +49,7 @@ const StandardNote = ({
           if (selectedNoteIds?.length > 0) {
             handleLongPress(id);
           } else {
-            // dispatch(selectNote(id));
+            dispatch(selectNote(id));
             // navigation.navigate('EditNote');
             console.log('Cannot see the trashed note!!!');
           }
