@@ -28,7 +28,6 @@ const Categories = ({navigation}) => {
   const [editCategoriesModal, setEditCategoriesModal] = useState(false);
 
   useEffect(() => {
-    console.log('AAAAAAAAAAAAAA');
     //scroll to the start if the category changes
     scrollRef.current?.scrollTo({
       x: 0,

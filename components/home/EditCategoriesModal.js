@@ -31,10 +31,9 @@ const EditCategoriesModal = ({modal, setModal}) => {
       if (categoryInput !== '') {
         dispatch(addCategory(categoryInput));
       }
+      setCategoryInput('');
     } catch (err) {
       console.log(err);
-    } finally {
-      setCategoryInput('');
     }
   };
 
