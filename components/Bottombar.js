@@ -38,9 +38,9 @@ const Bottombar = ({screen, navigation}) => {
         <View className="flex-row items-center justify-center rounded-full gap-1">
           <TouchableOpacity
             className="justify-center items-center bg-black rounded-full"
-            style={{width: 50, height: 50}}
+            style={{width: 64, height: 64}}
             onPress={() => navigation.navigate('CreateNote')}>
-            <Text className="text-white pb-1" style={{fontSize: 30}}>
+            <Text className="text-white pb-1" style={{fontSize: 38}}>
               +
             </Text>
           </TouchableOpacity>
@@ -50,12 +50,12 @@ const Bottombar = ({screen, navigation}) => {
             onPress={() => navigation.navigate('CreateNote')}
             style={{
               backgroundColor: 'rgba(255,255,255,0.2)',
-              width: 50,
-              height: 50,
+              width: 64,
+              height: 64,
             }}>
             <MaterialIcon
               name="keyboard-voice"
-              size={24}
+              size={32}
               style={{color: '#fff'}}
             />
           </TouchableOpacity>
