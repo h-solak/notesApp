@@ -70,6 +70,7 @@ export const noteSlice = createSlice({
     selectedNoteType: '', //Favorites, alarmed notes, notes with images...
     notesFilteredByType: [],
     /*--------------*/
+    homenotesLoading: false,
     notesFilteredByCategory: [], //Notes filtered by custom categories user created
     categories: [],
     selectedCategory: 'All',
@@ -331,6 +332,7 @@ export const noteSlice = createSlice({
       );
     },
     filterNotesByCategory(state, action) {
+      state.homenotesLoading = true;
       /*FIRSTLY - adding the chosen category to the start*/
       state.selectedCategory = action.payload;
       //if "all" is not selected, add the chosen category to the left
@@ -355,6 +357,8 @@ export const noteSlice = createSlice({
           note?.categories?.includes(action.payload),
         );
       }
+
+      state.homenotesLoading = false;
     },
     selectNoteTypeAndFilter(state, action) {
       state.selectedNoteType = action.payload;

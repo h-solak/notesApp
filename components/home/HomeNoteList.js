@@ -20,6 +20,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const notesFilteredByCategory = useSelector(
     state => state.note.notesFilteredByCategory,
   );
+  const homenotesLoading = useSelector(state => state.note.homenotesLoading);
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {
       let oldArr = selectedNoteIds;
@@ -47,10 +48,19 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
     return () => backHandler.remove();
   }, [selectedNoteIds]);
 
+  useEffect(() => {
+    console.log(homenotesLoading);
+    if (homenotesLoading) {
+      console.log('Abu...');
+    }
+  }, [homenotesLoading]);
+
   return (
     <View className="mt-3 pb-24">
       {/*Individual Notes*/}
-      {notesFilteredByCategory?.length > 0 ? (
+      {homenotesLoading ? (
+        <Text>Loading...</Text>
+      ) : notesFilteredByCategory?.length > 0 ? (
         //notes have px-2, other parts of the home screen have px-4
         <ScrollView className="px-2" style={{width: width}}>
           {notesFilteredByCategory?.map((item, index) => (
