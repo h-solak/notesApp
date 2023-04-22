@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, useWindowDimensions} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  ToastAndroid,
+} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import ExclamationSvg from '../../assets/svg/svgrepoexclamation.svg';
@@ -37,8 +43,21 @@ const DeleteModal = ({
           <TouchableOpacity
             className="border-2 border-red-700 bg-red-700 py-1 px-3 rounded-xl"
             onPress={() => {
-              dispatch();
-              setIsModalOpen(!isModalOpen);
+              try {
+                dispatch();
+                setIsModalOpen(!isModalOpen);
+                ToastAndroid.show(
+                  'Note deleted.',
+                  ToastAndroid.SHORT,
+                  ToastAndroid.CENTER,
+                );
+              } catch (err) {
+                ToastAndroid.show(
+                  "Note couldn't be deleted!",
+                  ToastAndroid.SHORT,
+                  ToastAndroid.CENTER,
+                );
+              }
             }}>
             <Text className="text-white text-base">Delete</Text>
           </TouchableOpacity>

@@ -6,6 +6,7 @@ import {
   ScrollView,
   BackHandler,
   useWindowDimensions,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -70,7 +71,7 @@ const TrashScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            className="w-8 h-8 items-center justify-center rounded-xl"
+            className="items-center justify-center rounded-xl"
             onPress={() => navigation.navigate('Home')}>
             <Ionicon name="filter-sharp" size={24} color="#fff" />
           </TouchableOpacity>
@@ -135,11 +136,24 @@ const TrashScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center"
               onPress={() => {
-                dispatch(removeMultipleNotesFromTrash(selectedNoteIds));
-                setSelectedNoteIds([]);
+                try {
+                  dispatch(removeMultipleNotesFromTrash(selectedNoteIds));
+                  setSelectedNoteIds([]);
+                  ToastAndroid.show(
+                    'Note(s) restored.',
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                  );
+                } catch (err) {
+                  ToastAndroid.show(
+                    "Note(s) couldn't be restored!",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                  );
+                }
               }}>
               <MaterialIcon
-                name={'archive'}
+                name={'restore'}
                 size={22}
                 style={{color: '#ffffff'}}
               />
