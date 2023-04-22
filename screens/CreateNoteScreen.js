@@ -149,7 +149,15 @@ const CreateScreen = ({navigation}) => {
               blurRadius={25}
               overlayColor="#ffffff30"
             />
-            <MaterialIcon name="done" size={24} color="#fff" />
+            <MaterialIcon
+              name={
+                noteDetails?.title.length || noteDetails?.text.length > 0
+                  ? 'done'
+                  : 'arrow-back'
+              }
+              size={22}
+              color="#fff"
+            />
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
@@ -171,8 +179,8 @@ const CreateScreen = ({navigation}) => {
                 <EntypoIcon name="dots-three-vertical" size={22} color="#fff" />
               </TouchableOpacity>
               <Modal
-                animationInTiming={1}
-                animationOutTiming={1}
+                animationIn="fadeIn"
+                animationOut="fadeOut"
                 backdropColor="#00000050"
                 isVisible={optionsModal}
                 onBackdropPress={() => setOptionsModal(false)}>
@@ -336,8 +344,15 @@ const CreateScreen = ({navigation}) => {
           animationOut="fadeOut"
           backdropColor="#000"
           isVisible={emojiModal}
+          onBackButtonPress={() => setEmojiModal(false)}
           onBackdropPress={() => setEmojiModal(false)}>
-          <View className="self-center w-2/3 bg-noteGrey-900 py-5 px-5  rounded-2xl">
+          <View
+            className="self-center bg-noteGrey-900 py-6 px-5 rounded-2xl"
+            style={{
+              width: width * 0.6,
+              backgroundColor:
+                noteDetails.color === '#000000' ? '#202020' : noteDetails.color,
+            }}>
             <Text className="text-white text-center text-base">
               Pick an emoji for your note
             </Text>
@@ -352,7 +367,7 @@ const CreateScreen = ({navigation}) => {
               (Press on the emoji to change it)
             </Text>
             <TouchableOpacity
-              className="mt-3 w-full justify-end bg-noteGrey-900 py-2 px-2 rounded-r-xl flex-row items-center"
+              className="mt-3 w-full justify-end py-2 px-2 rounded-r-xl flex-row items-center"
               onPress={() => setEmojiModal(false)}>
               <MaterialIcon name={'done'} size={20} style={{color: '#fff'}} />
               <Text className="text-white"> Done</Text>

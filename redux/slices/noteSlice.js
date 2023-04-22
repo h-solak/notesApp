@@ -102,14 +102,14 @@ export const noteSlice = createSlice({
     },
     trashNote(state, action) {
       const index = state.allNotes?.findIndex(
-        item => item.id === action.payload,
+        item => item?.id === action.payload,
       );
       let trashedNote = state.allNotes[index];
       let newTrashedNotes = state.trashedNotes;
       newTrashedNotes?.unshift(trashedNote); //add to the front (user will see the last trashed note at the top)
       state.trashedNotes = newTrashedNotes;
       state.allNotes = state.allNotes?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
       state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
@@ -119,12 +119,12 @@ export const noteSlice = createSlice({
     trashMultipleNotes(state, action) {
       const selectedNotes = action.payload; //array of IDs
       selectedNotes.map(noteID => {
-        const index = state.allNotes?.findIndex(item => item.id === noteID);
+        const index = state.allNotes?.findIndex(item => item?.id === noteID);
         let trashedNote = state.allNotes[index];
         let newTrashedNotes = state.trashedNotes;
         newTrashedNotes?.unshift(trashedNote); //add to the front
         state.trashedNotes = newTrashedNotes;
-        state.allNotes = state.allNotes?.filter(item => item.id !== noteID);
+        state.allNotes = state.allNotes?.filter(item => item?.id !== noteID);
       });
       state.notesFilteredByCategory = refilterAfterUpdate(
         state.allNotes,
@@ -135,13 +135,13 @@ export const noteSlice = createSlice({
       //restore note
       /* action.payload: id of the selected note */
       const index = state.trashedNotes?.findIndex(
-        item => item.id === action.payload,
+        item => item?.id === action.payload,
       );
       const crrDate = new Date();
       let selectedNote = state.trashedNotes[index];
       selectedNote.updatedAt = crrDate;
       state.trashedNotes = state.trashedNotes?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
       state.allNotes.push(selectedNote);
       state.allNotes = sortByDate(state.allNotes);
@@ -152,11 +152,13 @@ export const noteSlice = createSlice({
       const selectedNotes = action.payload;
       selectedNotes?.map(noteID => {
         const crrDate = new Date();
-        const index = state.trashedNotes?.findIndex(item => item.id === noteID);
+        const index = state.trashedNotes?.findIndex(
+          item => item?.id === noteID,
+        );
         let selectedNote = state.trashedNotes[index];
         selectedNote.updatedAt = crrDate;
         state.trashedNotes = state.trashedNotes?.filter(
-          item => item.id !== noteID,
+          item => item?.id !== noteID,
         );
         state.allNotes.push(selectedNote);
       });
@@ -257,10 +259,10 @@ export const noteSlice = createSlice({
     favNote(state, action) {
       //adding a note to favorites
       const index = state.allNotes?.findIndex(
-        item => item.id === action.payload,
+        item => item?.id === action.payload,
       );
       const otherNotes = state.allNotes?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
       let selectedNote = state.allNotes[index];
       selectedNote.isFavorite = !selectedNote.isFavorite;
@@ -281,21 +283,15 @@ export const noteSlice = createSlice({
       );
     },
     selectNote(state, action) {
-      state.allNotes = [];
-      state.archivedNotes = [];
-      state.trashedNotes = [];
-      state.notesFilteredByCategory = [];
-      state.notesFilteredByType = [];
-      state.searchedNotes = [];
       //choosing a note to edit
       const index = state.allNotes?.findIndex(
-        item => item.id === action.payload,
+        item => item?.id === action.payload,
       );
       state.crrNote = state.allNotes[index];
     },
     editNote(state, action) {
       const newNotes = state.allNotes?.filter(
-        item => item.id !== action.payload.id,
+        item => item?.id !== action.payload.id,
       );
       let editedNote = action.payload;
       newNotes.push(editedNote);
@@ -320,18 +316,18 @@ export const noteSlice = createSlice({
     },
     editCategory(state, action) {
       const index = state.categories.findIndex(
-        item => item.id === action.payload.id,
+        item => item?.id === action.payload.id,
       );
       let editedCategory = state.categories[index];
       editedCategory.name = action.payload.newName.trim();
       state.categories = state.categories.filter(
-        item => item.id !== action.payload.id,
+        item => item?.id !== action.payload.id,
       );
       state.categories.push(editedCategory);
     },
     deleteCategory(state, action) {
       state.categories = state.categories?.filter(
-        item => item.id !== action.payload,
+        item => item?.id !== action.payload,
       );
     },
     filterNotesByCategory(state, action) {
