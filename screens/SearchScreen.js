@@ -76,6 +76,7 @@ const SearchScreen = ({navigation}) => {
         )}
         {searchedNotes?.length > 0 && (
           <ScrollView
+            showsVerticalScrollIndicator={false}
             className={`flex-col ${searchText?.length < 1 ? 'mt-4' : 'mt-2'}`}>
             {searchedNotes?.map((item, index) => (
               <StandardNote
@@ -98,7 +99,7 @@ const SearchScreen = ({navigation}) => {
           </View>
         ) : null} */}
       </View>
-      <Bottombar screen="Search" navigation={navigation} />
+      {/* <Bottombar screen="Search" navigation={navigation} /> */}
     </View>
   );
 };
