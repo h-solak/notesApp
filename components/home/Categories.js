@@ -69,8 +69,8 @@ const Categories = ({navigation}) => {
         </TouchableOpacity> */}
 
         <TouchableHighlight
-          className={`py-1 items-center justify-center rounded-full ${
-            selectedCategory !== 0 ? 'px-3' : 'bg-white px-4'
+          className={`py-1 px-4 items-center justify-center rounded-full ${
+            selectedCategory === 0 && 'bg-white'
           }`}
           onPress={() => {
             dispatch(filterNotesByCategory(0));
@@ -87,8 +87,8 @@ const Categories = ({navigation}) => {
         {categories?.map((item, index) => (
           <TouchableHighlight
             key={index}
-            className={`py-1 items-center justify-center rounded-full ${
-              item?.id !== selectedCategory ? 'px-3' : 'bg-white px-4'
+            className={`py-1 px-4 items-center justify-center rounded-full ${
+              item?.id === selectedCategory && 'bg-white'
             }`}
             onPress={() => {
               dispatch(filterNotesByCategory(item?.id));
