@@ -40,14 +40,16 @@ const AppDrawer = props => {
               Home
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-noteGrey- py-3 flex-row items-center gap-3">
+          <TouchableOpacity
+            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Task')}>
             <MCIcons
               name={'calendar-week'}
               size={20}
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-md font-semibold">
-              Calendar
+              Tasks
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

@@ -111,6 +111,54 @@ const NoteTypeCarousels = ({navigation}) => {
             ))}
           </View>
         </TouchableOpacity> */}
+        <TouchableOpacity
+          className={`rounded-3xl px-5`}
+          style={{width: width * 0.4, backgroundColor: '#ff7979'}}
+          activeOpacity={0.8}
+          onPress={() => {
+            navigation.navigate('Task');
+          }}>
+          {/* <TouchableOpacity
+              className="absolute h-10 w-10 rounded-full items-center justify-center p-2"
+              style={{
+                right: 10,
+                top: 10,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                zIndex: 99,
+              }}
+              onPress={() =>null}>
+              <AntIcon name="hearto" size={22} style={{color: '#fff'}} />
+            </TouchableOpacity> */}
+          <Text
+            className="text-white font-bold text-lg mt-6 pr-4"
+            style={{lineHeight: 24}}>
+            Tasks
+          </Text>
+
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 25,
+              right: '5%',
+              resizeMode: 'contain',
+            }}>
+            <AlarmedNotesSvg width={width * 0.3} height={width * 0.3} />
+          </View>
+
+          {/* <Image
+              className="absolute"
+              source={{uri: item.img}}
+              style={{
+                bottom: 10,
+                right: '5%',
+                width: '100%',
+                height: '60%',
+                resizeMode: 'contain',
+                // borderWidth: 2,
+                // borderColor: '#ffffff',
+              }}
+            /> */}
+        </TouchableOpacity>
         {allTypes.map((item, index) => (
           <TouchableOpacity
             key={index}

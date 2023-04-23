@@ -75,8 +75,51 @@ export const noteSlice = createSlice({
     categories: [],
     selectedCategory: 'All',
     /*--------------*/
+    allTasks: [],
+    tasksFilteredByDate: [],
+    selectedTaskDate: '',
   },
   reducers: {
+    addTask(state, action) {
+      /* action.payload: {} */
+      if (!state.allTasks) {
+        state.allTasks = [];
+      }
+      state.allTasks.push(action.payload);
+      //update tasksfilteredbydate
+      state.tasksFilteredByDate = state.allTasks.filter(
+        item => item.due_date === state.selectedTaskDate,
+      );
+    },
+    filterTasksByDate(state, action) {
+      state.selectedTaskDate = action.payload;
+      /* action.payload: "YYYY-MM-DD" */
+      state.tasksFilteredByDate = state.allTasks.filter(
+        item => item.due_date === action.payload,
+      );
+    },
+    checkTask(state, action) {
+      /* action.payload: "id" */
+      let newAllTasks = state.allTasks;
+      const index = newAllTasks?.findIndex(item => item?.id === action.payload);
+
+      let selectedTask = newAllTasks[index];
+      console.log(selectedTask, 'AAAAAAAAAAAAAAAAAAAAAAA');
+      selectedTask.isDone = !selectedTask.isDone;
+
+      newAllTasks = newAllTasks?.filter(item => item.id !== action.payload);
+      if (selectedTask?.isDone) {
+        newAllTasks.push(selectedTask);
+      } else {
+        newAllTasks.unshift(selectedTask);
+      }
+      state.allTasks = newAllTasks;
+      //update tasksfilteredbydate
+      state.tasksFilteredByDate = state.allTasks.filter(
+        item => item.due_date === state.selectedTaskDate,
+      );
+    },
+
     createNote(state, action) {
       const crrDate = new Date();
       const newId = uuid.v4();
@@ -398,6 +441,9 @@ export const noteSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  addTask,
+  filterTasksByDate,
+  checkTask,
   createNote,
   addNote,
   trashNote,

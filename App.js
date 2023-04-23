@@ -21,6 +21,7 @@ import NoteTypeScreen from './screens/NoteTypeScreen';
 import EditCategoriesScreen from './screens/EditCategoriesScreen';
 import TrashScreen from './screens/TrashScreen';
 import ArchiveScreen from './screens/ArchiveScreen';
+import TaskScreen from './screens/TaskScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -55,6 +56,11 @@ function DrawerNavigation() {
       <Drawer.Screen
         name="NoteType"
         component={NoteTypeScreen}
+        options={{headerShown: false, animation: 'none'}}
+      />
+      <Drawer.Screen
+        name="Task"
+        component={TaskScreen}
         options={{headerShown: false, animation: 'none'}}
       />
       <Drawer.Screen
@@ -101,6 +107,11 @@ function App() {
             <Stack.Screen
               name="CreateNote"
               component={CreateNoteScreen}
+              options={{headerShown: false, animation: 'none'}}
+            />
+            <Stack.Screen
+              name="Task"
+              component={TaskScreen}
               options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
