@@ -48,6 +48,45 @@ const TaskScreen = ({navigation}) => {
     console.log(newTask);
   }, [newTask]);
 
+  const handleTaskSubmit = () => {
+    try {
+      if (newTask.text.length > 0 && newTask.due_date) {
+        console.log({
+          id: uuid.v4(),
+          text: newTask.text,
+          due_date: newTask.due_date,
+          isDone: false,
+        });
+        dispatch(
+          addTask({
+            id: uuid.v4(),
+            text: newTask.text,
+            due_date: newTask.due_date,
+            isDone: false,
+          }),
+        );
+        setNewTask(task => ({
+          ...task,
+          text: '',
+        }));
+        Keyboard.dismiss();
+      } else if (newTask.text.length > 0 && !newTask.due_date) {
+        ToastAndroid.show(
+          'Pick a date for your task',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      ToastAndroid.show(
+        'Something went wrong!',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    }
+  };
+
   return (
     <View className="bg-black pt-4" style={{height: height, width: width}}>
       <View
@@ -85,13 +124,13 @@ const TaskScreen = ({navigation}) => {
             uri: 'https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
           }}
           resizeMode="cover"
-          blurRadius={12}
-          className="py-2"
+          blurRadius={4}
+          className="py-2 px-2"
           style={{flex: 1}}>
           {/* Add Task Input */}
           <View
-            className="px-4 flex-row items-center self-center rounded-"
-            style={{width: width, backgroundColor: '#FFFFFF10', gap: 4}}>
+            className="pl-4 h-12 flex-row items-center self-center rounded-3xl"
+            style={{backgroundColor: '#ffffff30', gap: 4}}>
             {/* <Text
               className={`font-bold ${
                 newTask.text.length > 0 ? 'text-white' : 'text-white80'
@@ -112,55 +151,27 @@ const TaskScreen = ({navigation}) => {
             />
             {newTask?.text?.length > 0 && (
               <TouchableOpacity
-                onPress={() => {
-                  try {
-                    if (newTask.text.length > 0 && newTask.due_date) {
-                      console.log({
-                        id: uuid.v4(),
-                        text: newTask.text,
-                        due_date: newTask.due_date,
-                        isDone: false,
-                      });
-                      dispatch(
-                        addTask({
-                          id: uuid.v4(),
-                          text: newTask.text,
-                          due_date: newTask.due_date,
-                          isDone: false,
-                        }),
-                      );
-                      setNewTask(task => ({
-                        ...task,
-                        text: '',
-                      }));
-                      Keyboard.dismiss();
-                    } else if (newTask.text.length > 0 && !newTask.due_date) {
-                      ToastAndroid.show(
-                        'Pick a date for your task',
-                        ToastAndroid.SHORT,
-                        ToastAndroid.CENTER,
-                      );
-                    }
-                  } catch (err) {
-                    console.log(err);
-                    ToastAndroid.show(
-                      'Something went wrong!',
-                      ToastAndroid.SHORT,
-                      ToastAndroid.CENTER,
-                    );
-                  }
-                }}>
-                <Text>Add</Text>
+                className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
+                onPress={handleTaskSubmit}>
+                <Text className="font-bold">Add</Text>
               </TouchableOpacity>
             )}
           </View>
           {newTask?.due_date && (
-            <ScrollView className="mt-2 px-2">
-              <Text className="font-bold text-base">
-                {moment(newTask?.due_date).format('MMMM Do YYYY')}
-              </Text>
+            <ScrollView className="pt-2 pb-12">
+              <View className="px-2 flex-row items-center" style={{gap: 12}}>
+                <Text className="font-bold text-base">
+                  {moment(newTask?.due_date).format('MMMM Do YYYY')}
+                </Text>
+                <View
+                  className="flex-1 bg-white10"
+                  style={{height: 1.5}}></View>
+                <Text className="text-xs">
+                  {tasksFilteredByDate?.length} tasks
+                </Text>
+              </View>
               {tasksFilteredByDate?.length > 0 ? (
-                <View className="mt-4" style={{gap: 12}}>
+                <View className="pt-2 pb-4" style={{gap: 12}}>
                   {tasksFilteredByDate?.map((item, index) => (
                     <TouchableOpacity
                       key={index}
@@ -197,7 +208,7 @@ const TaskScreen = ({navigation}) => {
                   ))}
                 </View>
               ) : (
-                <Text>Nothing to see</Text>
+                <Text className="mt-24 self-center">Nothing to see.</Text>
               )}
             </ScrollView>
           )}
