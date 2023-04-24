@@ -11,6 +11,8 @@ import {
   ToastAndroid,
   Keyboard,
   TouchableHighlight,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -22,7 +24,7 @@ import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import uuid from 'react-native-uuid';
 import {addTask, checkTask, filterTasksByDate} from '../redux/slices/noteSlice';
 import moment from 'moment';
-import {MotiView} from 'moti';
+import {MotiView, AnimatePresence} from 'moti';
 
 const TaskScreen = ({navigation}) => {
   const inputRef = useRef(null);
@@ -108,6 +110,7 @@ const TaskScreen = ({navigation}) => {
   return (
     <ScrollView
       className="bg-black pt-4"
+      showsVerticalScrollIndicator={false}
       style={{height: height, width: width}}>
       <TouchableOpacity
         className="mb-2 flex-row items-center justify-between"
@@ -127,6 +130,7 @@ const TaskScreen = ({navigation}) => {
           </View>
         </View>
       </TouchableOpacity>
+
       <TaskCalendar
         isFocused={isFocused}
         selectedDate={newTask.due_date}
@@ -139,162 +143,188 @@ const TaskScreen = ({navigation}) => {
         }}
       />
 
-      {/** Delete **/}
-      {/* <View
-        className=""
-        style={{backgroundColor: '#ffffff20', gap: 4}}>
-        {newTask.text?.length === 0 && (
-          <IonIcon name={'add-circle'} size={28} color={'#929292'} />
-        )}
-      </View> */}
-      {/* Rest of the page */}
-      <View className="flex-1">
-        <ImageBackground
-          source={{
-            uri: 'https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-          }}
-          resizeMode="cover"
-          blurRadius={8}
-          className="py-2"
-          style={{flex: 1}}>
-          {/* Add Task Input */}
-
-          {newTask?.due_date && (
-            <View className="pt-2 px-2 pb-12">
-              <View className="px-4 flex-row items-center" style={{gap: 12}}>
-                <Text className="font-bold text-base">
-                  {moment(newTask?.due_date).format('MMMM Do YYYY')}
-                </Text>
-                <View className="flex-1 bg-white10" style={{height: 1.5}}>
-                  {/* Thin Line */}
-                </View>
-                <Text className="text-xs">
-                  {tasksFilteredByDate?.length} tasks
-                </Text>
+      <ImageBackground
+        source={{
+          uri: 'https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        }}
+        resizeMode="cover"
+        blurRadius={8}
+        className="flex-1 py-2">
+        {/* Add Task Input */}
+        {newTask?.due_date && (
+          <View className="pt-2 px-2 pb-12">
+            <View className="px-4 flex-row items-center" style={{gap: 12}}>
+              <Text className="font-bold text-base">
+                {moment(newTask?.due_date).format('MMMM Do YYYY')}
+              </Text>
+              <View className="flex-1 bg-white10" style={{height: 1.5}}>
+                {/* Thin Line */}
               </View>
+              <Text className="text-xs">
+                {tasksFilteredByDate?.length} tasks
+              </Text>
+            </View>
 
-              <View className="pt-4 pb-4" style={{gap: 12}}>
-                {/* Add a task */}
-                <TouchableOpacity
-                  className="pl-3 h-12 flex-row items-center self-center rounded-3xl"
-                  style={{
-                    border: 2,
-                    borderWidth: 2,
-                    backgroundColor: '#ffffff10',
-                    borderColor: '#ffffff10',
-                    gap: 8,
-                  }}
-                  onPress={() => {
-                    setTaskInputIsOpen(true);
-                    if (taskInputIsOpen) {
-                      inputRef.current.focus();
-                    }
-                  }}>
-                  {newTask.text?.length === 0 && (
-                    <IonIcon
-                      name={'add-circle'}
-                      size={28}
-                      color={taskInputIsOpen ? '#ffffff' : '#ffffff90'}
-                    />
-                  )}
-                  {taskInputIsOpen ? (
-                    <MotiView
-                      style={{flex: 1}}
-                      from={{
-                        translateX: -10,
-                        opacity: 0,
-                      }}
-                      animate={{
-                        translateX: 0,
-                        opacity: 1,
-                      }}
-                      transition={{
-                        type: 'spring',
-                        duration: 800,
-                        delay: 50,
-                      }}>
-                      <TextInput
-                        ref={inputRef}
-                        className="py-0 flex-1 rounded-xl text-white font-semibold"
-                        placeholder="What do you need to do?..."
-                        placeholderTextColor={'#ffffff'}
-                        value={newTask?.text}
-                        onChangeText={text => {
-                          setNewTask(task => ({
-                            ...task,
-                            text: text,
-                          }));
-                        }}
-                        onFocus={() => console.log('focused')}
-                        onBlur={() => console.log('UNfocused')}
-                        maxLength={100}
-                        autoFocus
-                      />
-                    </MotiView>
-                  ) : (
-                    <Text
-                      className="py-0 flex-1 rounded-xl font-semibold"
-                      style={{
-                        color: taskInputIsOpen ? '#ffffff' : '#ffffff90',
-                      }}>
-                      Add a task
-                    </Text>
-                  )}
-                  {newTask?.text?.length > 0 && (
-                    <TouchableHighlight
-                      // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
-                      activeOpacity={0.6}
-                      underlayColor="#FFFFFF10"
-                      className="h-12  px-3 justify-center rounded-r-3xl"
-                      onPress={handleTaskSubmit}>
-                      <Text className="font-bold">Add</Text>
-                    </TouchableHighlight>
-                  )}
-                </TouchableOpacity>
-                {/* Tasks */}
-                {tasksFilteredByDate?.map((item, index) => (
+            <View className="flex-1 pt-4 pb-4" style={{gap: 12}}>
+              {/* Add a task */}
+              <KeyboardAvoidingView
+                behavior="height"
+                className=""
+                style={{
+                  flex: 1,
+                }}
+                keyboardVerticalOffset={0}>
+                <TouchableWithoutFeedback>
                   <TouchableOpacity
-                    key={index}
-                    className="py-2 px-2 rounded-3xl flex-row items-center"
+                    className="pl-3 h-12 flex-row items-center self-center rounded-3xl"
                     style={{
                       border: 2,
                       borderWidth: 2,
-                      backgroundColor: !item?.isDone
-                        ? '#ffffff10'
-                        : '#ffffff20',
-                      borderColor: item?.isDone ? '#ffffff10' : '#ffffff20',
+                      backgroundColor: '#ffffff10',
+                      borderColor: '#ffffff10',
                       gap: 8,
-                      opacity: item?.isDone ? 0.5 : 1,
                     }}
-                    onPress={() => dispatch(checkTask(item?.id))}>
-                    <MCIcons
-                      name={
-                        item?.isDone
-                          ? 'checkbox-marked-circle'
-                          : 'checkbox-blank-circle-outline'
+                    onPress={() => {
+                      setTaskInputIsOpen(true);
+                      if (taskInputIsOpen) {
+                        inputRef.current.focus();
                       }
-                      size={24}
-                      color={item?.isDone ? '#ffffff50' : '#ffffff80'}
-                    />
-                    <Text
-                      className="flex-1 text-base"
-                      style={{
-                        textDecorationLine: item?.isDone
-                          ? 'line-through'
-                          : 'none',
-                      }}>
-                      {item.text}
-                    </Text>
+                    }}>
+                    {newTask.text?.length === 0 && (
+                      <IonIcon
+                        name={'add-circle'}
+                        size={28}
+                        color={taskInputIsOpen ? '#ffffff' : '#ffffff90'}
+                      />
+                    )}
+                    <AnimatePresence>
+                      {taskInputIsOpen ? (
+                        <MotiView
+                          style={{flex: 1}}
+                          from={{
+                            translateX: -10,
+                            opacity: 0,
+                          }}
+                          animate={{
+                            translateX: 0,
+                            opacity: 1,
+                          }}
+                          transition={{
+                            type: 'spring',
+                            duration: 800,
+                            delay: 50,
+                          }}>
+                          <TextInput
+                            ref={inputRef}
+                            className="py-0 flex-1 rounded-xl text-white font-semibold"
+                            placeholder="What do you need to do?"
+                            placeholderTextColor={'#ffffff'}
+                            value={newTask?.text}
+                            onChangeText={text => {
+                              setNewTask(task => ({
+                                ...task,
+                                text: text,
+                              }));
+                            }}
+                            onFocus={() => console.log('focused')}
+                            onBlur={() => console.log('UNfocused')}
+                            maxLength={100}
+                            onSubmitEditing={handleTaskSubmit}
+                            autoFocus
+                          />
+                        </MotiView>
+                      ) : (
+                        <Text
+                          className="py-0 flex-1 rounded-xl font-semibold"
+                          style={{
+                            color: taskInputIsOpen ? '#ffffff' : '#ffffff90',
+                          }}>
+                          Add a task
+                        </Text>
+                      )}
+                    </AnimatePresence>
+
+                    {newTask?.text?.length > 0 && (
+                      <TouchableWithoutFeedback>
+                        <TouchableHighlight
+                          // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
+                          activeOpacity={0.6}
+                          underlayColor="#FFFFFF10"
+                          className="h-12  px-3 justify-center rounded-r-3xl"
+                          onPress={handleTaskSubmit}>
+                          <Text className="font-bold">Add</Text>
+                        </TouchableHighlight>
+                      </TouchableWithoutFeedback>
+                    )}
                   </TouchableOpacity>
-                ))}
-              </View>
-              {!tasksFilteredByDate?.length > 0 && (
-                <Text className="mt-24 self-center">No tasks.</Text>
+                </TouchableWithoutFeedback>
+              </KeyboardAvoidingView>
+              {/* Tasks */}
+              {tasksFilteredByDate?.map(
+                (item, index) =>
+                  tasksFilteredByDate && (
+                    <AnimatePresence>
+                      <MotiView
+                        key={index}
+                        style={{flex: 1}}
+                        from={{
+                          opacity: 0,
+                          scale: 0.9,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          scale: 1,
+                        }}
+                        transition={{
+                          type: 'spring',
+                          duration: 800,
+                          delay: 50,
+                        }}>
+                        <TouchableOpacity
+                          className="py-2 px-2 rounded-3xl flex-row items-center"
+                          style={{
+                            border: 2,
+                            borderWidth: 2,
+                            backgroundColor: !item?.isDone
+                              ? '#ffffff10'
+                              : '#ffffff20',
+                            borderColor: item?.isDone
+                              ? '#ffffff10'
+                              : '#ffffff20',
+                            gap: 8,
+                            opacity: item?.isDone ? 0.5 : 1,
+                          }}
+                          onPress={() => dispatch(checkTask(item?.id))}>
+                          <MCIcons
+                            name={
+                              item?.isDone
+                                ? 'checkbox-marked-circle'
+                                : 'checkbox-blank-circle-outline'
+                            }
+                            size={24}
+                            color={item?.isDone ? '#ffffff50' : '#ffffff80'}
+                          />
+                          <Text
+                            className="flex-1 text-base"
+                            style={{
+                              textDecorationLine: item?.isDone
+                                ? 'line-through'
+                                : 'none',
+                            }}>
+                            {item.text}
+                          </Text>
+                        </TouchableOpacity>
+                      </MotiView>
+                    </AnimatePresence>
+                  ),
               )}
             </View>
-          )}
-        </ImageBackground>
-      </View>
+            {!tasksFilteredByDate?.length > 0 && (
+              <Text className="mt-24 self-center">No tasks.</Text>
+            )}
+          </View>
+        )}
+      </ImageBackground>
     </ScrollView>
   );
 };

@@ -8,53 +8,70 @@ import {
 import React, {useState} from 'react';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {useSelector} from 'react-redux';
+import {MotiView} from 'moti';
 
-const TaskCalendar = ({selectedDate, setSelectedDate}) => {
+const TaskCalendar = ({isFocused, selectedDate, setSelectedDate}) => {
   const {height, width} = useWindowDimensions();
   const allTasks = useSelector(state => state.note.allTasks);
 
+  // React.useEffect(()=>{
+
+  // }, [isFocused])
   return (
-    <Calendar
-      onDayPress={day => {
-        setSelectedDate(day.dateString);
-      }}
-      markedDates={{
-        [selectedDate]: {
-          selected: true,
-          disableTouchEvent: true,
-          selectedDotColor: 'orange',
-        },
-      }}
-      style={{
-        height: height * 0.45,
-      }}
-      theme={{
-        backgroundColor: '#00000000',
-        calendarBackground: '#00000000',
-        textSectionTitleColor: '#b6c1cd',
-        textSectionTitleDisabledColor: '#d9e1e8',
-        selectedDayBackgroundColor: '#A824D3',
-        selectedDayTextColor: '#fff',
-        todayTextColor: '#A824D3',
-        dayTextColor: '#ffffff',
-        textDisabledColor: '#ffffff50',
-        dotColor: '#00adf5',
-        selectedDotColor: '#ffffff',
-        arrowColor: '#fff',
-        disabledArrowColor: '#d9e1e8',
-        monthTextColor: '#ffffff',
-        indicatorColor: 'blue',
-        // textDayFontFamily: 'monospace',
-        // textMonthFontFamily: 'monospace',
-        // textDayHeaderFontFamily: 'monospace',
-        textDayFontWeight: '300',
-        textMonthFontWeight: 'bold',
-        textDayHeaderFontWeight: '300',
-        textDayFontSize: 16,
-        textMonthFontSize: 16,
-        textDayHeaderFontSize: 16,
-      }}
-    />
+    isFocused && (
+      <MotiView
+        from={{
+          translateY: -300,
+        }}
+        animate={{
+          translateY: 0,
+        }}
+        transition={{
+          type: 'timing',
+          duration: 500,
+          delay: 50,
+        }}>
+        <Calendar
+          onDayPress={day => {
+            setSelectedDate(day.dateString);
+          }}
+          markedDates={{
+            [selectedDate]: {
+              selected: true,
+              disableTouchEvent: true,
+            },
+          }}
+          showSixWeeks
+          enableSwipeMonths
+          theme={{
+            backgroundColor: '#00000000',
+            calendarBackground: '#00000000',
+            textSectionTitleColor: '#b6c1cd',
+            textSectionTitleDisabledColor: '#d9e1e8',
+            selectedDayBackgroundColor: '#A824D3',
+            selectedDayTextColor: '#fff',
+            todayTextColor: '#A824D3',
+            dayTextColor: '#ffffff',
+            textDisabledColor: '#ffffff50',
+            dotColor: '#00adf5',
+            selectedDotColor: '#ffffff',
+            arrowColor: '#fff',
+            disabledArrowColor: '#d9e1e8',
+            monthTextColor: '#ffffff',
+            indicatorColor: 'blue',
+            // textDayFontFamily: 'monospace',
+            // textMonthFontFamily: 'monospace',
+            // textDayHeaderFontFamily: 'monospace',
+            textDayFontWeight: '300',
+            textMonthFontWeight: 'bold',
+            textDayHeaderFontWeight: '300',
+            textDayFontSize: 16,
+            textMonthFontSize: 18,
+            textDayHeaderFontSize: 16,
+          }}
+        />
+      </MotiView>
+    )
   );
 };
 
