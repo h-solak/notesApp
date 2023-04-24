@@ -70,16 +70,7 @@ const HomeScreen = ({navigation}) => {
           navigation={navigation}
         />
       </ScrollView>
-      <View
-        className="bg-noteGrey-900 h-full w-full px-4 flex-row justify-between items-center"
-        style={{height: height * 0.075}}>
-        <View className="flex-row items-center" style={{gap: 12}}>
-          <TouchableOpacity className="" onPress={() => setSelectedNoteIds([])}>
-            <MaterialIcon name={'close'} size={22} style={{color: '#ffffff'}} />
-          </TouchableOpacity>
-          <Text>{selectedNoteIds?.length} selected</Text>
-        </View>
-      </View>
+
       {selectedNoteIds?.length > 0 && (
         <View
           className="absolute top-0 bg-noteGrey-900 h-full w-full px-4 flex-row justify-between items-center"
