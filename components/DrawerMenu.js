@@ -27,25 +27,45 @@ const AppDrawer = props => {
   //TO CLOSE: props.navigation.dispatch(DrawerActions.closeDrawer())
   return (
     <DrawerContentScrollView>
-      <View className="py-5 px-4" style={{height: height}}>
-        <View className="flex-row">
+      <View
+        className="py-5"
+        style={{
+          height: height,
+          backgroundColor: '#000000',
+          // borderRightWidth: 2,
+          // borderRightColor: '#ffffff10',
+          borderRadius: 12,
+        }}>
+        <View className="flex-row px-4">
           <Text className="text-white text-2xl font-bold">Noteflow</Text>
         </View>
-        <View className="pt-8 pb-2 options">
+        {/* Home section */}
+        <View className="pt-8 px-4 justify-between my-2 py-2 border-b border-noteGrey-900">
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Home')}>
-            <HomeSvg width={19} height={19} />
+            <HomeSvg width={22} height={22} />
             <Text className="text-noteGrey-300 text-md font-semibold">
               Home
             </Text>
           </TouchableOpacity>
+        </View>
+        {/* Another section */}
+        <View className="pb-2 px-4 options">
+          {/* <TouchableOpacity
+            className="py-4 border-b border-noteGrey-900 flex-row items-center gap-3"
+            onPress={() => props.navigation.navigate('Home')}>
+            <HomeSvg width={22} height={22} />
+            <Text className="text-noteGrey-300 text-md font-semibold">
+              Home
+            </Text>
+          </TouchableOpacity> */}
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Task')}>
             <MCIcons
               name={'calendar-week'}
-              size={20}
+              size={24}
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-md font-semibold">
@@ -53,7 +73,7 @@ const AppDrawer = props => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('EditCategories')}>
             <MCIcons name={'tag'} size={20} style={{color: '#929292'}} />
             <Text className="text-noteGrey-300 text-sm font-semibold">
@@ -61,11 +81,11 @@ const AppDrawer = props => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Archive')}>
             <MaterialIcon
               name={'archive'}
-              size={20}
+              size={24}
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-sm font-semibold">
@@ -73,22 +93,22 @@ const AppDrawer = props => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Trash')}>
-            <MCIcons name={'trash-can'} size={20} style={{color: '#929292'}} />
+            <MCIcons name={'trash-can'} size={24} style={{color: '#929292'}} />
             <Text className="text-noteGrey-300 text-md font-semibold">
               Trash
             </Text>
           </TouchableOpacity>
         </View>
         {/* Settings and user section */}
-        <View className="flex-1 justify-between my-2 py-2 border-t border-noteGrey-900">
+        <View className="flex-1 justify-between my-2 px-4 py-2 border-t border-noteGrey-900">
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row items-center gap-3"
+            className="py-4 flex-row items-center gap-3"
             onPress={() => props.navigation.navigate('Trash')}>
             <MaterialIcon
               name={'settings'}
-              size={20}
+              size={24}
               style={{color: '#929292'}}
             />
             <Text className="text-noteGrey-300 text-md font-semibold">
@@ -96,7 +116,7 @@ const AppDrawer = props => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="bg-noteGrey- py-3 flex-row justify- items-center gap-3"
+            className="py-4 flex-row justify- items-center gap-3"
             onPress={() => null}>
             <Text className="text-noteGrey-300 text-xs font-semibold">
               Noteflow v1.0 (beta)

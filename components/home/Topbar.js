@@ -14,10 +14,12 @@ import MenuSvg from '../../assets/icons/hamburgersvgrepo.svg';
 const Topbar = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   return (
-    <View className="w-full mt-5 flex-row justify-between items-center">
+    <View
+      className="mt-5 flex-row justify-between items-center"
+      style={{width: width}}>
       <TouchableOpacity
-        className="pl-4 flex-row items-center"
-        style={{gap: 8, width: width / 2}}
+        className="flex-1 pl-4 flex-row items-center"
+        style={{gap: 8}}
         onPress={() => navigation.openDrawer()}>
         <MenuSvg width={28} height={28} />
         <Text className="text-white font-bold" style={{fontSize: 22}}>
@@ -25,10 +27,8 @@ const Topbar = ({navigation}) => {
         </Text>
       </TouchableOpacity>
 
-      <View className="pr-4" style={{width: width / 2}}>
-        <View
-          className="w-full flex-row items-center justify-end"
-          style={{gap: 12}}>
+      <View className="pr-4">
+        <View className="flex-row items-center justify-end" style={{gap: 12}}>
           <TouchableOpacity onPress={() => null}>
             <CalendarSvg width={28} height={28} />
           </TouchableOpacity>

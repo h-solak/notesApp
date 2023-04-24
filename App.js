@@ -46,7 +46,9 @@ function DrawerNavigation() {
           backgroundColor: '#000',
           width: 240,
         },
-        swipeEdgeWidth: 0,
+        swipeEdgeWidth: 200,
+        swipeEnabled: true,
+        swipeMinDistance: 50,
       }}>
       <Drawer.Screen
         name="Home"
