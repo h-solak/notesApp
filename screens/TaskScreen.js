@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,11 @@ import {
   BackHandler,
   ToastAndroid,
   Keyboard,
+  TouchableHighlight,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TaskCalendar from '../components/tasks/TaskCalendar';
 import MenuSvg from '../assets/icons/hamburgersvgrepo.svg';
 import {DrawerActions, useIsFocused} from '@react-navigation/native';
@@ -22,6 +24,7 @@ import {addTask, checkTask, filterTasksByDate} from '../redux/slices/noteSlice';
 import moment from 'moment';
 
 const TaskScreen = ({navigation}) => {
+  const inputRef = useRef(null);
   const isFocused = useIsFocused(); //this returns true if the user is on this screen
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
@@ -30,12 +33,12 @@ const TaskScreen = ({navigation}) => {
   const tasksFilteredByDate = useSelector(
     state => state.note.tasksFilteredByDate,
   );
-  const [selectedDate, setSelectedDate] = useState('');
   const [newTask, setNewTask] = useState({
     id: '',
     text: '',
     due_date: '',
   });
+  const [taskInputIsOpen, setTaskInputIsOpen] = useState(false);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () =>
@@ -85,6 +88,7 @@ const TaskScreen = ({navigation}) => {
           text: '',
         }));
         Keyboard.dismiss();
+        setTaskInputIsOpen(false);
       } else if (newTask.text.length > 0 && !newTask.due_date) {
         ToastAndroid.show(
           'Pick a date for your task',
@@ -104,9 +108,10 @@ const TaskScreen = ({navigation}) => {
 
   return (
     <View className="bg-black pt-4" style={{height: height, width: width}}>
-      <View
+      <TouchableOpacity
         className="mb-2 flex-row items-center justify-between"
-        style={{height: height * 0.05, width: width}}>
+        style={{width: width}}
+        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
         <View
           className="flex-row justify-between items-center px-2"
           style={{width: width}}>
@@ -120,7 +125,7 @@ const TaskScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
       <TaskCalendar
         selectedDate={newTask.due_date}
         setSelectedDate={date => {
@@ -132,6 +137,14 @@ const TaskScreen = ({navigation}) => {
         }}
       />
 
+      {/** Delete **/}
+      {/* <View
+        className=""
+        style={{backgroundColor: '#ffffff20', gap: 4}}>
+        {newTask.text?.length === 0 && (
+          <IonIcon name={'add-circle'} size={28} color={'#929292'} />
+        )}
+      </View> */}
       {/* Rest of the page */}
       <View className="flex-1">
         <ImageBackground
@@ -139,91 +152,111 @@ const TaskScreen = ({navigation}) => {
             uri: 'https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
           }}
           resizeMode="cover"
-          blurRadius={0}
-          className="py-2 px-2"
+          blurRadius={8}
+          className="py-2"
           style={{flex: 1}}>
           {/* Add Task Input */}
-          <View
-            className="pl-4 h-12 flex-row items-center self-center rounded-3xl"
-            style={{backgroundColor: '#ffffff30', gap: 4}}>
-            {/* <Text
-              className={`font-bold ${
-                newTask.text.length > 0 ? 'text-white' : 'text-white80'
-              }`}>
-              +
-            </Text> */}
-            <TextInput
-              className="flex-1 rounded-xl text-white font-semibold"
-              placeholder="Add a task..."
-              placeholderTextColor={'#ffffff80'}
-              value={newTask?.text}
-              onChangeText={text => {
-                setNewTask(task => ({
-                  ...task,
-                  text: text,
-                }));
-              }}
-            />
-            {newTask?.text?.length > 0 && (
-              <TouchableOpacity
-                className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
-                onPress={handleTaskSubmit}>
-                <Text className="font-bold">Add</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+
           {newTask?.due_date && (
-            <ScrollView className="pt-2 pb-12">
-              <View className="px-2 flex-row items-center" style={{gap: 12}}>
+            <ScrollView className="pt-2 px-2 pb-12">
+              <View className="px-4 flex-row items-center" style={{gap: 12}}>
                 <Text className="font-bold text-base">
                   {moment(newTask?.due_date).format('MMMM Do YYYY')}
                 </Text>
-                <View
-                  className="flex-1 bg-white10"
-                  style={{height: 1.5}}></View>
+                <View className="flex-1 bg-white10" style={{height: 1.5}}>
+                  {/* Thin Line */}
+                </View>
                 <Text className="text-xs">
                   {tasksFilteredByDate?.length} tasks
                 </Text>
               </View>
-              {tasksFilteredByDate?.length > 0 ? (
-                <View className="pt-2 pb-4" style={{gap: 12}}>
-                  {tasksFilteredByDate?.map((item, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      className="p-2 rounded-full flex-row items-center"
+
+              <View className="pt-4 pb-4" style={{gap: 12}}>
+                {/* Add a task */}
+                <TouchableOpacity
+                  className="pl-3 h-12 flex-row items-center self-center rounded-3xl"
+                  style={{
+                    border: 2,
+                    borderWidth: 2,
+                    backgroundColor: '#ffffff10',
+                    borderColor: '#ffffff10',
+                    gap: 8,
+                  }}
+                  onPress={() => inputRef.current.focus()}>
+                  {newTask.text?.length === 0 && (
+                    <IonIcon
+                      name={'add-circle'}
+                      size={28}
+                      color={'#ffffff90'}
+                    />
+                  )}
+                  <TextInput
+                    ref={inputRef}
+                    className="py-0 flex-1 rounded-xl text-white font-semibold"
+                    placeholder="Add a task..."
+                    placeholderTextColor={'#ffffff80'}
+                    value={newTask?.text}
+                    onChangeText={text => {
+                      setNewTask(task => ({
+                        ...task,
+                        text: text,
+                      }));
+                    }}
+                    onFocus={() => console.log('focused')}
+                    onBlur={() => console.log('UNfocused')}
+                    maxLength={100}
+                    autoFocus
+                  />
+                  {newTask?.text?.length > 0 && (
+                    <TouchableHighlight
+                      // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
+                      activeOpacity={0.6}
+                      underlayColor="#FFFFFF10"
+                      className="h-12  px-3 justify-center rounded-r-3xl"
+                      onPress={handleTaskSubmit}>
+                      <Text className="font-bold">Add</Text>
+                    </TouchableHighlight>
+                  )}
+                </TouchableOpacity>
+                {/* Tasks */}
+                {tasksFilteredByDate?.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    className="py-2 px-2 rounded-3xl flex-row items-center"
+                    style={{
+                      border: 2,
+                      borderWidth: 2,
+                      backgroundColor: !item?.isDone
+                        ? '#ffffff10'
+                        : '#ffffff20',
+                      borderColor: item?.isDone ? '#ffffff10' : '#ffffff20',
+                      gap: 8,
+                      opacity: item?.isDone ? 0.5 : 1,
+                    }}
+                    onPress={() => dispatch(checkTask(item?.id))}>
+                    <MCIcons
+                      name={
+                        item?.isDone
+                          ? 'checkbox-marked-circle'
+                          : 'checkbox-blank-circle-outline'
+                      }
+                      size={24}
+                      color={item?.isDone ? '#ffffff50' : '#ffffff80'}
+                    />
+                    <Text
+                      className="flex-1 text-base"
                       style={{
-                        border: 2,
-                        borderWidth: 2,
-                        backgroundColor: !item?.isDone
-                          ? '#ffffff10'
-                          : '#ffffff20',
-                        borderColor: item?.isDone ? '#ffffff10' : '#ffffff20',
-                        gap: 8,
-                      }}
-                      onPress={() => dispatch(checkTask(item?.id))}>
-                      <IonIcon
-                        name={
-                          item?.isDone
-                            ? 'checkmark-circle'
-                            : 'checkmark-circle-outline'
-                        }
-                        size={24}
-                        color={item?.isDone ? '#ffffff50' : '#ffffff50'}
-                      />
-                      <Text
-                        className="text-base"
-                        style={{
-                          textDecorationLine: item?.isDone
-                            ? 'line-through'
-                            : 'none',
-                        }}>
-                        {item.text}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              ) : (
-                <Text className="mt-24 self-center">Nothing to see.</Text>
+                        textDecorationLine: item?.isDone
+                          ? 'line-through'
+                          : 'none',
+                      }}>
+                      {item.text}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {!tasksFilteredByDate?.length > 0 && (
+                <Text className="mt-24 self-center">No tasks.</Text>
               )}
             </ScrollView>
           )}
