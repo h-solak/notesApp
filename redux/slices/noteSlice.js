@@ -83,6 +83,7 @@ export const noteSlice = createSlice({
     addTask(state, action) {
       /* action.payload: {} */
       if (!state.allTasks) {
+        //dont know why but if I don't do this, it will throw "undefined" error
         state.allTasks = [];
       }
       state.allTasks.push(action.payload);
@@ -90,6 +91,7 @@ export const noteSlice = createSlice({
       state.tasksFilteredByDate = state.allTasks.filter(
         item => item.due_date === state.selectedTaskDate,
       );
+      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
     },
     filterTasksByDate(state, action) {
       state.selectedTaskDate = action.payload;
@@ -97,6 +99,7 @@ export const noteSlice = createSlice({
       state.tasksFilteredByDate = state.allTasks.filter(
         item => item.due_date === action.payload,
       );
+      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
     },
     checkTask(state, action) {
       /* action.payload: "id" */
@@ -108,16 +111,14 @@ export const noteSlice = createSlice({
       selectedTask.isDone = !selectedTask.isDone;
 
       newAllTasks = newAllTasks?.filter(item => item.id !== action.payload);
-      if (selectedTask?.isDone) {
-        newAllTasks.push(selectedTask);
-      } else {
-        newAllTasks.unshift(selectedTask);
-      }
+      newAllTasks.push(selectedTask);
+
       state.allTasks = newAllTasks;
       //update tasksfilteredbydate
       state.tasksFilteredByDate = state.allTasks.filter(
         item => item.due_date === state.selectedTaskDate,
       );
+      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
     },
 
     createNote(state, action) {
