@@ -15,13 +15,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import TaskCalendar from '../components/tasks/TaskCalendar';
 import MenuSvg from '../assets/icons/hamburgersvgrepo.svg';
-import {DrawerActions} from '@react-navigation/native';
+import {DrawerActions, useIsFocused} from '@react-navigation/native';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import uuid from 'react-native-uuid';
 import {addTask, checkTask, filterTasksByDate} from '../redux/slices/noteSlice';
 import moment from 'moment';
 
 const TaskScreen = ({navigation}) => {
+  const isFocused = useIsFocused(); //this returns true if the user is on this screen
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
 
@@ -47,6 +48,20 @@ const TaskScreen = ({navigation}) => {
   useEffect(() => {
     console.log(newTask);
   }, [newTask]);
+
+  //on every page load, show todays tasks
+  useEffect(() => {
+    if (isFocused) {
+      let crrDate = new Date();
+      crrDate = moment(crrDate).format('YYYY-MM-DD');
+      console.log(crrDate);
+      dispatch(filterTasksByDate(crrDate));
+      setNewTask(task => ({
+        ...task,
+        due_date: crrDate,
+      }));
+    }
+  }, [isFocused]);
 
   const handleTaskSubmit = () => {
     try {
@@ -124,7 +139,7 @@ const TaskScreen = ({navigation}) => {
             uri: 'https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
           }}
           resizeMode="cover"
-          blurRadius={4}
+          blurRadius={0}
           className="py-2 px-2"
           style={{flex: 1}}>
           {/* Add Task Input */}
