@@ -1,6 +1,6 @@
-import 'react-native-gesture-handler';
 import React from 'react';
-import {useWindowDimensions} from 'react-native';
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
 
 /* Third-Party */
 import {NavigationContainer} from '@react-navigation/native';
@@ -22,6 +22,7 @@ import EditCategoriesScreen from './screens/EditCategoriesScreen';
 import TrashScreen from './screens/TrashScreen';
 import ArchiveScreen from './screens/ArchiveScreen';
 import TaskScreen from './screens/TaskScreen';
+import TestScreen from './screens/TestScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -56,6 +57,11 @@ function DrawerNavigation() {
         options={{headerShown: false, animation: 'simple_push'}}
       />
       <Drawer.Screen
+        name="Test"
+        component={TestScreen}
+        options={{headerShown: false}}
+      />
+      <Drawer.Screen
         name="NoteType"
         component={NoteTypeScreen}
         options={{headerShown: false, animation: 'none'}}
@@ -84,8 +90,6 @@ function DrawerNavigation() {
   );
 }
 function App() {
-  const {height, width} = useWindowDimensions();
-
   return (
     <Provider store={store}>
       <PersistGate
@@ -106,6 +110,11 @@ function App() {
               component={HomeScreen}
               options={{headerShown: false, animation: 'default'}}
             /> */}
+            <Stack.Screen
+              name="Test"
+              component={TestScreen}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="CreateNote"
               component={CreateNoteScreen}
