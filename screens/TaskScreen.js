@@ -22,6 +22,7 @@ import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import uuid from 'react-native-uuid';
 import {addTask, checkTask, filterTasksByDate} from '../redux/slices/noteSlice';
 import moment from 'moment';
+import {MotiView} from 'moti';
 
 const TaskScreen = ({navigation}) => {
   const inputRef = useRef(null);
@@ -48,12 +49,10 @@ const TaskScreen = ({navigation}) => {
     return () => backHandler.remove();
   }, []);
 
-  useEffect(() => {
-    console.log(newTask);
-  }, [newTask]);
-
   //on every page load, show todays tasks
   useEffect(() => {
+    setTaskInputIsOpen(false);
+    console.log(isFocused);
     if (isFocused) {
       let crrDate = new Date();
       crrDate = moment(crrDate).format('YYYY-MM-DD');
@@ -107,7 +106,9 @@ const TaskScreen = ({navigation}) => {
   };
 
   return (
-    <View className="bg-black pt-4" style={{height: height, width: width}}>
+    <ScrollView
+      className="bg-black pt-4"
+      style={{height: height, width: width}}>
       <TouchableOpacity
         className="mb-2 flex-row items-center justify-between"
         style={{width: width}}
@@ -127,6 +128,7 @@ const TaskScreen = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <TaskCalendar
+        isFocused={isFocused}
         selectedDate={newTask.due_date}
         setSelectedDate={date => {
           setNewTask(task => ({
@@ -158,7 +160,7 @@ const TaskScreen = ({navigation}) => {
           {/* Add Task Input */}
 
           {newTask?.due_date && (
-            <ScrollView className="pt-2 px-2 pb-12">
+            <View className="pt-2 px-2 pb-12">
               <View className="px-4 flex-row items-center" style={{gap: 12}}>
                 <Text className="font-bold text-base">
                   {moment(newTask?.due_date).format('MMMM Do YYYY')}
@@ -182,31 +184,62 @@ const TaskScreen = ({navigation}) => {
                     borderColor: '#ffffff10',
                     gap: 8,
                   }}
-                  onPress={() => inputRef.current.focus()}>
+                  onPress={() => {
+                    setTaskInputIsOpen(true);
+                    if (taskInputIsOpen) {
+                      inputRef.current.focus();
+                    }
+                  }}>
                   {newTask.text?.length === 0 && (
                     <IonIcon
                       name={'add-circle'}
                       size={28}
-                      color={'#ffffff90'}
+                      color={taskInputIsOpen ? '#ffffff' : '#ffffff90'}
                     />
                   )}
-                  <TextInput
-                    ref={inputRef}
-                    className="py-0 flex-1 rounded-xl text-white font-semibold"
-                    placeholder="Add a task..."
-                    placeholderTextColor={'#ffffff80'}
-                    value={newTask?.text}
-                    onChangeText={text => {
-                      setNewTask(task => ({
-                        ...task,
-                        text: text,
-                      }));
-                    }}
-                    onFocus={() => console.log('focused')}
-                    onBlur={() => console.log('UNfocused')}
-                    maxLength={100}
-                    autoFocus
-                  />
+                  {taskInputIsOpen ? (
+                    <MotiView
+                      style={{flex: 1}}
+                      from={{
+                        translateX: -10,
+                        opacity: 0,
+                      }}
+                      animate={{
+                        translateX: 0,
+                        opacity: 1,
+                      }}
+                      transition={{
+                        type: 'spring',
+                        duration: 800,
+                        delay: 50,
+                      }}>
+                      <TextInput
+                        ref={inputRef}
+                        className="py-0 flex-1 rounded-xl text-white font-semibold"
+                        placeholder="What do you need to do?..."
+                        placeholderTextColor={'#ffffff'}
+                        value={newTask?.text}
+                        onChangeText={text => {
+                          setNewTask(task => ({
+                            ...task,
+                            text: text,
+                          }));
+                        }}
+                        onFocus={() => console.log('focused')}
+                        onBlur={() => console.log('UNfocused')}
+                        maxLength={100}
+                        autoFocus
+                      />
+                    </MotiView>
+                  ) : (
+                    <Text
+                      className="py-0 flex-1 rounded-xl font-semibold"
+                      style={{
+                        color: taskInputIsOpen ? '#ffffff' : '#ffffff90',
+                      }}>
+                      Add a task
+                    </Text>
+                  )}
                   {newTask?.text?.length > 0 && (
                     <TouchableHighlight
                       // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
@@ -258,11 +291,11 @@ const TaskScreen = ({navigation}) => {
               {!tasksFilteredByDate?.length > 0 && (
                 <Text className="mt-24 self-center">No tasks.</Text>
               )}
-            </ScrollView>
+            </View>
           )}
         </ImageBackground>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

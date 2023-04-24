@@ -23,6 +23,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import NoteTypeCarousels from '../components/home/NoteTypeCarousels';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import {MotiView} from 'moti';
+
 const HomeScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   const dispatch = useDispatch();
@@ -130,7 +132,22 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
       )}
-      <Bottombar navigation={navigation} screen={'Home'} />
+      {isFocused && (
+        <MotiView
+          from={{
+            translateY: 200,
+          }}
+          animate={{
+            translateY: 0,
+          }}
+          transition={{
+            type: 'timing',
+            duration: 800,
+            delay: 50,
+          }}>
+          <Bottombar navigation={navigation} screen={'Home'} />
+        </MotiView>
+      )}
     </View>
   );
 };
