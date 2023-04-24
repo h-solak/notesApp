@@ -29,7 +29,10 @@ const Topbar = ({navigation}) => {
 
       <View className="pr-4">
         <View className="flex-row items-center justify-end" style={{gap: 12}}>
-          <TouchableOpacity onPress={() => null}>
+          <TouchableOpacity onPress={() => navigation.navigate('Test')}>
+            <Text className="text-xs">Test</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Task')}>
             <CalendarSvg width={28} height={28} />
           </TouchableOpacity>
           <TouchableOpacity>

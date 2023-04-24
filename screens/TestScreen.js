@@ -2,13 +2,15 @@ import {Text, View, StyleSheet, Pressable} from 'react-native';
 import {AnimatePresence, MotiView} from 'moti';
 import {useState} from 'react';
 
-export default function ActionMenu() {
+export default function ActionMenu({navigation}) {
   const [expanded, setExpanded] = useState(false);
   return (
     <View style={styles.container}>
-      <Text style={{color: 'white', textAlign: 'center'}}>
-        Click the button in the bottom right!
-      </Text>
+      <Pressable onPress={() => navigation.navigate('Home')}>
+        <Text style={{color: 'white', textAlign: 'center'}}>
+          Go back to Home
+        </Text>
+      </Pressable>
       <Pressable
         onPress={() => setExpanded(!expanded)}
         style={[

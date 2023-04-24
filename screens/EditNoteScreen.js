@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  BackHandler,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -124,6 +125,14 @@ const EditNoteScreen = ({navigation}) => {
       .filter(item => item !== '').length;
     setWordCount(totalWords);
   }, [noteDetails.text]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () =>
+      navigation.goBack(),
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View>

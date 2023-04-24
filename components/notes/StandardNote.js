@@ -4,7 +4,9 @@ import {
   Text,
   TouchableOpacity,
   Button,
+  TouchableHighlight,
   useWindowDimensions,
+  Pressable,
 } from 'react-native';
 // import {Swipeable} from 'react-native-gesture-handler';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -30,7 +32,7 @@ const StandardNote = ({
   const {height, width} = useWindowDimensions();
   return (
     id && (
-      <TouchableOpacity
+      <TouchableHighlight
         className={`flex-1 mb-3 py-2 flex-row justify-between items-center`}
         style={{
           backgroundColor: selectedNoteIds?.includes(id) ? `${color}80` : color,
@@ -51,48 +53,54 @@ const StandardNote = ({
             navigation.navigate('EditNote');
           }
         }}
-        onLongPress={() => handleLongPress(id)}>
-        <View
-          className="flex-row items-center justify-start"
-          style={{width: (width / 1.1) * 0.8}}>
-          <View className="p-2 items-center justify-center rounded-full">
-            <Text className="text-2xl" style={{color: '#000000', zIndex: 9999}}>
-              {emoji}
-            </Text>
-          </View>
-          <View className="flex-1 flex-col">
-            {title && (
+        onLongPress={() => handleLongPress(id)}
+        activeOpacity={0.6}
+        underlayColor="#ffffff10">
+        <View className={`flex-1 flex-row justify-between items-center`}>
+          <View
+            className="flex-row items-center justify-start"
+            style={{width: (width / 1.1) * 0.8}}>
+            <View className="p-2 items-center justify-center rounded-full">
               <Text
-                style={{fontSize: 15, flexWrap: 'wrap'}}
-                className={`font-bold`}>
-                {title}
+                className="text-2xl"
+                style={{color: '#000000', zIndex: 9999}}>
+                {emoji}
               </Text>
-            )}
-            {text && (
-              <Text style={{fontSize: 13, flexWrap: 'wrap'}} className={``}>
-                {text?.length > 200 ? `${text.slice(0, 200)}...` : text}
-              </Text>
-            )}
-            {/* <Text className="text-secondary" style={{fontSize: 12}}>
+            </View>
+            <View className="flex-1 flex-col">
+              {title && (
+                <Text
+                  style={{fontSize: 15, flexWrap: 'wrap'}}
+                  className={`font-bold`}>
+                  {title}
+                </Text>
+              )}
+              {text && (
+                <Text style={{fontSize: 13, flexWrap: 'wrap'}} className={``}>
+                  {text?.length > 200 ? `${text.slice(0, 200)}...` : text}
+                </Text>
+              )}
+              {/* <Text className="text-secondary" style={{fontSize: 12}}>
               Standard Note
             </Text> */}
+            </View>
           </View>
+          <TouchableOpacity
+            className="flex-1 items-center justify-center"
+            style={{
+              width: (width / 1.1) * 0.2,
+              height: 50,
+              // backgroundColor: 'rgba(255,255,255,0.2)',
+            }}
+            onPress={() => dispatch(favNote(id))}>
+            <AntIcon
+              name={isFavorite ? 'heart' : 'hearto'}
+              size={22}
+              style={{color: isFavorite ? '#e74c3c' : '#fff'}}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          className="flex-1 items-center justify-center"
-          style={{
-            width: (width / 1.1) * 0.2,
-            height: 50,
-            // backgroundColor: 'rgba(255,255,255,0.2)',
-          }}
-          onPress={() => dispatch(favNote(id))}>
-          <AntIcon
-            name={isFavorite ? 'heart' : 'hearto'}
-            size={22}
-            style={{color: isFavorite ? '#e74c3c' : '#fff'}}
-          />
-        </TouchableOpacity>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
   );
 };
