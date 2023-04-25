@@ -57,7 +57,7 @@ const ArchiveScreen = ({navigation}) => {
         <View className="mb-5 py-1 flex-row items-center justify-between">
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
-              className="flex-row items-center justify-center rounded-xl"
+              className="flex-1 flex-row  items-center justify-start rounded-xl"
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
               style={{gap: 8}}>
               <MenuSvg width={28} height={28} />
