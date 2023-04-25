@@ -64,11 +64,12 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
       ) : notesFilteredByCategory?.length > 0 ? (
         //notes have px-2, other parts of the home screen have px-4
         <ScrollView className="px-2" style={{width: width}}>
-          {notesFilteredByCategory?.map(
-            (item, index) =>
-              notesFilteredByCategory && (
-                <AnimatePresence key={item?.id}>
+          <AnimatePresence>
+            {notesFilteredByCategory?.map(
+              (item, index) =>
+                notesFilteredByCategory && (
                   <MotiView
+                    key={item?.id}
                     style={{flex: 1}}
                     from={{
                       opacity: 0,
@@ -97,9 +98,9 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
                       navigation={navigation}
                     />
                   </MotiView>
-                </AnimatePresence>
-              ),
-          )}
+                ),
+            )}
+          </AnimatePresence>
         </ScrollView>
       ) : (
         <View className="mt-20 items-center justify-center" style={{gap: 4}}>

@@ -260,11 +260,12 @@ const TaskScreen = ({navigation}) => {
                 </TouchableWithoutFeedback>
               </KeyboardAvoidingView>
               {/* Tasks */}
-              {tasksFilteredByDate?.map(
-                (item, index) =>
-                  tasksFilteredByDate && (
-                    <AnimatePresence key={item?.id}>
+              <AnimatePresence>
+                {tasksFilteredByDate?.map(
+                  (item, index) =>
+                    tasksFilteredByDate && (
                       <MotiView
+                        key={item?.id}
                         style={{flex: 1}}
                         from={{
                           opacity: 0,
@@ -314,9 +315,9 @@ const TaskScreen = ({navigation}) => {
                           </Text>
                         </TouchableOpacity>
                       </MotiView>
-                    </AnimatePresence>
-                  ),
-              )}
+                    ),
+                )}
+              </AnimatePresence>
             </View>
             {!tasksFilteredByDate?.length > 0 && (
               <Text className="mt-24 self-center">No tasks.</Text>
