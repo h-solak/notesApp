@@ -263,9 +263,8 @@ const TaskScreen = ({navigation}) => {
               {tasksFilteredByDate?.map(
                 (item, index) =>
                   tasksFilteredByDate && (
-                    <AnimatePresence>
+                    <AnimatePresence key={item?.id}>
                       <MotiView
-                        key={index}
                         style={{flex: 1}}
                         from={{
                           opacity: 0,

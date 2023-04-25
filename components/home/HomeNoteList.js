@@ -13,6 +13,7 @@ import {
 import StandardNote from '../notes/StandardNote';
 import {useSelector, useDispatch} from 'react-redux';
 import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
+import {MotiView, AnimatePresence} from 'moti';
 
 const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
@@ -63,21 +64,42 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
       ) : notesFilteredByCategory?.length > 0 ? (
         //notes have px-2, other parts of the home screen have px-4
         <ScrollView className="px-2" style={{width: width}}>
-          {notesFilteredByCategory?.map((item, index) => (
-            <StandardNote
-              key={index}
-              id={item?.id}
-              title={item?.title}
-              text={item?.text}
-              color={item?.color}
-              emoji={item?.emoji}
-              category={item?.category}
-              isFavorite={item?.isFavorite}
-              handleLongPress={handleLongPress}
-              selectedNoteIds={selectedNoteIds}
-              navigation={navigation}
-            />
-          ))}
+          {notesFilteredByCategory?.map(
+            (item, index) =>
+              notesFilteredByCategory && (
+                <AnimatePresence key={item?.id}>
+                  <MotiView
+                    style={{flex: 1}}
+                    from={{
+                      opacity: 0,
+                      scale: 0.9,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    transition={{
+                      type: 'spring',
+                      duration: 700,
+                      delay: 50,
+                    }}>
+                    <StandardNote
+                      key={index}
+                      id={item?.id}
+                      title={item?.title}
+                      text={item?.text}
+                      color={item?.color}
+                      emoji={item?.emoji}
+                      category={item?.category}
+                      isFavorite={item?.isFavorite}
+                      handleLongPress={handleLongPress}
+                      selectedNoteIds={selectedNoteIds}
+                      navigation={navigation}
+                    />
+                  </MotiView>
+                </AnimatePresence>
+              ),
+          )}
         </ScrollView>
       ) : (
         <View className="mt-20 items-center justify-center" style={{gap: 4}}>
