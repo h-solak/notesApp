@@ -92,7 +92,9 @@ const ArchiveScreen = ({navigation}) => {
             ))}
           </View>
         ) : (
-          <View className="flex-1 h-80 w-full items-center justify-center">
+          <View
+            className="flex-1 w-full items-center justify-center"
+            style={{height: height * 0.8}}>
             <Text className="text-noteGrey-300">Nothing to see here</Text>
           </View>
         )}
