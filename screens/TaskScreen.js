@@ -74,14 +74,14 @@ const TaskScreen = ({navigation}) => {
           id: uuid.v4(),
           text: newTask.text,
           due_date: newTask.due_date,
-          isDone: false,
+          isChecked: false,
         });
         dispatch(
           addTask({
             id: uuid.v4(),
             text: newTask.text,
             due_date: newTask.due_date,
-            isDone: false,
+            isChecked: false,
           }),
         );
         setNewTask(task => ({
@@ -285,29 +285,29 @@ const TaskScreen = ({navigation}) => {
                           style={{
                             border: 2,
                             borderWidth: 2,
-                            backgroundColor: !item?.isDone
+                            backgroundColor: !item?.isChecked
                               ? '#ffffff10'
                               : '#ffffff20',
-                            borderColor: item?.isDone
+                            borderColor: item?.isChecked
                               ? '#ffffff10'
                               : '#ffffff20',
                             gap: 8,
-                            opacity: item?.isDone ? 0.5 : 1,
+                            opacity: item?.isChecked ? 0.5 : 1,
                           }}
                           onPress={() => dispatch(checkTask(item?.id))}>
                           <MCIcons
                             name={
-                              item?.isDone
+                              item?.isChecked
                                 ? 'checkbox-marked-circle'
                                 : 'checkbox-blank-circle-outline'
                             }
                             size={24}
-                            color={item?.isDone ? '#ffffff50' : '#ffffff80'}
+                            color={item?.isChecked ? '#ffffff50' : '#ffffff80'}
                           />
                           <Text
                             className="flex-1 text-base"
                             style={{
-                              textDecorationLine: item?.isDone
+                              textDecorationLine: item?.isChecked
                                 ? 'line-through'
                                 : 'none',
                             }}>

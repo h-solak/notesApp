@@ -87,20 +87,20 @@ export const noteSlice = createSlice({
         //dont know why but if I don't do this, it will throw "undefined" error
         state.allTasks = [];
       }
-      state.allTasks.push(action.payload);
+      state.allTasks?.push(action.payload);
       //update tasksfilteredbydate
-      state.tasksFilteredByDate = state.allTasks.filter(
+      state.tasksFilteredByDate = state.allTasks?.filter(
         item => item.due_date === state.selectedTaskDate,
       );
-      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
+      state.tasksFilteredByDate?.sort((a, b) => a?.isChecked - b?.isChecked);
     },
     filterTasksByDate(state, action) {
       state.selectedTaskDate = action.payload;
       /* action.payload: "YYYY-MM-DD" */
-      state.tasksFilteredByDate = state.allTasks.filter(
+      state.tasksFilteredByDate = state.allTasks?.filter(
         item => item.due_date === action.payload,
       );
-      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
+      state.tasksFilteredByDate?.sort((a, b) => a?.isChecked - b?.isChecked);
     },
     checkTask(state, action) {
       /* action.payload: "id" */
@@ -108,52 +108,63 @@ export const noteSlice = createSlice({
       const index = newAllTasks?.findIndex(item => item?.id === action.payload);
 
       let selectedTask = newAllTasks[index];
-      console.log(selectedTask, 'AAAAAAAAAAAAAAAAAAAAAAA');
-      selectedTask.isDone = !selectedTask.isDone;
+      selectedTask.isChecked = !selectedTask.isChecked;
 
       newAllTasks = newAllTasks?.filter(item => item.id !== action.payload);
       newAllTasks.push(selectedTask);
 
       state.allTasks = newAllTasks;
       //update tasksfilteredbydate
-      state.tasksFilteredByDate = state.allTasks.filter(
+      state.tasksFilteredByDate = state.allTasks?.filter(
         item => item.due_date === state.selectedTaskDate,
       );
-      state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
+      state.tasksFilteredByDate?.sort((a, b) => a?.isChecked - b?.isChecked);
     },
     getClosestTasks(state) {
       // let crrDate = new Date().toISOString().slice(0, 10)  //to format the date as YYYY-MM-DD
-      const newTasks = state.allTasks.filter(item => {
-        // if (!item.isDone) {
+      const newTasks = state.allTasks?.filter(item => {
+        // if (!item.isChecked) {
         const taskDate = new Date(item?.due_date);
         const crrDate = new Date();
         //return if the task isn't due yet
-        return taskDate > crrDate;
+        if (
+          taskDate > crrDate ||
+          taskDate.toISOString().slice(0, 10) ===
+            crrDate.toISOString().slice(0, 10)
+        ) {
+          return item;
+        }
       });
-      let undoneTasks = newTasks.filter((item, index) => item.isDone !== true);
+      let undoneTasks = newTasks?.filter(
+        (item, index) => item.isChecked !== true,
+      );
       if (undoneTasks?.length < 3) {
         switch (undoneTasks?.length) {
           case 2:
-            let doneTasks = newTasks.filter(
-              (item, index) => index === 0 && item.isDone && item,
+            let doneTasks = newTasks?.filter(
+              (item, index) => item.isChecked && item,
             );
+            doneTasks = doneTasks?.filter((item, index) => index < 1 && item);
+            console.log('Yep');
             state.homeTasks = doneTasks.concat(undoneTasks);
             break;
           case 1:
-            let doneTasks2 = newTasks.filter(
-              (item, index) => index < 2 && item.isDone && item,
+            let doneTasks2 = newTasks?.filter(
+              (item, index) => item.isChecked && item,
             );
+            doneTasks2 = doneTasks2?.filter((item, index) => index < 2 && item);
             state.homeTasks = doneTasks2.concat(undoneTasks);
             break;
           default:
-            let doneTasks3 = newTasks.filter(
-              (item, index) => index < 3 && item.isDone && item,
+            let doneTasks3 = newTasks?.filter(
+              (item, index) => item.isChecked && item,
             );
+            doneTasks3 = doneTasks3?.filter((item, index) => index < 3 && item);
             state.homeTasks = doneTasks3.concat(undoneTasks);
         }
       } else {
         //return only 3 tasks
-        state.homeTasks = undoneTasks.filter(
+        state.homeTasks = undoneTasks?.filter(
           (item, index) => index < 3 && item,
         );
       }
