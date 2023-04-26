@@ -78,6 +78,7 @@ export const noteSlice = createSlice({
     allTasks: [],
     tasksFilteredByDate: [],
     selectedTaskDate: '',
+    homeTasks: [], //Closest tasks will be displayed on homescreen
   },
   reducers: {
     addTask(state, action) {
@@ -120,7 +121,43 @@ export const noteSlice = createSlice({
       );
       state.tasksFilteredByDate.sort((a, b) => a?.isDone - b?.isDone);
     },
-
+    getClosestTasks(state) {
+      // let crrDate = new Date().toISOString().slice(0, 10)  //to format the date as YYYY-MM-DD
+      const newTasks = state.allTasks.filter(item => {
+        // if (!item.isDone) {
+        const taskDate = new Date(item?.due_date);
+        const crrDate = new Date();
+        //return if the task isn't due yet
+        return taskDate > crrDate;
+      });
+      let undoneTasks = newTasks.filter((item, index) => item.isDone !== true);
+      if (undoneTasks?.length < 3) {
+        switch (undoneTasks?.length) {
+          case 2:
+            let doneTasks = newTasks.filter(
+              (item, index) => index === 0 && item.isDone && item,
+            );
+            state.homeTasks = doneTasks.concat(undoneTasks);
+            break;
+          case 1:
+            let doneTasks2 = newTasks.filter(
+              (item, index) => index < 2 && item.isDone && item,
+            );
+            state.homeTasks = doneTasks2.concat(undoneTasks);
+            break;
+          default:
+            let doneTasks3 = newTasks.filter(
+              (item, index) => index < 3 && item.isDone && item,
+            );
+            state.homeTasks = doneTasks3.concat(undoneTasks);
+        }
+      } else {
+        //return only 3 tasks
+        state.homeTasks = undoneTasks.filter(
+          (item, index) => index < 3 && item,
+        );
+      }
+    },
     createNote(state, action) {
       const crrDate = new Date();
       const newId = uuid.v4();
@@ -310,7 +347,7 @@ export const noteSlice = createSlice({
         item => item?.id !== action.payload,
       );
       let selectedNote = state.allNotes[index];
-      selectedNote.isFavorite = !selectedNote.isFavorite;
+      selectedNote.isFavorite = !selectedNote?.isFavorite;
       otherNotes.push(selectedNote);
       state.allNotes = sortByDate(otherNotes);
       //updating notes in every screen
@@ -375,12 +412,11 @@ export const noteSlice = createSlice({
         item => item?.id !== action.payload,
       );
     },
-    filterNotesByCategory(state, action) {
-      state.homenotesLoading = true;
+    changeCategory(state, action) {
       /*FIRSTLY - adding the chosen category to the start*/
       state.selectedCategory = action.payload;
       //if "all" is not selected, add the chosen category to the left
-      if (action.payload != 0) {
+      if (action.payload !== 0) {
         const chosenCategoryIndex = state.categories?.findIndex(
           item => item?.id == action.payload,
         );
@@ -391,10 +427,13 @@ export const noteSlice = createSlice({
         sortedCategories?.unshift(chosenCategory);
         state.categories = sortedCategories;
       }
+    },
+    filterNotesByCategory(state, action) {
+      state.homenotesLoading = true;
 
       /* SECONDLY - Filtering */
       if (action.payload === 0) {
-        //no filter (All)
+        //0 means no filter (All notes)
         state.notesFilteredByCategory = state.allNotes;
       } else {
         state.notesFilteredByCategory = state.allNotes?.filter(note =>
@@ -445,6 +484,7 @@ export const {
   addTask,
   filterTasksByDate,
   checkTask,
+  getClosestTasks,
   createNote,
   addNote,
   trashNote,
@@ -459,6 +499,7 @@ export const {
   favNote,
   selectNote,
   editNote,
+  changeCategory,
   filterNotesByCategory,
   addCategory,
   editCategory,
