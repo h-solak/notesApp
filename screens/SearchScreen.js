@@ -66,18 +66,19 @@ const SearchScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View className="flex-1 mt-2 px-2">
-        {searchText.length > 0 && (
-          <View className="flex-row items-center justify-center px-2">
-            <Text className="text-noteGrey-500">
-              {searchedNotes?.length} result(s) found
-            </Text>
-          </View>
-        )}
+      <View className="flex-1 px-2">
         {searchedNotes?.length > 0 && (
           <ScrollView
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
             className={`flex-col ${searchText?.length < 1 ? 'mt-4' : 'mt-2'}`}>
+            {searchText.length > 0 && (
+              <View className="flex-row items-center justify-center px-2 mb-2">
+                <Text className="text-noteGrey-500">
+                  {searchedNotes?.length} result(s) found
+                </Text>
+              </View>
+            )}
             {searchedNotes?.map((item, index) => (
               <StandardNote
                 key={index}
