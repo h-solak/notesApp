@@ -55,7 +55,7 @@ const StandardNote = ({
         }}
         onLongPress={() => handleLongPress(id)}
         activeOpacity={0.6}
-        underlayColor="#ffffff10">
+        underlayColor={color === '#000000' ? '#ffffff10' : `${color}90`}>
         <View className={`flex-1 flex-row justify-between items-center`}>
           <View
             className="flex-row items-center justify-start"

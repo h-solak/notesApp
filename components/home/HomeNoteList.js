@@ -57,7 +57,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   }, [homenotesLoading]);
 
   return (
-    <View className="mt-3 pb-24">
+    <View className="mt-5 pb-24">
       {/*Individual Notes*/}
       {homenotesLoading ? (
         <Text>Loading...</Text>
@@ -103,7 +103,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
           </AnimatePresence>
         </ScrollView>
       ) : (
-        <View className="mt-20 items-center justify-center" style={{gap: 4}}>
+        <View className="mt-32 items-center justify-center" style={{gap: 4}}>
           <Text className="text-noteGrey-500">Nothing to see</Text>
         </View>
       )}
