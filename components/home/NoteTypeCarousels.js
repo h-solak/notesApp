@@ -34,7 +34,7 @@ const NoteTypeCarousels = ({navigation}) => {
     dispatch(getClosestTasks());
   }, [allTasks, isFocused]);
 
-  const {width, height} = useWindowDimensions();
+  const {height, width} = useWindowDimensions();
 
   const [temp, setTemp] = useState(false);
   const allTypes = [
@@ -147,7 +147,7 @@ const NoteTypeCarousels = ({navigation}) => {
                           className="px-3"
                           style={{
                             width: width * 0.45,
-                            opacity: item?.isDone ? 0.5 : 1,
+                            opacity: item?.isChecked ? 0.5 : 1,
                           }}
                           onPress={() => {
                             dispatch(checkTask(item?.id));
@@ -160,17 +160,17 @@ const NoteTypeCarousels = ({navigation}) => {
                             style={{gap: 8}}>
                             <MCIcons
                               name={
-                                item?.isDone
+                                item?.isChecked
                                   ? 'checkbox-marked-circle'
                                   : 'checkbox-blank-circle-outline'
                               }
                               size={22}
-                              color={item?.isDone ? '#ffffff50' : '#ffffff'}
+                              color={item?.isChecked ? '#ffffff50' : '#ffffff'}
                             />
                             <Text
                               className="text-white"
                               style={{
-                                textDecorationLine: item?.isDone
+                                textDecorationLine: item?.isChecked
                                   ? 'line-through'
                                   : 'none',
                               }}>
