@@ -73,7 +73,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
                     style={{flex: 1}}
                     from={{
                       opacity: 0,
-                      translateX: -50 + index * 20,
+                      translateX: -50 + index * 10,
                       // scale: 0.95,
                     }}
                     animate={{
@@ -83,7 +83,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
                     }}
                     transition={{
                       type: 'spring',
-                      duration: 300,
+                      duration: 200,
                       delay: 50,
                     }}>
                     <StandardNote

@@ -18,7 +18,7 @@ import CreateNoteScreen from './screens/CreateNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen';
 import SearchScreen from './screens/SearchScreen';
 import NoteTypeScreen from './screens/NoteTypeScreen';
-import EditCategoriesScreen from './screens/EditCategoriesScreen';
+import CategoryScreen from './screens/CategoryScreen';
 import TrashScreen from './screens/TrashScreen';
 import ArchiveScreen from './screens/ArchiveScreen';
 import TaskScreen from './screens/TaskScreen';
@@ -72,8 +72,8 @@ function DrawerNavigation() {
         options={{headerShown: false, animation: 'none'}}
       />
       <Drawer.Screen
-        name="EditCategories"
-        component={EditCategoriesScreen}
+        name="Category"
+        component={CategoryScreen}
         options={{headerShown: false, animation: 'none'}}
       />
       <Drawer.Screen
@@ -141,8 +141,8 @@ function App() {
               options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
-              name="EditCategories"
-              component={EditCategoriesScreen}
+              name="Category"
+              component={CategoryScreen}
               options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen

@@ -74,7 +74,7 @@ const AppDrawer = props => {
           </TouchableOpacity>
           <TouchableOpacity
             className="py-4 flex-row items-center gap-3"
-            onPress={() => props.navigation.navigate('EditCategories')}>
+            onPress={() => props.navigation.navigate('Category')}>
             <MCIcons name={'tag'} size={20} style={{color: '#929292'}} />
             <Text className="text-noteGrey-300 text-sm font-semibold">
               Categories

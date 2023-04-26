@@ -62,7 +62,7 @@ const HomeScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
         <NoteTypeCarousels navigation={navigation} />
-        <Categories />
+        <Categories navigation={navigation} />
         {/* <TouchableOpacity
           className="mt-1 w-6 h-6 bg-gray-500 items-center justify-center rounded-sm"
           onPress={() => dispatch(resetNotes())}></TouchableOpacity> */}

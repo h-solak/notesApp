@@ -14,7 +14,6 @@ import {
   changeCategory,
   filterNotesByCategory,
 } from '../../redux/slices/noteSlice';
-import EditCategoriesModal from './EditCategoriesModal';
 import CategorySvg from '../../assets/icons/categorysvgrepo.svg';
 import FilterSvg from '../../assets/icons/filtersvgrepo.svg';
 
@@ -57,7 +56,7 @@ const Categories = ({navigation}) => {
         style={{gap: 2}}>
         <TouchableOpacity
           className="mr-3 rounded-full flex-row items-center justify-center align-middle self-center"
-          onPress={() => setEditCategoriesModal(!editCategoriesModal)}
+          onPress={() => navigation.navigate('Category')}
           //navigation.navigate('EditCategories')
         >
           {/* <MaterialIcon name={'edit'} size={20} style={{color: '#fff'}} /> */}
@@ -113,11 +112,6 @@ const Categories = ({navigation}) => {
             </Text>
           </TouchableHighlight>
         ))}
-
-        <EditCategoriesModal
-          modal={editCategoriesModal}
-          setModal={setEditCategoriesModal}
-        />
       </ScrollView>
       {/* <View className="flex-row justify-end">
         <TouchableOpacity
