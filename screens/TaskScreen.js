@@ -13,6 +13,8 @@ import {
   TouchableHighlight,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  TouchableNativeFeedback,
+  Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -89,6 +91,7 @@ const TaskScreen = ({navigation}) => {
           text: '',
         }));
         Keyboard.dismiss();
+        inputRef.current.blur();
         setTaskInputIsOpen(false);
       } else if (newTask.text.length > 0 && !newTask.due_date) {
         ToastAndroid.show(
@@ -111,7 +114,8 @@ const TaskScreen = ({navigation}) => {
     <ScrollView
       className="bg-black pt-4"
       showsVerticalScrollIndicator={false}
-      style={{height: height, width: width}}>
+      style={{height: height, width: width}}
+      keyboardShouldPersistTaps="handled">
       <TouchableOpacity
         className="mb-2 flex-row items-center justify-between"
         style={{width: width}}
@@ -167,14 +171,8 @@ const TaskScreen = ({navigation}) => {
 
             <View className="flex-1 pt-4 pb-4" style={{gap: 12}}>
               {/* Add a task */}
-              <KeyboardAvoidingView
-                behavior="height"
-                className=""
-                style={{
-                  flex: 1,
-                }}
-                keyboardVerticalOffset={0}>
-                <TouchableWithoutFeedback>
+              <KeyboardAvoidingView behavior="padding" enabled>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                   <TouchableOpacity
                     className="pl-3 h-12 flex-row items-center self-center rounded-3xl"
                     style={{
@@ -230,6 +228,7 @@ const TaskScreen = ({navigation}) => {
                             onBlur={() => console.log('UNfocused')}
                             maxLength={100}
                             onSubmitEditing={handleTaskSubmit}
+                            returnKeyType="default"
                             autoFocus
                           />
                         </MotiView>
@@ -245,16 +244,21 @@ const TaskScreen = ({navigation}) => {
                     </AnimatePresence>
 
                     {newTask?.text?.length > 0 && (
-                      <TouchableWithoutFeedback>
-                        <TouchableHighlight
-                          // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
-                          activeOpacity={0.6}
-                          underlayColor="#FFFFFF10"
-                          className="h-12  px-3 justify-center rounded-r-3xl"
-                          onPress={handleTaskSubmit}>
+                      <Pressable
+                        // className="h-12 pr-4 pl-4 bg-noteGrey-900 rounded-r-full justify-center"
+                        // activeOpacity={0.6}
+                        // underlayColor="#FFFFFF10"
+                        // background={TouchableNativeFeedback.Ripple(
+                        //   '#ffffff30',
+                        //   false,
+                        // )}
+                        android_ripple={{color: '#ffffff30', borderless: true}}
+                        onPress={handleTaskSubmit}
+                        style={{borderRadius: 32}}>
+                        <View className="h-12 px-3 justify-center rounded-r-3xl">
                           <Text className="font-bold">Add</Text>
-                        </TouchableHighlight>
-                      </TouchableWithoutFeedback>
+                        </View>
+                      </Pressable>
                     )}
                   </TouchableOpacity>
                 </TouchableWithoutFeedback>
