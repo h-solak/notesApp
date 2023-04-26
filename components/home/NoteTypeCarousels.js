@@ -218,35 +218,33 @@ const NoteTypeCarousels = ({navigation}) => {
             </Text>
 
             <AnimatePresence>
-              {isFocused && (
-                <MotiView
-                  key={item?.id}
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    padding: 0,
-                    margin: 0,
-                    right: '5%',
-                    resizeMode: 'contain',
-                  }}
-                  from={{
-                    opacity: 0,
-                    scale: 0.9,
-                    translateY: 100,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    translateY: 0,
-                  }}
-                  transition={{
-                    type: 'spring',
-                    duration: 700,
-                    delay: 50,
-                  }}>
-                  {item.img}
-                </MotiView>
-              )}
+              <MotiView
+                key={item?.id}
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  padding: 0,
+                  margin: 0,
+                  right: '5%',
+                  resizeMode: 'contain',
+                }}
+                from={{
+                  opacity: 0,
+                  scale: 0.9,
+                  translateY: 100,
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  translateY: 0,
+                }}
+                transition={{
+                  type: 'spring',
+                  duration: 700,
+                  delay: 50,
+                }}>
+                {item.img}
+              </MotiView>
             </AnimatePresence>
           </TouchableOpacity>
         ))}

@@ -73,15 +73,17 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
                     style={{flex: 1}}
                     from={{
                       opacity: 0,
-                      scale: 0.9,
+                      translateX: -50 + index * 20,
+                      // scale: 0.95,
                     }}
                     animate={{
                       opacity: 1,
-                      scale: 1,
+                      translateX: 0,
+                      // scale: 1,
                     }}
                     transition={{
                       type: 'spring',
-                      duration: 700,
+                      duration: 300,
                       delay: 50,
                     }}>
                     <StandardNote
