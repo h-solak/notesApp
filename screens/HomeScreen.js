@@ -75,7 +75,7 @@ const HomeScreen = ({navigation}) => {
 
       {selectedNoteIds?.length > 0 && (
         <View
-          className="absolute top-0 bg-noteGrey-900 h-full w-full px-4 flex-row justify-between items-center"
+          className="absolute bottom-0 bg-noteGrey-900 h-full w-full px-4 flex-row justify-between items-center"
           style={{height: height * 0.08}}>
           <View className="flex-row items-center" style={{gap: 12}}>
             <TouchableOpacity
@@ -132,7 +132,7 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
       )}
-      {isFocused && (
+      {selectedNoteIds.length === 0 && isFocused && (
         <MotiView
           from={{
             translateY: 200,

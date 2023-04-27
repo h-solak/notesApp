@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   useWindowDimensions,
+  Pressable,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -47,21 +48,22 @@ const Categories = ({navigation}) => {
   }, [selectedCategory, categories]);
 
   return (
-    <View className="mt-8 pl-4 pr-1 flex-row items-center">
+    <View className="mt-5 pl-4 pr-1 flex-row items-center">
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         ref={scrollRef}
         contentContainerStyle={{display: 'flex', alignItems: 'center', gap: 2}}
         style={{gap: 2}}>
-        <TouchableOpacity
-          className="mr-3 rounded-full flex-row items-center justify-center align-middle self-center"
+        <Pressable
+          className="mr-3 py-2 rounded-full flex-row items-center justify-center align-middle self-center"
           onPress={() => navigation.navigate('Category')}
+          android_ripple={{color: '#ffffff30', borderless: true}}
           //navigation.navigate('EditCategories')
         >
           {/* <MaterialIcon name={'edit'} size={20} style={{color: '#fff'}} /> */}
           <CategorySvg width={22} height={22} />
-        </TouchableOpacity>
+        </Pressable>
         {/* <TouchableOpacity
           className="align-middle self-center mr-2"
           onPress={() => setEditCategoriesModal(!editCategoriesModal)}

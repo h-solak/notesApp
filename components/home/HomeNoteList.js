@@ -14,6 +14,8 @@ import StandardNote from '../notes/StandardNote';
 import {useSelector, useDispatch} from 'react-redux';
 import {resetNotes, setCategory} from '../../redux/slices/noteSlice';
 import {MotiView, AnimatePresence} from 'moti';
+import CategorySvg from '../../assets/icons/categorysvgrepo.svg';
+import EmptyNoteSvg from '../../assets/icons/emptynotesvgrepo.svg';
 
 const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
@@ -57,7 +59,7 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   }, [homenotesLoading]);
 
   return (
-    <View className="mt-5 pb-24">
+    <View className="mt-4 pb-24">
       {/*Individual Notes*/}
       {homenotesLoading ? (
         <Text>Loading...</Text>
@@ -105,8 +107,11 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
           </AnimatePresence>
         </ScrollView>
       ) : (
-        <View className="mt-32 items-center justify-center" style={{gap: 4}}>
-          <Text className="text-noteGrey-500">Nothing to see</Text>
+        <View className="mt-20 items-center justify-center" style={{gap: 6}}>
+          <EmptyNoteSvg width={36} height={36} />
+          <Text className="text-sm" style={{color: '#929292'}}>
+            No notes yet
+          </Text>
         </View>
       )}
     </View>
