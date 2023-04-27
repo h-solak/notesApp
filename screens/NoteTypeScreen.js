@@ -41,7 +41,7 @@ const NoteTypeScreen = ({navigation}) => {
       if (selectedNoteIds?.length > 0) {
         setSelectedNoteIds([]);
       } else {
-        navigation.navigate('Home');
+        navigation.goBack();
       }
       return true;
     };

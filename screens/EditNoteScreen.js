@@ -127,8 +127,13 @@ const EditNoteScreen = ({navigation}) => {
   }, [noteDetails.text]);
 
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () =>
-      navigation.goBack(),
+    const backAction = () => {
+      navigation.goBack();
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
     );
 
     return () => backHandler.remove();

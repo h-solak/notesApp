@@ -44,6 +44,8 @@ const TrashScreen = ({navigation}) => {
     const backAction = () => {
       if (selectedNoteIds?.length > 0) {
         setSelectedNoteIds([]);
+      } else {
+        navigation.goBack();
       }
       return true;
     };

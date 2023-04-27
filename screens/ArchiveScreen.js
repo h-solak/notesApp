@@ -38,6 +38,8 @@ const ArchiveScreen = ({navigation}) => {
     const backAction = () => {
       if (selectedNoteIds?.length > 0) {
         setSelectedNoteIds([]);
+      } else {
+        navigation.goBack();
       }
       return true;
     };
@@ -49,6 +51,7 @@ const ArchiveScreen = ({navigation}) => {
 
     return () => backHandler.remove();
   }, [selectedNoteIds]);
+
   return (
     <View className="bg-black h-full w-full pt-4">
       <ScrollView
