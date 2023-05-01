@@ -201,14 +201,18 @@ const EditNoteScreen = ({navigation}) => {
                 <EntypoIcon name="dots-three-vertical" size={22} color="#fff" />
               </TouchableOpacity>
               <Modal
-                animationInTiming={1}
-                animationOutTiming={1}
+                animationIn="slideInDown"
+                animationOut="fadeOutUp"
                 backdropColor="#00000050"
+                style={{margin: 0}}
                 isVisible={optionsModal}
-                onBackdropPress={() => setOptionsModal(false)}>
+                onBackdropPress={() => setOptionsModal(false)}
+                swipeDirection="left"
+                onSwipeComplete={() => setOptionsModal(false)}>
                 <View
-                  className="absolute top-8 right-0 bg-noteGrey-900 py-3 px-7 rounded-2xl"
+                  className="m-0 absolute top-0 right-0 bg-noteGrey-900 pt-4 pb-12 rounded-b-2xl"
                   style={{
+                    width: width,
                     overflow: 'hidden',
                   }}>
                   <BlurView
@@ -224,61 +228,87 @@ const EditNoteScreen = ({navigation}) => {
                     blurRadius={25}
                     overlayColor="#44444480"
                   />
-                  <TouchableOpacity
-                    className="py-1"
-                    onPress={() => setOptionsModal(false)}>
-                    <Text className="text-base text-white py-1">Details</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="py-1 flex-row justify-between"
-                    onPress={() => {
-                      setOptionsModal(!optionsModal);
-                      setEmojiModal(true);
-                    }}>
-                    <Text className="text-base text-white py-1">Emoji</Text>
-                    <Text className="text-base text-white py-1">
-                      {noteDetails.emoji}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="py-1"
-                    onPress={() => {
-                      setOptionsModal(!optionsModal);
-                      setCategoriesModal(!categoriesModal);
-                    }}>
-                    <Text className="text-base text-white py-1">
-                      Categories
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="py-1 flex-1 flex-row items-center justify-between"
-                    style={{gap: 6}}
-                    onPress={() => {
-                      setOptionsModal(!optionsModal);
-                      setColorPickerVisible(!colorPickerVisible);
-                    }}>
-                    <Text className="text-base text-white">Color</Text>
-                    <View
-                      className="rounded-full border border-white"
-                      style={{
-                        backgroundColor: noteDetails.color,
-                        width: 16,
-                        height: 16,
-                      }}></View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="py-1"
-                    onPress={() => {
-                      dispatch(trashNote(crrNote?.id));
-                      navigation.goBack();
-                    }}>
-                    <Text className="text-base text-white py-1">Delete</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="py-1"
-                    onPress={() => setOptionsModal(false)}>
-                    <Text className="text-base text-white py-1">Share</Text>
-                  </TouchableOpacity>
+                  {[
+                    {
+                      icon: (
+                        <MaterialIcon
+                          name="more-horiz"
+                          style={{fontSize: 24}}
+                        />
+                      ),
+                      text: 'Details',
+                      onPress: () => setOptionsModal(false),
+                    },
+                    {
+                      icon: <MCIcons name={'tag'} size={24} />,
+                      text: 'Categories',
+                      onPress: () => {
+                        setOptionsModal(!optionsModal);
+                        setCategoriesModal(!categoriesModal);
+                      },
+                    },
+                    {
+                      icon: (
+                        <View
+                          className="rounded-full border border-noteGrey-500"
+                          style={{
+                            backgroundColor: noteDetails.color,
+                            width: 20,
+                            height: 20,
+                            marginLeft: 2, //margin left: 2 is a temporary fix!!!
+                          }}></View>
+                      ),
+                      text: 'Color',
+                      onPress: () => {
+                        setOptionsModal(!optionsModal);
+                        setColorPickerVisible(!colorPickerVisible);
+                      },
+                    },
+                    {
+                      icon: (
+                        <MCIcons name="delete-outline" style={{fontSize: 24}} />
+                      ),
+                      text: 'Delete',
+                      onPress: () => {
+                        dispatch(trashNote(crrNote?.id));
+                        navigation.goBack();
+                      },
+                    },
+                    {
+                      icon: (
+                        <IonIcon
+                          name="share-social-outline"
+                          style={{fontSize: 24}}
+                        />
+                      ),
+                      text: 'Share',
+                      onPress: () => {
+                        return null;
+                      },
+                    },
+                  ].map((item, index) => (
+                    <Pressable
+                      key={index}
+                      className="px-4 py-3 rounded-full"
+                      android_ripple={{
+                        color: '#ffffff30',
+                        borderless: false,
+                        radius: 1000,
+                        foreground: false,
+                      }}
+                      onPress={item.onPress}>
+                      <View
+                        className="flex-row items-center"
+                        style={{width: width, gap: 16}}>
+                        {item.icon}
+
+                        <Text className="text-base">{item.text}</Text>
+                      </View>
+                    </Pressable>
+                  ))}
+                  <View
+                    className="absolute bottom-4 h-1 bg-white10 self-center rounded-2xl"
+                    style={{width: width * 0.2}}></View>
                 </View>
               </Modal>
             </View>
