@@ -24,7 +24,7 @@ const CategoryScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
   const inputRef = useRef(null);
-  const categories = useSelector(state => state.note.categories);
+  const {categories} = useSelector(state => state.note);
   const [editedCategory, setEditedCategory] = useState(''); //text of the edited category
   const [isEditing, setIsEditing] = useState(false); //id of the category that is currently being edited
   const [categoryInput, setCategoryInput] = useState(''); //input for the new category

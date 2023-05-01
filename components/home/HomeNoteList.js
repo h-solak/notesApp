@@ -20,10 +20,8 @@ import EmptyNoteSvg from '../../assets/icons/emptynotesvgrepo.svg';
 const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
-  const notesFilteredByCategory = useSelector(
-    state => state.note.notesFilteredByCategory,
-  );
-  const homenotesLoading = useSelector(state => state.note.homenotesLoading);
+  const {notesFilteredByCategory, homenotesLoading, selectedCategory} =
+    useSelector(state => state.note);
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {
       let oldArr = selectedNoteIds;
@@ -50,13 +48,6 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
 
     return () => backHandler.remove();
   }, [selectedNoteIds]);
-
-  useEffect(() => {
-    console.log(homenotesLoading);
-    if (homenotesLoading) {
-      console.log('Abu...');
-    }
-  }, [homenotesLoading]);
 
   return (
     <View className="mt-4 pb-24">
@@ -109,9 +100,16 @@ const HomeNoteList = ({selectedNoteIds, setSelectedNoteIds, navigation}) => {
       ) : (
         <View className="mt-20 items-center justify-center" style={{gap: 6}}>
           <EmptyNoteSvg width={36} height={36} />
-          <Text className="text-sm" style={{color: '#929292'}}>
-            No notes yet
-          </Text>
+          <View className="items-center">
+            <Text className="text-sm" style={{color: '#929292'}}>
+              No notes yet
+            </Text>
+            {selectedCategory === 0 && (
+              <Text className="text-xs text-center" style={{color: '#929292'}}>
+                (Press on the plus button to create one!)
+              </Text>
+            )}
+          </View>
         </View>
       )}
     </View>

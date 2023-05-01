@@ -21,7 +21,7 @@ const ArchiveScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
   const [deleteModal, setDeleteModal] = useState(false); //for multiple deletes
-  const archivedNotes = useSelector(state => state.note.archivedNotes);
+  const {archivedNotes} = useSelector(state => state.note);
 
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {

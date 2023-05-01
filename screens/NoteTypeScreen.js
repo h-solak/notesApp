@@ -21,10 +21,9 @@ const NoteTypeScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   const dispatch = useDispatch();
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
-  const notesFilteredByType = useSelector(
-    state => state.note.notesFilteredByType,
+  const {notesFilteredByType, selectedNoteType} = useSelector(
+    state => state.note,
   );
-  const selectedNoteType = useSelector(state => state.note.selectedNoteType);
   const handleLongPress = id => {
     if (selectedNoteIds?.includes(id)) {
       let oldArr = selectedNoteIds;

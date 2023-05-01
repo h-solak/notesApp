@@ -444,7 +444,7 @@ const EditNoteScreen = ({navigation}) => {
               }`}>
               Categories
             </Text>
-            <ScrollView className="mt-8 mb-20">
+            <ScrollView className="mt-4 mb-20">
               {categories ? (
                 categories?.map((item, index) => (
                   <Pressable
@@ -504,19 +504,34 @@ const EditNoteScreen = ({navigation}) => {
               )}
             </ScrollView>
             <View
-              className="flex-row justify-center items-center self-center absolute bottom-8 "
-              style={{gap: 16, width: width * 0.7}}>
+              className="flex-row justify-center items-center self-center absolute bottom-8"
+              style={{width: width * 0.9, gap: 32}}>
               <Pressable
-                android_ripple={{color: '#ffffff30', borderless: true}}
-                className="flex-1 py-2 self-center border-white border-2 rounded-full"
+                android_ripple={{
+                  color: '#ffffff30',
+                  borderless: true,
+                  radius: 100,
+                }}
+                style={{width: width * 0.35}}
+                className="rounded-full"
                 onPress={() => navigation.navigate('Category')}>
-                <Text className="font-bold text-center text-white">
-                  Edit categories
-                </Text>
+                <View
+                  className="py-2 self-center just border-white border-2 rounded-full"
+                  style={{width: width * 0.35}}>
+                  <Text className="font-bold text-center text-white">
+                    Edit categories
+                  </Text>
+                </View>
               </Pressable>
               <Pressable
-                className="flex-1 py-2 self-center bg-white rounded-full"
-                android_ripple={{color: '#ffffff30', borderless: true}}
+                className="py-2 self-center bg-white rounded-full"
+                android_ripple={{
+                  color: '#ffffff30',
+                  borderless: true,
+                  radius: 75,
+                  foreground: false,
+                }}
+                style={{width: width * 0.25}}
                 onPress={() => setCategoriesModal(false)}>
                 <Text className="text-center text-black">Done</Text>
               </Pressable>

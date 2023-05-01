@@ -172,7 +172,7 @@ export const noteSlice = createSlice({
     createNote(state, action) {
       const crrDate = new Date();
       const newId = uuid.v4();
-      state.crrNote = {
+      let newNote = {
         id: newId,
         title: '',
         text: '',
@@ -183,6 +183,8 @@ export const noteSlice = createSlice({
         createdAt: crrDate,
         updatedAt: crrDate,
       };
+      state.crrNote = newNote;
+      // state.allNotes.push(newNote);
     },
     addNote(state, action) {
       let newNotes = state.allNotes;

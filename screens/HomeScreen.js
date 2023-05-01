@@ -29,14 +29,15 @@ const HomeScreen = ({navigation}) => {
   const {height, width} = useWindowDimensions();
   const dispatch = useDispatch();
   const isFocused = useIsFocused(); //this returns true if the user is on this screen
-  const selectedCategory = useSelector(state => state.note.selectedCategory);
-  const notesFilteredByCategory = useSelector(
-    state => state.note.notesFilteredByCategory,
+  const {selectedCategory, notesFilteredByCategory} = useSelector(
+    state => state.note,
   );
+
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
 
   useEffect(() => {
     if (isFocused) {
+      setSelectedNoteIds([]);
       dispatch(filterNotesByCategory(selectedCategory));
     }
   }, [isFocused]);
