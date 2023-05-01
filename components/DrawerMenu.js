@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import CreateScreen from '../screens/CreateNoteScreen';
 import HomeScreen from '../screens/HomeScreen';
 import {
   createDrawerNavigator,

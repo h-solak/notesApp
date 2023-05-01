@@ -8,8 +8,10 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {BlurView, VibrancyView} from '@react-native-community/blur';
+import {createNote} from '../redux/slices/noteSlice';
+import {useDispatch} from 'react-redux';
 const Bottombar = ({screen, navigation}) => {
-  const grey = {color: 'rgba(255,255,255,0.7)'};
+  const dispatch = useDispatch();
 
   return (
     <View className="absolute bottom-4 py-0 self-center flex-row items-center justify-center">
@@ -39,7 +41,10 @@ const Bottombar = ({screen, navigation}) => {
           <TouchableOpacity
             className="justify-center items-center bg-black rounded-full"
             style={{width: 64, height: 64}}
-            onPress={() => navigation.navigate('CreateNote')}>
+            onPress={() => {
+              dispatch(createNote());
+              navigation.navigate('EditNote');
+            }}>
             <Text className="text-white pb-1" style={{fontSize: 38}}>
               +
             </Text>
@@ -47,7 +52,10 @@ const Bottombar = ({screen, navigation}) => {
 
           <TouchableOpacity
             className="p-3 rounded-full items-center justify-center"
-            onPress={() => navigation.navigate('CreateNote')}
+            onPress={() => {
+              dispatch(createNote());
+              navigation.navigate('EditNote');
+            }}
             style={{
               backgroundColor: 'rgba(255,255,255,0.2)',
               width: 64,
@@ -88,7 +96,7 @@ export default Bottombar;
       </TouchableOpacity>
       <TouchableOpacity
         className="p-2"
-        onPress={() => navigation.navigate('CreateNote')}>
+        onPress={() => navigation.navigate('EditNote')}>
         <IonIcon
           name="add-circle-outline"
           size={36}

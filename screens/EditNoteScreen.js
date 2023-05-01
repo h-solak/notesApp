@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   TextInput,
@@ -8,12 +8,14 @@ import {
   ToastAndroid,
   Image,
   ScrollView,
+  Pressable,
   useWindowDimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   BackHandler,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,8 +30,11 @@ import moment from 'moment';
 import NoteColorPicker from '../components/notes/NoteColorPicker';
 import {useSelector, useDispatch} from 'react-redux';
 import {trashNote, editNote} from '../redux/slices/noteSlice';
+import EmptyCategoriesSvg from '../assets/icons/emptycategoriessvgrepo.svg';
 
 const EditNoteScreen = ({navigation}) => {
+  const noteTitleInput = useRef(null);
+  const noteTextInput = useRef(null);
   const {height, width} = useWindowDimensions();
   const [noteDetails, setNoteDetails] = useState({
     title: '',
@@ -41,9 +46,7 @@ const EditNoteScreen = ({navigation}) => {
   const [wordCount, setWordCount] = useState(0);
   const [chosenCategories, setChosenCategories] = useState([]);
 
-  const allCategories = useSelector(state => state.note.categories);
-
-  const crrNote = useSelector(state => state.note.crrNote);
+  const {categories, crrNote} = useSelector(state => state.note);
 
   //modals
   const [optionsModal, setOptionsModal] = useState(false); //three vertical dots
@@ -151,7 +154,14 @@ const EditNoteScreen = ({navigation}) => {
             style={{
               overflow: 'hidden',
             }}
-            onPress={() => navigation.goBack()}>
+            onPress={
+              noteDetails.text.length === 0 && noteDetails.title.length === 0
+                ? () => {
+                    dispatch(trashNote(crrNote?.id));
+                    navigation.goBack();
+                  }
+                : () => navigation.goBack()
+            }>
             <BlurView
               style={{
                 position: 'absolute',
@@ -165,7 +175,11 @@ const EditNoteScreen = ({navigation}) => {
               blurRadius={25}
               overlayColor="#ffffff30"
             />
-            <MaterialIcon name="done" size={24} color="#fff" />
+            {noteDetails.text.length === 0 && noteDetails.title.length === 0 ? (
+              <IonIcon name={'md-arrow-back'} size={20} color="#fff" />
+            ) : (
+              <MaterialIcon name={'done'} size={20} color="#fff" />
+            )}
           </TouchableOpacity>
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
@@ -272,6 +286,7 @@ const EditNoteScreen = ({navigation}) => {
         </View>
         <ScrollView showsVerticalScrollIndicator={false} className="mt-5 px-4">
           <TextInput
+            ref={noteTitleInput}
             className="flex-1 bg-transparent text-white text-2xl font-semibold"
             multiline={true}
             maxLength={50}
@@ -287,6 +302,7 @@ const EditNoteScreen = ({navigation}) => {
             style={{textAlignVertical: 'top'}}
           />
           <TextInput
+            ref={noteTextInput}
             className="pb-80 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
             multiline={true}
             // onTextLayout={onTextLayout}
@@ -316,7 +332,7 @@ const EditNoteScreen = ({navigation}) => {
           {/* CATEGORIES WILL BE LISTED AT THE END OF THE TEXT INPUT AND USER WILL BE ABLE TO REMOVE OR ADD FROM THERE*/}
           {/* {chosenCategories?.length > 0 && (
             <View className="flex-row" style={{gap: 4}}>
-              {allCategories?.map(item => {
+              {categories?.map(item => {
                 if (chosenCategories?.includes(item.id)) {
                   return <Text key={item.id}>{item.name}</Text>;
                 }
@@ -419,30 +435,91 @@ const EditNoteScreen = ({navigation}) => {
           backdropColor="#000"
           isVisible={categoriesModal}
           onBackdropPress={() => setCategoriesModal(false)}>
-          <View className="self-center bg-noteGrey-900 w-2/3 p-3 rounded-xl">
-            <Text className="text-lg text-white text-center">Categories</Text>
-            <View className="gap-1">
-              {allCategories.map((item, index) => (
-                <TouchableOpacity
-                  className="flex-row items-center gap-1"
-                  onPress={() => handleCategories(item?.id)}
-                  key={index}>
-                  <IonIcon
-                    name={
-                      chosenCategories?.includes(item?.id)
-                        ? 'checkmark-circle'
-                        : 'checkmark-circle-outline'
-                    }
-                    size={24}
-                    style={{
-                      color: chosenCategories?.includes(item?.id)
-                        ? '#fff'
-                        : '#929292',
-                    }}
-                  />
-                  <Text className="text-base">{item?.name}</Text>
-                </TouchableOpacity>
-              ))}
+          <View
+            className="self-center bg-noteGrey-900 rounded-xl"
+            style={{width: width * 0.9, height: height * 0.7}}>
+            <Text
+              className={`mt-8 text-lg text-center ${
+                categories ? 'text-white' : 'text-white'
+              }`}>
+              Categories
+            </Text>
+            <ScrollView className="mt-8 mb-20">
+              {categories ? (
+                categories?.map((item, index) => (
+                  <Pressable
+                    android_ripple={{color: '#ffffff30', borderless: false}}
+                    className="px-8 py-4 flex-row items-center justify-between rounded-full"
+                    style={{gap: 16}}
+                    onPress={() => handleCategories(item?.id)}
+                    key={index}>
+                    <View className="flex-row items-center" style={{gap: 16}}>
+                      <MCIcons
+                        name={
+                          chosenCategories?.includes(item?.id)
+                            ? 'checkbox-marked-circle'
+                            : 'checkbox-blank-circle-outline'
+                        }
+                        size={24}
+                        style={{
+                          color: chosenCategories?.includes(item?.id)
+                            ? '#fff'
+                            : '#929292',
+                        }}
+                      />
+                      <Text
+                        className={`text-base ${
+                          chosenCategories?.includes(item?.id)
+                            ? 'text-white'
+                            : null
+                        }`}>
+                        {item?.name}
+                      </Text>
+                    </View>
+                    {chosenCategories?.includes(item?.id) && (
+                      <>
+                        <View
+                          className="flex-1 bg-white10"
+                          style={{height: 1}}></View>
+                        <Text className="">(Selected)</Text>
+                      </>
+                    )}
+                  </Pressable>
+                ))
+              ) : (
+                <View className="m-0 py-40 justify-around items-center">
+                  <EmptyCategoriesSvg width={50} height={50} />
+                  <Text className="text-center mt-2 mb-2">
+                    No categories yet
+                  </Text>
+                  {/* <Pressable
+                    className="mt-2 py-2 px-5 self-center bg-white rounded-full"
+                    android_ripple={{color: '#ffffff30', borderless: true}}
+                    onPress={() => navigation.navigate('Category')}>
+                    <Text className="text-center text-black font-">
+                      Create new categories
+                    </Text>
+                  </Pressable> */}
+                </View>
+              )}
+            </ScrollView>
+            <View
+              className="flex-row justify-center items-center self-center absolute bottom-8 "
+              style={{gap: 16, width: width * 0.7}}>
+              <Pressable
+                android_ripple={{color: '#ffffff30', borderless: true}}
+                className="flex-1 py-2 self-center border-white border-2 rounded-full"
+                onPress={() => navigation.navigate('Category')}>
+                <Text className="font-bold text-center text-white">
+                  Edit categories
+                </Text>
+              </Pressable>
+              <Pressable
+                className="flex-1 py-2 self-center bg-white rounded-full"
+                android_ripple={{color: '#ffffff30', borderless: true}}
+                onPress={() => setCategoriesModal(false)}>
+                <Text className="text-center text-black">Done</Text>
+              </Pressable>
             </View>
           </View>
         </Modal>

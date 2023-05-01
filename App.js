@@ -14,7 +14,6 @@ import DrawerMenu from './components/DrawerMenu';
 
 /* Screens */
 import HomeScreen from './screens/HomeScreen';
-import CreateNoteScreen from './screens/CreateNoteScreen';
 import EditNoteScreen from './screens/EditNoteScreen';
 import SearchScreen from './screens/SearchScreen';
 import NoteTypeScreen from './screens/NoteTypeScreen';
@@ -114,11 +113,6 @@ function App() {
               name="Test"
               component={TestScreen}
               options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="CreateNote"
-              component={CreateNoteScreen}
-              options={{headerShown: false, animation: 'none'}}
             />
             <Stack.Screen
               name="Task"
