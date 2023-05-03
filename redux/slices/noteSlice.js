@@ -389,6 +389,7 @@ export const noteSlice = createSlice({
         item => item?.id !== action.payload.id,
       );
       let editedNote = action.payload;
+      state.crrNote = editedNote;
       newNotes.push(editedNote);
       state.allNotes = sortByDate(newNotes);
       state.notesFilteredByCategory = refilterAfterUpdate(

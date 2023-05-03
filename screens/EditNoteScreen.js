@@ -114,7 +114,7 @@ const EditNoteScreen = ({navigation}) => {
       emoji: crrNote?.emoji,
     });
     setChosenCategories(crrNote?.categories);
-  }, [crrNote]);
+  }, []);
 
   //save note on every change
   useEffect(() => {
@@ -157,6 +157,7 @@ const EditNoteScreen = ({navigation}) => {
             onPress={
               noteDetails.text.length === 0 && noteDetails.title.length === 0
                 ? () => {
+                    console.log(crrNote);
                     dispatch(trashNote(crrNote?.id));
                     navigation.goBack();
                   }
@@ -203,14 +204,14 @@ const EditNoteScreen = ({navigation}) => {
               <Modal
                 animationIn="slideInDown"
                 animationOut="fadeOutUp"
-                backdropColor="#00000050"
+                backdropColor="#000000"
                 style={{margin: 0}}
                 isVisible={optionsModal}
                 onBackdropPress={() => setOptionsModal(false)}
-                swipeDirection="left"
+                swipeDirection="up"
                 onSwipeComplete={() => setOptionsModal(false)}>
                 <View
-                  className="m-0 absolute top-0 right-0 bg-noteGrey-900 pt-4 pb-12 rounded-b-2xl"
+                  className="m-0 absolute top-0 right-0 pt-4 pb-12 rounded-b-2xl"
                   style={{
                     width: width,
                     overflow: 'hidden',
@@ -249,6 +250,18 @@ const EditNoteScreen = ({navigation}) => {
                     },
                     {
                       icon: (
+                        <Text className="text-black text-lg">
+                          {noteDetails.emoji}
+                        </Text>
+                      ),
+                      text: 'Emoji',
+                      onPress: () => {
+                        setOptionsModal(!optionsModal);
+                        setEmojiModal(true);
+                      },
+                    },
+                    {
+                      icon: (
                         <View
                           className="rounded-full border border-noteGrey-500"
                           style={{
@@ -270,6 +283,7 @@ const EditNoteScreen = ({navigation}) => {
                       ),
                       text: 'Delete',
                       onPress: () => {
+                        console.log(crrNote);
                         dispatch(trashNote(crrNote?.id));
                         navigation.goBack();
                       },
@@ -306,8 +320,9 @@ const EditNoteScreen = ({navigation}) => {
                       </View>
                     </Pressable>
                   ))}
+                  {/* Pull Bar */}
                   <View
-                    className="absolute bottom-4 h-1 bg-white10 self-center rounded-2xl"
+                    className="absolute bottom-4 h-1 bg-white30 self-center rounded-2xl"
                     style={{width: width * 0.2}}></View>
                 </View>
               </Modal>
@@ -315,38 +330,40 @@ const EditNoteScreen = ({navigation}) => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} className="mt-5 px-4">
-          <TextInput
-            ref={noteTitleInput}
-            className="flex-1 bg-transparent text-white text-2xl font-semibold"
-            multiline={true}
-            maxLength={50}
-            placeholder="Title"
-            value={noteDetails.title}
-            placeholderTextColor="#929292"
-            onChangeText={title =>
-              setNoteDetails(noteDetails => ({
-                ...noteDetails,
-                title: title,
-              }))
-            }
-            style={{textAlignVertical: 'top'}}
-          />
-          <TextInput
-            ref={noteTextInput}
-            className="pb-80 flex-1 text-white text-base border-t border-t-white10" /* text-base === 16px or 1 rem */
-            multiline={true}
-            // onTextLayout={onTextLayout}
-            placeholder="Note"
-            placeholderTextColor="#929292"
-            value={noteDetails.text}
-            onChangeText={text => {
-              setNoteDetails(noteDetails => ({
-                ...noteDetails,
-                text: text,
-              }));
-            }}
-            style={{fontWeight: '400'}}
-          />
+          <View style={{minHeight: height * 0.9}}>
+            <TextInput
+              ref={noteTitleInput}
+              className="text-white text-2xl font-semibold"
+              style={{textAlignVertical: 'top'}}
+              multiline={true}
+              maxLength={50}
+              placeholder="Title"
+              value={noteDetails.title}
+              placeholderTextColor="#929292"
+              onChangeText={title =>
+                setNoteDetails(noteDetails => ({
+                  ...noteDetails,
+                  title: title,
+                }))
+              }
+            />
+            <TextInput
+              ref={noteTextInput}
+              className="pb-96 text-white text-base border-t border-t-white20" /* text-base === 16px or 1 rem */
+              style={{fontWeight: '400', flex: 1, textAlignVertical: 'top'}}
+              multiline={true}
+              // onTextLayout={onTextLayout}
+              placeholder="Note"
+              placeholderTextColor="#929292"
+              value={noteDetails.text}
+              onChangeText={text => {
+                setNoteDetails(noteDetails => ({
+                  ...noteDetails,
+                  text: text,
+                }));
+              }}
+            />
+          </View>
         </ScrollView>
         {/* Notes Bottombar */}
         <View
