@@ -143,7 +143,7 @@ const NoteTypeScreen = ({navigation}) => {
             <TouchableOpacity
               className="rounded-full items-center justify-center flex-row"
               onPress={() => {
-                console.log('archive');
+                console.log('archive'); //feature will be added
                 setSelectedNoteIds([]);
               }}>
               <MaterialIcon

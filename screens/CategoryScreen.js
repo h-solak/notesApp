@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   Keyboard,
+  ToastAndroid,
   useWindowDimensions,
 } from 'react-native';
 import React, {useState, useRef} from 'react';
@@ -37,7 +38,11 @@ const CategoryScreen = ({navigation}) => {
       setCategoryInput('');
       Keyboard.dismiss();
     } catch (err) {
-      console.log(err);
+      ToastAndroid.show(
+        'Something went wrong!',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
     }
   };
 

@@ -30,10 +30,6 @@ const SearchScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log(searchedNotes?.length);
-  }, [searchedNotes]);
-
-  useEffect(() => {
     dispatch(resetSearchedNotes());
 
     const backAction = () => {

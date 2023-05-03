@@ -61,11 +61,9 @@ const TaskScreen = ({navigation}) => {
   //on every page load, show todays tasks
   useEffect(() => {
     setTaskInputIsOpen(false);
-    console.log(isFocused);
     if (isFocused) {
       let crrDate = new Date();
       crrDate = moment(crrDate).format('YYYY-MM-DD');
-      console.log(crrDate);
       dispatch(filterTasksByDate(crrDate));
       setNewTask(task => ({
         ...task,
@@ -77,12 +75,6 @@ const TaskScreen = ({navigation}) => {
   const handleTaskSubmit = () => {
     try {
       if (newTask.text.length > 0 && newTask.due_date) {
-        console.log({
-          id: uuid.v4(),
-          text: newTask.text,
-          due_date: newTask.due_date,
-          isChecked: false,
-        });
         dispatch(
           addTask({
             id: uuid.v4(),
@@ -106,7 +98,6 @@ const TaskScreen = ({navigation}) => {
         );
       }
     } catch (err) {
-      console.log(err);
       ToastAndroid.show(
         'Something went wrong!',
         ToastAndroid.SHORT,
@@ -229,8 +220,6 @@ const TaskScreen = ({navigation}) => {
                                 text: text,
                               }));
                             }}
-                            onFocus={() => console.log('focused')}
-                            onBlur={() => console.log('UNfocused')}
                             maxLength={100}
                             onSubmitEditing={handleTaskSubmit}
                             returnKeyType="default"

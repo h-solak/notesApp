@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import uuid from 'react-native-uuid';
+import {ToastAndroid} from 'react-native';
 
 // const asyncGetNotes = async () => {
 //   try {
@@ -145,7 +146,6 @@ export const noteSlice = createSlice({
               (item, index) => item.isChecked && item,
             );
             doneTasks = doneTasks?.filter((item, index) => index < 1 && item);
-            console.log('Yep');
             state.homeTasks = doneTasks.concat(undoneTasks);
             break;
           case 1:
@@ -407,7 +407,11 @@ export const noteSlice = createSlice({
         let newCategory = {id: uuid.v4(), name: action.payload.trim()};
         state.categories?.push(newCategory);
       } else {
-        console.log('Already Exists!');
+        ToastAndroid.show(
+          'Already exists.',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
       }
     },
     editCategory(state, action) {

@@ -75,7 +75,11 @@ const EditNoteScreen = ({navigation}) => {
           }),
         );
       } catch (err) {
-        console.log(err);
+        ToastAndroid.show(
+          'Something went wrong!',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
       }
       // finally {
       //   ToastAndroid.show(
@@ -157,7 +161,6 @@ const EditNoteScreen = ({navigation}) => {
             onPress={
               noteDetails.text.length === 0 && noteDetails.title.length === 0
                 ? () => {
-                    console.log(crrNote);
                     dispatch(trashNote(crrNote?.id));
                     navigation.goBack();
                   }
@@ -283,7 +286,6 @@ const EditNoteScreen = ({navigation}) => {
                       ),
                       text: 'Delete',
                       onPress: () => {
-                        console.log(crrNote);
                         dispatch(trashNote(crrNote?.id));
                         navigation.goBack();
                       },
