@@ -27,6 +27,7 @@ import uuid from 'react-native-uuid';
 import {addTask, checkTask, filterTasksByDate} from '../redux/slices/noteSlice';
 import moment from 'moment';
 import {MotiView, AnimatePresence} from 'moti';
+import TaskModal from '../components/tasks/TaskModal';
 
 const TaskScreen = ({navigation}) => {
   const inputRef = useRef(null);
@@ -34,16 +35,16 @@ const TaskScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {height, width} = useWindowDimensions();
 
-  const allTasks = useSelector(state => state.note.allTasks);
-  const tasksFilteredByDate = useSelector(
-    state => state.note.tasksFilteredByDate,
-  );
+  const {allTasks, tasksFilteredByDate} = useSelector(state => state.note);
+
   const [newTask, setNewTask] = useState({
     id: '',
     text: '',
     due_date: '',
   });
-  const [taskInputIsOpen, setTaskInputIsOpen] = useState(false);
+  const [taskInputIsOpen, setTaskInputIsOpen] = useState(false); //
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
@@ -278,8 +279,8 @@ const TaskScreen = ({navigation}) => {
                           duration: 800,
                           delay: 50,
                         }}>
-                        <TouchableOpacity
-                          className="py-2 px-2 rounded-3xl flex-row items-center"
+                        <View
+                          className="rounded-3xl flex-row items-center"
                           style={{
                             border: 2,
                             borderWidth: 2,
@@ -289,29 +290,41 @@ const TaskScreen = ({navigation}) => {
                             borderColor: item?.isChecked
                               ? '#ffffff10'
                               : '#ffffff20',
-                            gap: 8,
                             opacity: item?.isChecked ? 0.5 : 1,
-                          }}
-                          onPress={() => dispatch(checkTask(item?.id))}>
-                          <MCIcons
-                            name={
-                              item?.isChecked
-                                ? 'checkbox-marked-circle'
-                                : 'checkbox-blank-circle-outline'
-                            }
-                            size={24}
-                            color={item?.isChecked ? '#ffffff50' : '#ffffff80'}
-                          />
-                          <Text
-                            className="flex-1 text-base"
-                            style={{
-                              textDecorationLine: item?.isChecked
-                                ? 'line-through'
-                                : 'none',
+                          }}>
+                          <TouchableOpacity
+                            onPress={() => dispatch(checkTask(item?.id))}
+                            className="py-2 px-2 bg-white10">
+                            <MCIcons
+                              name={
+                                item?.isChecked
+                                  ? 'checkbox-marked-circle'
+                                  : 'checkbox-blank-circle-outline'
+                              }
+                              size={24}
+                              color={
+                                item?.isChecked ? '#ffffff50' : '#ffffff80'
+                              }
+                              className="items-center justify-center"
+                              style={{flex: 1}}
+                            />
+                          </TouchableOpacity>
+                          <Pressable
+                            onPress={() => {
+                              setSelectedTask(item);
+                              setIsTaskModalOpen(true);
                             }}>
-                            {item.text}
-                          </Text>
-                        </TouchableOpacity>
+                            <Text
+                              className="py-2 px-2 flex-1 text-base"
+                              style={{
+                                textDecorationLine: item?.isChecked
+                                  ? 'line-through'
+                                  : 'none',
+                              }}>
+                              {item.text}
+                            </Text>
+                          </Pressable>
+                        </View>
                       </MotiView>
                     ),
                 )}
@@ -323,6 +336,11 @@ const TaskScreen = ({navigation}) => {
           </View>
         )}
       </ImageBackground>
+      <TaskModal
+        isModalOpen={isTaskModalOpen}
+        setIsModalOpen={setIsTaskModalOpen}
+        selectedTask={selectedTask}
+      />
     </ScrollView>
   );
 };
